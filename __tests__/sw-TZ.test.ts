@@ -1,0 +1,295 @@
+import { cloneDeep } from "lodash";
+import { describe, expect, test } from "vitest";
+import { ToWords } from "../src/ToWords";
+import swTz from "../src/locales/sw-TZ.js";
+
+const localeCode = "sw-TZ";
+const toWords = new ToWords({
+  localeCode,
+});
+
+describe("Test Locale", () => {
+  test(`Locale Class: ${localeCode}`, () => {
+    expect(toWords.getLocaleClass()).toBe(swTz);
+  });
+
+  const wrongLocaleCode = localeCode + "-wrong";
+  test(`Wrong Locale: ${wrongLocaleCode}`, () => {
+    const toWordsWrongLocale = new ToWords({
+      localeCode: wrongLocaleCode,
+    });
+    expect(() => toWordsWrongLocale.convert(1)).toThrow(/Unknown Locale/);
+  });
+});
+
+const testIntegers: [number, string][] = [
+  [0, "Sifuri"],
+  [137, "Moja Mia Thelathini Saba"],
+  [700, "Saba Mia"],
+  [1100, "Moja Elfu Mia Moja"],
+  [4680, "Nne Elfu Sita Mia Themanini"],
+  [63892, "Sitini Tatu Elfu Nane Mia Tisini Mbili"],
+  [86100, "Themanini Sita Elfu Mia Moja"],
+  [792581, "Saba Mia Tisini Mbili Elfu Tano Mia Themanini Moja"],
+  [2741034, "Mbili Milioni Saba Mia Arobaini Moja Elfu Thelathini Nne"],
+  [86429753, "Themanini Sita Milioni Nne Mia Ishirini Tisa Elfu Saba Mia Hamsini Tatu"],
+  [975310864, "Tisa Mia Sabini Tano Milioni Tatu Mia Kumi Elfu Nane Mia Sitini Nne"],
+  [
+    9876543210,
+    "Tisa Bilioni Nane Mia Sabini Sita Milioni Tano Mia Arobaini Tatu Elfu Mbili Mia Kumi",
+  ],
+  [
+    98765432101,
+    "Tisini Nane Bilioni Saba Mia Sitini Tano Milioni Nne Mia Thelathini Mbili Elfu Moja Mia Moja",
+  ],
+  [
+    987654321012,
+    "Tisa Mia Themanini Saba Bilioni Sita Mia Hamsini Nne Milioni Tatu Mia Ishirini Moja Elfu Kumi Na Mbili",
+  ],
+  [
+    9876543210123,
+    "Tisa Trilioni Nane Mia Sabini Sita Bilioni Tano Mia Arobaini Tatu Milioni Mbili Mia Kumi Elfu Moja Mia Ishirini Tatu",
+  ],
+  [
+    98765432101234,
+    "Tisini Nane Trilioni Saba Mia Sitini Tano Bilioni Nne Mia Thelathini Mbili Milioni Moja Mia Moja Elfu Mbili Mia Thelathini Nne",
+  ],
+];
+
+describe("Test Integers with options = {}", () => {
+  test.concurrent.each(testIntegers)("convert %d => %s", (input, expected) => {
+    expect(toWords.convert(input as number)).toBe(expected);
+  });
+});
+
+describe("Test Negative Integers with options = {}", () => {
+  const testNegativeIntegers = cloneDeep(testIntegers);
+  testNegativeIntegers.map((row, i) => {
+    if (i === 0) {
+      return;
+    }
+    row[0] = -row[0];
+    row[1] = `Hasi ${row[1]}`;
+  });
+
+  test.concurrent.each(testNegativeIntegers)("convert %d => %s", (input, expected) => {
+    expect(toWords.convert(input as number)).toBe(expected);
+  });
+});
+
+const testFloats: [number, string][] = [
+  [0.0, "Sifuri"],
+  [0.04, "Sifuri Nukta Sifuri Nne"],
+  [0.0468, "Sifuri Nukta Sifuri Nne Sita Nane"],
+  [0.4, "Sifuri Nukta Nne"],
+  [0.63, "Sifuri Nukta Sitini Tatu"],
+  [0.973, "Sifuri Nukta Tisa Mia Sabini Tatu"],
+  [0.999, "Sifuri Nukta Tisa Mia Tisini Tisa"],
+  [37.06, "Thelathini Saba Nukta Sifuri Sita"],
+  [37.068, "Thelathini Saba Nukta Sifuri Sita Nane"],
+  [37.68, "Thelathini Saba Nukta Sitini Nane"],
+  [37.683, "Thelathini Saba Nukta Sita Mia Themanini Tatu"],
+];
+
+describe("Test Floats with options = {}", () => {
+  test.concurrent.each(testFloats)("convert %d => %s", (input, expected) => {
+    expect(toWords.convert(input as number)).toBe(expected);
+  });
+});
+
+
+// Comprehensive Ordinal Tests
+const testOrdinalNumbers: [number, string][] = [
+  // Numbers 1-20 (special ordinal forms)
+  [1, "Wa Kwanza"],
+  [2, "Wa Pili"],
+  [3, "Wa Tatu"],
+  [4, "Wa Nne"],
+  [5, "Wa Tano"],
+  [6, "Wa Sita"],
+  [7, "Wa Saba"],
+  [8, "Wa Nane"],
+  [9, "Wa Tisa"],
+  [10, "Wa Kumi"],
+  [11, "Wa Kumi Na Moja"],
+  [12, "Wa Kumi Na Mbili"],
+  [13, "Wa Kumi Na Tatu"],
+  [14, "Wa Kumi Na Nne"],
+  [15, "Wa Kumi Na Tano"],
+  [16, "Wa Kumi Na Sita"],
+  [17, "Wa Kumi Na Saba"],
+  [18, "Wa Kumi Na Nane"],
+  [19, "Wa Kumi Na Tisa"],
+  [20, "Wa Ishirini"],
+
+  // Composite numbers (21-29, 30, 40, 50, etc.)
+  [21, "Ishirini Wa Kwanza"],
+  [22, "Ishirini Wa Pili"],
+  [23, "Ishirini Wa Tatu"],
+  [30, "Wa Thelathini"],
+  [40, "Wa Arobaini"],
+  [50, "Wa Hamsini"],
+  [60, "Wa Sitini"],
+  [70, "Wa Sabini"],
+  [80, "Wa Themanini"],
+  [90, "Wa Tisini"],
+
+  // Numbers ending in 1, 2, 3 (various decades)
+  [31, "Thelathini Wa Kwanza"],
+  [32, "Thelathini Wa Pili"],
+  [33, "Thelathini Wa Tatu"],
+  [41, "Arobaini Wa Kwanza"],
+  [42, "Arobaini Wa Pili"],
+  [43, "Arobaini Wa Tatu"],
+  [51, "Hamsini Wa Kwanza"],
+  [52, "Hamsini Wa Pili"],
+  [53, "Hamsini Wa Tatu"],
+
+  // Round numbers (100, 200, 1000, etc.)
+  [100, "Wa Mia Moja"],
+  [200, "Mbili Wa Mia"],
+  [1000, "Wa Elfu Moja"],
+  [10000, "Kumi Wa Elfu"],
+  [100000, "Mia Moja Wa Elfu"],
+  [1000000, "Wa Milioni Moja"],
+  [10000000, "Kumi Wa Milioni"],
+
+  // Numbers in the hundreds with endings
+  [101, "Moja Mia Wa Kwanza"],
+  [102, "Moja Mia Wa Pili"],
+  [103, "Moja Mia Wa Tatu"],
+  [111, "Moja Mia Wa Kumi Na Moja"],
+  [112, "Moja Mia Wa Kumi Na Mbili"],
+  [113, "Moja Mia Wa Kumi Na Tatu"],
+  [123, "Moja Mia Ishirini Wa Tatu"],
+
+  // Complex numbers
+  [1001, "Moja Elfu Wa Kwanza"],
+  [1111, "Moja Elfu Moja Mia Wa Kumi Na Moja"],
+  [1234, "Moja Elfu Mbili Mia Thelathini Wa Nne"],
+  [12345, "Kumi Na Mbili Elfu Tatu Mia Arobaini Wa Tano"],
+];
+
+describe("Test Ordinal Numbers", () => {
+  test.concurrent.each(testOrdinalNumbers)("toOrdinal %d => %s", (input, expected) => {
+    expect(toWords.toOrdinal(input as number)).toBe(expected);
+  });
+});
+
+describe("Test Ordinal Error Cases", () => {
+  test("should throw error for negative numbers", () => {
+    expect(() => toWords.toOrdinal(-1)).toThrow("Ordinal numbers must be non-negative integers");
+  });
+
+  test("should throw error for negative large numbers", () => {
+    expect(() => toWords.toOrdinal(-100)).toThrow("Ordinal numbers must be non-negative integers");
+  });
+
+  test("should throw error for decimal numbers", () => {
+    expect(() => toWords.toOrdinal(1.5)).toThrow("Ordinal numbers must be non-negative integers");
+  });
+
+  test("should throw error for decimal numbers with small fraction", () => {
+    expect(() => toWords.toOrdinal(10.01)).toThrow("Ordinal numbers must be non-negative integers");
+  });
+
+  test("should throw error for decimal numbers with large fraction", () => {
+    expect(() => toWords.toOrdinal(99.99)).toThrow("Ordinal numbers must be non-negative integers");
+  });
+});
+
+// Powers of Ten Tests
+const testPowersOfTen: [number, string][] = [
+  [10, "Kumi"],
+  [100, "Mia Moja"],
+  [1000, "Elfu Moja"],
+  [10000, "Kumi Elfu"],
+  [100000, "Mia Moja Elfu"],
+  [1000000, "Milioni Moja"],
+];
+
+describe("Test Powers of Ten", () => {
+  test.concurrent.each(testPowersOfTen)("convert %d => %s", (input, expected) => {
+    expect(toWords.convert(input)).toBe(expected);
+  });
+});
+
+// BigInt Tests
+const testBigInts: [bigint, string][] = [
+  [0n, "Sifuri"],
+  [1n, "Moja"],
+  [100n, "Mia Moja"],
+  [1000n, "Elfu Moja"],
+];
+
+describe("Test BigInt Inputs", () => {
+  test.concurrent.each(testBigInts)("convert %d => %s", (input, expected) => {
+    expect(toWords.convert(input)).toBe(expected);
+  });
+});
+
+// Negative BigInt Tests
+const testNegativeBigInts: [bigint, string][] = [
+  [-1n, "Hasi Moja"],
+  [-100n, "Hasi Mia Moja"],
+  [-1000n, "Hasi Elfu Moja"],
+];
+
+describe("Test Negative BigInt Inputs", () => {
+  test.concurrent.each(testNegativeBigInts)("convert %d => %s", (input, expected) => {
+    expect(toWords.convert(input)).toBe(expected);
+  });
+});
+
+// String Input Tests
+const testStringInputs: [string, string][] = [
+  ["0", "Sifuri"],
+  ["1", "Moja"],
+  ["100", "Mia Moja"],
+  ["-100", "Hasi Mia Moja"],
+];
+
+describe("Test String Inputs", () => {
+  test.concurrent.each(testStringInputs)("convert %s => %s", (input, expected) => {
+    expect(toWords.convert(input)).toBe(expected);
+  });
+});
+
+// Zero Variants Tests
+describe("Test Zero Variants", () => {
+  test("convert 0 => Sifuri", () => {
+    expect(toWords.convert(0)).toBe("Sifuri");
+  });
+
+  test("convert -0 => Sifuri", () => {
+    expect(toWords.convert(-0)).toBe("Sifuri");
+  });
+
+  test("convert 0.0 => Sifuri", () => {
+    expect(toWords.convert(0.0)).toBe("Sifuri");
+  });
+
+  test("convert 0n => Sifuri", () => {
+    expect(toWords.convert(0n)).toBe("Sifuri");
+  });
+
+  test('convert "0" => Sifuri', () => {
+    expect(toWords.convert("0")).toBe("Sifuri");
+  });
+
+});
+
+// Invalid Input Tests
+const testInvalidInputs: [unknown, string][] = [
+  [Number.NaN, 'Invalid Number "NaN"'],
+  [Infinity, 'Invalid Number "Infinity"'],
+  [-Infinity, 'Invalid Number "-Infinity"'],
+  ["", 'Invalid Number ""'],
+  ["abc", 'Invalid Number "abc"'],
+];
+
+describe("Test Invalid Inputs", () => {
+  test.concurrent.each(testInvalidInputs)("convert %s throws error", (input, expectedError) => {
+    expect(() => toWords.convert(input as number)).toThrow(expectedError);
+  });
+});

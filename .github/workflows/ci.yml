@@ -1,0 +1,35 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        node: [20, 22]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+          cache: npm
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run checktypes
+      - run: npx vitest run
+      - run: npm run build
+      - name: Validate packaging (exports map, types resolution)
+        if: matrix.os == 'ubuntu-latest' && matrix.node == 22
+        run: |
+          npx --yes publint
+          npx --yes @arethetypeswrong/cli --pack .
+      - name: Smoke-test built output (ESM + CJS)
+        run: |
+          node --input-type=module -e "import('./dist/esm/ToWords.js').then(m => { const r = m.toWords(42, { localeCode: 'en-US' }); if (r !== 'Forty Two') throw new Error(r); console.log('ESM ok:', r); })"
+          node -e "const m = require('./dist/cjs/ToWords.js'); const r = m.toWords(42, { localeCode: 'en-US' }); if (r !== 'Forty Two') throw new Error(r); console.log('CJS ok:', r)"
