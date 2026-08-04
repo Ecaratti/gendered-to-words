@@ -8,10 +8,19 @@ import { ToWordsCore } from "../src/ToWordsCore";
 
 describe("toOrdinalIndicator - en-US (st/nd/rd/th by category)", () => {
   const cases: [number, string][] = [
-    [1, "1st"], [2, "2nd"], [3, "3rd"], [4, "4th"],
-    [11, "11th"], [12, "12th"], [13, "13th"],
-    [21, "21st"], [22, "22nd"], [23, "23rd"],
-    [101, "101st"], [111, "111th"], [0, "0th"],
+    [1, "1st"],
+    [2, "2nd"],
+    [3, "3rd"],
+    [4, "4th"],
+    [11, "11th"],
+    [12, "12th"],
+    [13, "13th"],
+    [21, "21st"],
+    [22, "22nd"],
+    [23, "23rd"],
+    [101, "101st"],
+    [111, "111th"],
+    [0, "0th"],
   ];
   test.each(cases)("%d → %s", (n, expected) => {
     expect(toOrdinalIndicator(n, { localeCode: "en-US" }).text).toBe(expected);
@@ -32,7 +41,13 @@ describe("toOrdinalIndicator - French (er/re → e, superscript convention)", ()
 
   test("superscript flag is set, suffix stored plain", () => {
     const parts = toOrdinalIndicator(1, { localeCode: "fr-FR" });
-    expect(parts).toEqual({ text: "1er", prefix: "", number: "1", suffix: "er", superscript: true });
+    expect(parts).toEqual({
+      text: "1er",
+      prefix: "",
+      number: "1",
+      suffix: "er",
+      superscript: true,
+    });
   });
 
   test("fr-BE inherits French indicators with its own locale code", () => {
@@ -50,7 +65,12 @@ describe("toOrdinalIndicator - Romance º/ª (precomposed, NOT flagged superscri
 
 describe("toOrdinalIndicator - Catalan (category- and gender-dependent)", () => {
   const masc: [number, string][] = [
-    [1, "1r"], [2, "2n"], [3, "3r"], [4, "4t"], [5, "5è"], [11, "11è"],
+    [1, "1r"],
+    [2, "2n"],
+    [3, "3r"],
+    [4, "4t"],
+    [5, "5è"],
+    [11, "11è"],
   ];
   test.each(masc)("masculine %d → %s", (n, expected) => {
     expect(toOrdinalIndicator(n, { localeCode: "ca-ES" }).text).toBe(expected);
@@ -64,7 +84,13 @@ describe("toOrdinalIndicator - Catalan (category- and gender-dependent)", () => 
 
 describe("toOrdinalIndicator - Swedish (:a for one, :e otherwise)", () => {
   const cases: [number, string][] = [
-    [1, "1:a"], [2, "2:a"], [3, "3:e"], [11, "11:e"], [12, "12:e"], [21, "21:a"], [22, "22:a"],
+    [1, "1:a"],
+    [2, "2:a"],
+    [3, "3:e"],
+    [11, "11:e"],
+    [12, "12:e"],
+    [21, "21:a"],
+    [22, "22:a"],
   ];
   test.each(cases)("%d → %s", (n, expected) => {
     expect(toOrdinalIndicator(n, { localeCode: "sv-SE" }).text).toBe(expected);
@@ -105,9 +131,12 @@ describe("toOrdinalIndicator - CJK prefix locales", () => {
 });
 
 describe("toOrdinalIndicator - period locales", () => {
-  test.each(["de-DE", "cs-CZ", "fi-FI", "tr-TR", "da-DK", "pl-PL", "hu-HU"])("%s → '1.'", (localeCode) => {
-    expect(toOrdinalIndicator(1, { localeCode }).text).toBe("1.");
-  });
+  test.each(["de-DE", "cs-CZ", "fi-FI", "tr-TR", "da-DK", "pl-PL", "hu-HU"])(
+    "%s → '1.'",
+    (localeCode) => {
+      expect(toOrdinalIndicator(1, { localeCode }).text).toBe("1.");
+    }
+  );
 
   test("gender is irrelevant for genderless maps", () => {
     expect(toOrdinalIndicator(1, { localeCode: "de-DE", gender: "feminine" }).text).toBe("1.");

@@ -4,12 +4,15 @@ import { type ConstructorOf, type LocaleInterface } from "../types.js";
 import arSa from "./ar-SA.js";
 import bgBg from "./bg-BG.js";
 import caEs from "./ca-ES.js";
+import caEsF from "./ca-ES-f.js";
 import csCz from "./cs-CZ.js";
 import daDk from "./da-DK.js";
 import deDe from "./de-DE.js";
 import elGr from "./el-GR.js";
+import enGb from "./en-GB.js";
 import enUs from "./en-US.js";
 import esEs from "./es-ES.js";
+import esEsF from "./es-ES-f.js";
 import fiFi from "./fi-FI.js";
 import frBe from "./fr-BE.js";
 import frBeF from "./fr-BE-f.js";
@@ -21,6 +24,7 @@ import hrHr from "./hr-HR.js";
 import huHu from "./hu-HU.js";
 import isIs from "./is-IS.js";
 import itIt from "./it-IT.js";
+import itItF from "./it-IT-f.js";
 import jaJp from "./ja-JP.js";
 import koKr from "./ko-KR.js";
 import ltLt from "./lt-LT.js";
@@ -29,7 +33,9 @@ import nbNo from "./nb-NO.js";
 import nlNl from "./nl-NL.js";
 import plPl from "./pl-PL.js";
 import ptBR from "./pt-BR.js";
+import ptBRF from "./pt-BR-f.js";
 import ptPT from "./pt-PT.js";
+import ptPTF from "./pt-PT-f.js";
 import roRo from "./ro-RO.js";
 import ruRu from "./ru-RU.js";
 import skSk from "./sk-SK.js";
@@ -51,7 +57,10 @@ const LOCALES: { [key: string]: ConstructorOf<LocaleInterface> } = {
   "da-DK": daDk,
   "de-DE": deDe,
   "el-GR": elGr,
+  // en-US is listed before en-GB so the bare language code "en" keeps
+  // resolving to en-US (language-prefix fallback takes the first match).
   "en-US": enUs,
+  "en-GB": enGb,
   "es-ES": esEs,
   "fi-FI": fiFi,
   "fr-BE": frBe,
@@ -90,4 +99,9 @@ export default LOCALES;
 export const GENDER_VARIANTS: Record<string, Record<string, ConstructorOf<LocaleInterface>>> = {
   fr: { feminine: frFrF },
   "fr-BE": { feminine: frBeF },
+  it: { feminine: itItF },
+  es: { feminine: esEsF },
+  ca: { feminine: caEsF },
+  pt: { feminine: ptPTF },
+  "pt-BR": { feminine: ptBRF },
 };

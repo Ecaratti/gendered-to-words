@@ -23,28 +23,28 @@ describe("Test Locale", () => {
 });
 
 const testIntegers: [number, string][] = [
-  [0, "sıfır"],
-  [137, "yüz otuz yedi"],
-  [700, "yedi yüz"],
-  [4680, "dört bin altı yüz seksen"],
-  [63892, "altmış üç bin sekiz yüz doksan iki"],
-  [792581, "yedi yüz doksan iki bin beş yüz seksen bir"],
-  [2741034, "iki milyon yedi yüz kırk bir bin otuz dört"],
-  [86429753, "seksen altı milyon dört yüz yirmi dokuz bin yedi yüz elli üç"],
-  [975310864, "dokuz yüz yetmiş beş milyon üç yüz on bin sekiz yüz altmış dört"],
-  [9876543210, "dokuz milyar sekiz yüz yetmiş altı milyon beş yüz kırk üç bin iki yüz on"],
-  [98765432101, "doksan sekiz milyar yedi yüz altmış beş milyon dört yüz otuz iki bin yüz bir"],
+  [0, "Sıfır"],
+  [137, "Yüz Otuz Yedi"],
+  [700, "Yedi Yüz"],
+  [4680, "Dört Bin Altı Yüz Seksen"],
+  [63892, "Altmış Üç Bin Sekiz Yüz Doksan İki"],
+  [792581, "Yedi Yüz Doksan İki Bin Beş Yüz Seksen Bir"],
+  [2741034, "İki Milyon Yedi Yüz Kırk Bir Bin Otuz Dört"],
+  [86429753, "Seksen Altı Milyon Dört Yüz Yirmi Dokuz Bin Yedi Yüz Elli Üç"],
+  [975310864, "Dokuz Yüz Yetmiş Beş Milyon Üç Yüz On Bin Sekiz Yüz Altmış Dört"],
+  [9876543210, "Dokuz Milyar Sekiz Yüz Yetmiş Altı Milyon Beş Yüz Kırk Üç Bin İki Yüz On"],
+  [98765432101, "Doksan Sekiz Milyar Yedi Yüz Altmış Beş Milyon Dört Yüz Otuz İki Bin Yüz Bir"],
   [
     987654321012,
-    "dokuz yüz seksen yedi milyar altı yüz elli dört milyon üç yüz yirmi bir bin on iki",
+    "Dokuz Yüz Seksen Yedi Milyar Altı Yüz Elli Dört Milyon Üç Yüz Yirmi Bir Bin On İki",
   ],
   [
     9876543210123,
-    "dokuz trilyon sekiz yüz yetmiş altı milyar beş yüz kırk üç milyon iki yüz on bin yüz yirmi üç",
+    "Dokuz Trilyon Sekiz Yüz Yetmiş Altı Milyar Beş Yüz Kırk Üç Milyon İki Yüz On Bin Yüz Yirmi Üç",
   ],
   [
     98765432101234,
-    "doksan sekiz trilyon yedi yüz altmış beş milyar dört yüz otuz iki milyon yüz bir bin iki yüz otuz dört",
+    "Doksan Sekiz Trilyon Yedi Yüz Altmış Beş Milyar Dört Yüz Otuz İki Milyon Yüz Bir Bin İki Yüz Otuz Dört",
   ],
 ];
 
@@ -61,7 +61,7 @@ describe("Test Negative Integers with options = {}", () => {
       return;
     }
     row[0] = -row[0];
-    row[1] = `eksi ${row[1]}`;
+    row[1] = `Eksi ${row[1]}`;
   });
 
   test.each(testNegativeIntegers)("convert %d => %s", (input, expected) => {
@@ -70,17 +70,17 @@ describe("Test Negative Integers with options = {}", () => {
 });
 
 const testFloats: [number, string][] = [
-  [0.0, "sıfır"],
-  [0.04, "dört yüzüncü"],
-  [0.0468, "dört yüz altmış sekiz on bininci"],
-  [0.4, "dört onuncu"],
-  [0.63, "altmış üç yüzüncü"],
-  [0.973, "dokuz yüz yetmiş üç bininci"],
-  [0.999, "dokuz yüz doksan dokuz bininci"],
-  [37.06, "otuz yedi virgül altı yüzüncü"],
-  [37.068, "otuz yedi virgül altmış sekiz bininci"],
-  [37.68, "otuz yedi virgül altmış sekiz yüzüncü"],
-  [37.683, "otuz yedi virgül altı yüz seksen üç bininci"],
+  [0.0, "Sıfır"],
+  [0.04, "Dört Yüzüncü"],
+  [0.0468, "Dört Yüz Altmış Sekiz On Bininci"],
+  [0.4, "Dört Onuncu"],
+  [0.63, "Altmış Üç Yüzüncü"],
+  [0.973, "Dokuz Yüz Yetmiş Üç Bininci"],
+  [0.999, "Dokuz Yüz Doksan Dokuz Bininci"],
+  [37.06, "Otuz Yedi Virgül Altı Yüzüncü"],
+  [37.068, "Otuz Yedi Virgül Altmış Sekiz Bininci"],
+  [37.68, "Otuz Yedi Virgül Altmış Sekiz Yüzüncü"],
+  [37.683, "Otuz Yedi Virgül Altı Yüz Seksen Üç Bininci"],
 ];
 
 describe("Test Floats with options = {}", () => {
@@ -88,7 +88,6 @@ describe("Test Floats with options = {}", () => {
     expect(toWords.convert(input as number)).toBe(expected);
   });
 });
-
 
 const testOrdinals: [number, string][] = [
   // Numbers 1-20
@@ -113,8 +112,8 @@ const testOrdinals: [number, string][] = [
   [19, "On Dokuzuncu"],
   [20, "Yirminci"],
   // Composite numbers (21, 22, etc.)
-  [21, "yirmi Birinci"],
-  [22, "yirmi İkinci"],
+  [21, "Yirmi Birinci"],
+  [22, "Yirmi İkinci"],
   // Decade numbers (30, 40, 50, etc.)
   [30, "Otuzuncu"],
   [40, "Kırkıncı"],
@@ -125,13 +124,13 @@ const testOrdinals: [number, string][] = [
   [90, "Doksanıncı"],
   // Round numbers (100, 200, 1000, etc.)
   [100, "Yüzüncü"],
-  [200, "iki yüz"],
-  [1000, "bir Bininci"],
-  [1000000, "bir Milyonuncu"],
+  [200, "İki Yüzüncü"],
+  [1000, "Bir Bininci"],
+  [1000000, "Bir Milyonuncu"],
   // Complex numbers
-  [101, "yüz Birinci"],
-  [123, "yüz yirmi Üçüncü"],
-  [1234, "bir bin iki yüz otuz Dördüncü"],
+  [101, "Yüz Birinci"],
+  [123, "Yüz Yirmi Üçüncü"],
+  [1234, "Bir Bin İki Yüz Otuz Dördüncü"],
 ];
 
 describe("Test Ordinals", () => {
@@ -156,18 +155,18 @@ describe("Test Ordinal Error Cases", () => {
 
 // Powers of Ten (Turkish)
 const testPowersOfTen: [number, string][] = [
-  [10, "on"],
-  [100, "yüz"],
-  [1000, "bir bin"],
-  [10000, "on bin"],
-  [100000, "yüz bin"],
-  [1000000, "bir milyon"],
-  [10000000, "on milyon"],
-  [100000000, "yüz milyon"],
-  [1000000000, "bir milyar"],
-  [10000000000, "on milyar"],
-  [100000000000, "yüz milyar"],
-  [1000000000000, "bir trilyon"],
+  [10, "On"],
+  [100, "Yüz"],
+  [1000, "Bir Bin"],
+  [10000, "On Bin"],
+  [100000, "Yüz Bin"],
+  [1000000, "Bir Milyon"],
+  [10000000, "On Milyon"],
+  [100000000, "Yüz Milyon"],
+  [1000000000, "Bir Milyar"],
+  [10000000000, "On Milyar"],
+  [100000000000, "Yüz Milyar"],
+  [1000000000000, "Bir Trilyon"],
 ];
 
 describe("Test Powers of Ten (Turkish System)", () => {
@@ -178,13 +177,13 @@ describe("Test Powers of Ten (Turkish System)", () => {
 
 // BigInt Tests
 const testBigInts: [bigint, string][] = [
-  [0n, "sıfır"],
-  [1n, "bir"],
-  [100n, "yüz"],
-  [1000n, "bir bin"],
-  [1000000n, "bir milyon"],
-  [1000000000n, "bir milyar"],
-  [1000000000000n, "bir trilyon"],
+  [0n, "Sıfır"],
+  [1n, "Bir"],
+  [100n, "Yüz"],
+  [1000n, "Bir Bin"],
+  [1000000n, "Bir Milyon"],
+  [1000000000n, "Bir Milyar"],
+  [1000000000000n, "Bir Trilyon"],
 ];
 
 describe("Test BigInt Values", () => {
@@ -195,11 +194,11 @@ describe("Test BigInt Values", () => {
 
 // Negative BigInt Tests
 const testNegativeBigInts: [bigint, string][] = [
-  [-1n, "eksi bir"],
-  [-100n, "eksi yüz"],
-  [-1000n, "eksi bir bin"],
-  [-1000000n, "eksi bir milyon"],
-  [-1000000000n, "eksi bir milyar"],
+  [-1n, "Eksi Bir"],
+  [-100n, "Eksi Yüz"],
+  [-1000n, "Eksi Bir Bin"],
+  [-1000000n, "Eksi Bir Milyon"],
+  [-1000000000n, "Eksi Bir Milyar"],
 ];
 
 describe("Test Negative BigInt Values", () => {
@@ -210,13 +209,13 @@ describe("Test Negative BigInt Values", () => {
 
 // String Input Tests
 const testStringInputs: [string, string][] = [
-  ["0", "sıfır"],
-  ["1", "bir"],
-  ["100", "yüz"],
-  ["1000", "bir bin"],
-  ["-100", "eksi yüz"],
-  ["  100  ", "yüz"],
-  ["1000000", "bir milyon"],
+  ["0", "Sıfır"],
+  ["1", "Bir"],
+  ["100", "Yüz"],
+  ["1000", "Bir Bin"],
+  ["-100", "Eksi Yüz"],
+  ["  100  ", "Yüz"],
+  ["1000000", "Bir Milyon"],
 ];
 
 describe("Test String Number Inputs", () => {
@@ -228,26 +227,24 @@ describe("Test String Number Inputs", () => {
 // Zero Variants
 describe("Test Zero Variants", () => {
   test("converts 0 correctly", () => {
-    expect(toWords.convert(0)).toBe("sıfır");
+    expect(toWords.convert(0)).toBe("Sıfır");
   });
 
   test("converts -0 as sıfır", () => {
-    expect(toWords.convert(-0)).toBe("sıfır");
+    expect(toWords.convert(-0)).toBe("Sıfır");
   });
 
   test("converts 0.0 as sıfır", () => {
-    expect(toWords.convert(0.0)).toBe("sıfır");
+    expect(toWords.convert(0.0)).toBe("Sıfır");
   });
 
   test("converts 0n as sıfır", () => {
-    expect(toWords.convert(0n)).toBe("sıfır");
+    expect(toWords.convert(0n)).toBe("Sıfır");
   });
 
   test('converts "0" as sıfır', () => {
-    expect(toWords.convert("0")).toBe("sıfır");
+    expect(toWords.convert("0")).toBe("Sıfır");
   });
-
-
 });
 
 // Invalid Input Tests

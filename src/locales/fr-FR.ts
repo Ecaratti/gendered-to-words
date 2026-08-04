@@ -128,6 +128,19 @@ export default class Locale implements LocaleInterface {
       { number: 0, value: "Zéro" },
     ],
     ignoreOneForWords: ["Cent", "Mille"],
+    // Ordinals are the cardinal plus -ième. Three stems shift first: un →
+    // unième, cinq → cinquième, neuf → neuvième; a final mute e is dropped.
+    // Applied to the last token, so "Vingt Et Un" → "Vingt Et Unième" and
+    // "Quarante-Deux" → "Quarante-Deuxième".
+    ordinalDerivation: {
+      rules: [
+        { match: /Un$/, replace: "Unième" },
+        { match: /Cinq$/, replace: "Cinquième" },
+        { match: /Neuf$/, replace: "Neuvième" },
+        { match: /e$/, replace: "ième" },
+        { match: /$/, replace: "ième" },
+      ],
+    },
     pluralMark: "s",
     pluralWords: ["Billiard", "Billion", "Milliard", "Million"],
     pluralWordsOnlyWhenTrailing: ["Cent"],
@@ -163,8 +176,12 @@ export default class Locale implements LocaleInterface {
       { number: 4, value: "Quatrième" },
       { number: 3, value: "Troisième" },
       { number: 2, value: "Deuxième" },
-      { number: 1, value: "Premier" },
+      // "Premier" is only correct standalone; inside a compound French uses
+      // "unième" ("vingt et unième", "cent unième"). The exact mapping below
+      // supplies the standalone form.
+      { number: 1, value: "Unième" },
       { number: 0, value: "Zéroième" },
     ],
+    ordinalExactWordsMapping: [{ number: 1, value: "Premier" }],
   };
 }

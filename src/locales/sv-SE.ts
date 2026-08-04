@@ -10,10 +10,10 @@ export default class Locale implements LocaleInterface {
       point: "Komma",
     },
     numberWordsMapping: [
-      { number: 1000000000000000, value: "Biljard" },
-      { number: 1000000000000, value: "Biljon" },
-      { number: 1000000000, value: "Miljard" },
-      { number: 1000000, value: "Miljon" },
+      { number: 1000000000000000, value: "Biljard", singularValue: "En Biljard" },
+      { number: 1000000000000, value: "Biljon", singularValue: "En Biljon" },
+      { number: 1000000000, value: "Miljard", singularValue: "En Miljard" },
+      { number: 1000000, value: "Miljon", singularValue: "En Miljon" },
       { number: 1000, value: "Tusen" },
       { number: 100, value: "Hundra" },
       { number: 99, value: "Nittionio" },
@@ -118,7 +118,15 @@ export default class Locale implements LocaleInterface {
       { number: 0, value: "Noll" },
     ],
     exactWordsMapping: [{ number: 100, value: "Hundra" }],
-    ignoreOneForWords: ["Hundra", "Tusen"],
+    ignoreOneForWords: ["Hundra", "Tusen", "Miljon", "Miljard", "Biljon", "Biljard"],
+    // "en miljon" but "två miljoner" — the scale nouns pluralise from two up.
+    paucalConfig: { min: 2, max: 10 },
+    pluralForms: {
+      1000000: { paucal: "Miljoner", plural: "Miljoner" },
+      1000000000: { paucal: "Miljarder", plural: "Miljarder" },
+      1000000000000: { paucal: "Biljoner", plural: "Biljoner" },
+      1000000000000000: { paucal: "Biljarder", plural: "Biljarder" },
+    },
     ordinalWordsMapping: [
       { number: 1000000000000000, value: "Biljardste" },
       { number: 1000000000000, value: "Biljonte" },

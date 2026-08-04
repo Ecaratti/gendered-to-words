@@ -64,6 +64,28 @@ export default class Locale implements LocaleInterface {
       { number: 800, value: "Kahdeksansataa" },
       { number: 900, value: "Yhdeksänsataa" },
     ],
+    // Finnish numerals are one word: "kaksikymmentäyksi",
+    // "neljäsataaviisikymmentäkuusi". The scale nouns stay separate.
+    // A numeral above one takes the partitive: "kaksituhatta",
+    // "kaksi miljoonaa".
+    paucalConfig: { min: 2, max: 10 },
+    pluralForms: {
+      1000: { paucal: "Tuhatta", plural: "Tuhatta" },
+      1000000: { paucal: "Miljoonaa", plural: "Miljoonaa" },
+    },
+    concatenation: {
+      separateWords: [
+        "Miljoona",
+        "Miljoonaa",
+        "Miljardi",
+        "Miljardia",
+        "Biljoona",
+        "Biljoonaa",
+        "Biljardi",
+        "Biljardia",
+      ],
+      lowercaseAfterFirst: true,
+    },
     ignoreOneForWords: [
       "Sata",
       "Kaksisataa",

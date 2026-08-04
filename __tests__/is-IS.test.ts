@@ -102,7 +102,6 @@ describe("Test Floats with options = {}", () => {
   });
 });
 
-
 const testOrdinals: [number, string][] = [
   // Numbers 0-10
   [0, "Núllti"],
@@ -127,11 +126,11 @@ const testOrdinals: [number, string][] = [
   [19, "Nítjándi"],
   [20, "Tuttugasti"],
   // Composite numbers (21, 22, etc.)
-  [21, "Tuttugu Og Einn"],
-  [22, "Tuttugu Og Tveir"],
-  [23, "Tuttugu Og Þrír"],
-  [24, "Tuttugu Og Fjórir"],
-  [25, "Tuttugu Og Fimm"],
+  [21, "Tuttugasti Og Fyrsti"],
+  [22, "Tuttugasti Og Annar"],
+  [23, "Tuttugasti Og Þriðji"],
+  [24, "Tuttugasti Og Fjórði"],
+  [25, "Tuttugasti Og Fimmti"],
   // Tens
   [30, "Þrítugasti"],
   [40, "Fertugasti"],
@@ -146,20 +145,20 @@ const testOrdinals: [number, string][] = [
   [300, "Þrír Hundraðasti"],
   [1000, "Þúsundasti"],
   [2000, "Tveir Þúsundasti"],
-  [1000000, "Einn Milljónasti"],
+  [1000000, "Milljónasti"],
   [2000000, "Tveir Milljónasti"],
   // Complex numbers
-  [101, "Hundrað Fyrsti"],
-  [102, "Hundrað Annar"],
-  [111, "Hundrað Ellefti"],
-  [123, "Hundrað Tuttugu Og Þrír"],
-  [150, "Hundrað Fimmtugasti"],
-  [1001, "Þúsund Fyrsti"],
-  [1234, "Þúsund Tveir Hundrað Þrjátíu Og Fjórir"],
-  [1500, "Þúsund Fimm Hundraðasti"],
+  [101, "Hundraðasti Og Fyrsti"],
+  [102, "Hundraðasti Og Annar"],
+  [111, "Hundraðasti Og Ellefti"],
+  [123, "Hundraðasti Og Tuttugasti Og Þriðji"],
+  [150, "Hundraðasti Og Fimmtugasti"],
+  [1001, "Þúsundasti Og Fyrsti"],
+  [1234, "Þúsundasti Og Tveir Hundraðasti Og Þrítugasti Og Fjórði"],
+  [1500, "Þúsundasti Og Fimm Hundraðasti"],
   [10000, "Tíu Þúsundasti"],
   [100000, "Hundrað Þúsundasti"],
-  [1000001, "Einn Milljón Fyrsti"],
+  [1000001, "Milljónasti Og Fyrsti"],
 ];
 
 describe("Test Ordinals with toOrdinal()", () => {
@@ -265,7 +264,6 @@ describe("Test Zero Variants", () => {
   test('convert "0" => Núll', () => {
     expect(toWords.convert("0")).toBe("Núll");
   });
-
 });
 
 describe("Test Invalid Inputs", () => {

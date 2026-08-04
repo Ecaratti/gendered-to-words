@@ -82,8 +82,29 @@ export default class Locale implements LocaleInterface {
       "Mil",
       "Mil Milions",
     ],
-    pluralMark: "ns",
-    pluralWords: ["Milió", "Bilió"],
+    // "milió" pluralises to "milions" — the accent drops, so appending a
+    // plural mark to the singular would give the wrong "milións".
+    paucalConfig: { min: 2, max: 10 },
+    pluralForms: {
+      1000000: { paucal: "Milions", plural: "Milions" },
+      1000000000000: { paucal: "Bilions", plural: "Bilions" },
+      1000000000000000: { paucal: "Bilions", plural: "Bilions" },
+    },
+    // Catalan hyphenates tens and units ("quaranta-dos"), matching the
+    // spelling already used for 21-29 ("vint-i-un") in the table above.
+    join: { hyphenateTensUnits: true },
+    // The ordinal is the written-out cardinal plus -è: "quaranta-dosè",
+    // "vint-i-unè". Stems ending in a mute e drop it; cinc and nou shift.
+    ordinalDerivation: {
+      scope: "whole",
+      rules: [
+        { match: /Cinc$/, replace: "Cinquè" },
+        { match: /Nou$/, replace: "Novè" },
+        { match: /Deu$/, replace: "Desè" },
+        { match: /e$/, replace: "è" },
+        { match: /$/, replace: "è" },
+      ],
+    },
     exactWordsMapping: [
       { number: 100, value: "Cent" },
       { number: 1000000, value: "Un Milió" },

@@ -3,7 +3,10 @@
     "allow": [
       "Bash(npm run *)",
       "Bash(node -e \"const m=require\\('./dist/cjs/ToWords.js'\\); const tw=new m.ToWords\\({localeCode:'fr-FR'}\\); console.log\\('CJS class gender:', tw.convert\\(1,{gender:'feminine'}\\), '|', tw.toOrdinal\\(1,{gender:'feminine'}\\)\\);\")",
-      "Bash(npx --yes publint)"
+      "Bash(npx --yes publint)",
+      "Bash(npm install *)",
+      "Bash(npx prettier *)",
+      "Bash(python -)"
     ]
   }
 }

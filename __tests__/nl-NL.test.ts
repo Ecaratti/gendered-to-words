@@ -24,41 +24,35 @@ describe("Test Locale", () => {
 
 const testIntegers: [number, string][] = [
   [0, "Nul"],
-  [137, "Een Honderd Zevenendertig"],
-  [700, "Zeven Honderd"],
-  [1100, "Een Duizend Honderd"],
-  [4680, "Vier Duizend Zes Honderd Tachtig"],
-  [63892, "Drieënzestig Duizend Acht Honderd Tweeënnegentig"],
-  [86100, "Zesentachtig Duizend Honderd"],
-  [792581, "Zeven Honderd Tweeënnegentig Duizend Vijf Honderd Eenentachtig"],
-  [2741034, "Twee Miljoen Zeven Honderd Eenenveertig Duizend Vierendertig"],
-  [
-    86429753,
-    "Zesentachtig Miljoen Vier Honderd Negenentwintig Duizend Zeven Honderd Drieënvijftig",
-  ],
-  [
-    975310864,
-    "Negen Honderd Vijfenzeventig Miljoen Drie Honderd Tien Duizend Acht Honderd Vierenzestig",
-  ],
+  [137, "Honderdzevenendertig"],
+  [700, "Zevenhonderd"],
+  [1100, "Duizendhonderd"],
+  [4680, "Vierduizendzeshonderdtachtig"],
+  [63892, "Drieënzestigduizendachthonderdtweeënnegentig"],
+  [86100, "Zesentachtigduizendhonderd"],
+  [792581, "Zevenhonderdtweeënnegentigduizendvijfhonderdeenentachtig"],
+  [2741034, "Twee Miljoen Zevenhonderdeenenveertigduizendvierendertig"],
+  [86429753, "Zesentachtig Miljoen Vierhonderdnegenentwintigduizendzevenhonderddrieënvijftig"],
+  [975310864, "Negenhonderdvijfenzeventig Miljoen Driehonderdtienduizendachthonderdvierenzestig"],
   [
     9876543210,
-    "Negen Miljard Acht Honderd Zesenzeventig Miljoen Vijf Honderd Drieënveertig Duizend Twee Honderd Tien",
+    "Negen Miljard Achthonderdzesenzeventig Miljoen Vijfhonderddrieënveertigduizendtweehonderdtien",
   ],
   [
     98765432101,
-    "Achtennegentig Miljard Zeven Honderd Vijfenzestig Miljoen Vier Honderd Tweeëndertig Duizend Een Honderd Een",
+    "Achtennegentig Miljard Zevenhonderdvijfenzestig Miljoen Vierhonderdtweeëndertigduizendhonderdeen",
   ],
   [
     987654321012,
-    "Negen Honderd Zevenentachtig Miljard Zes Honderd Vierenvijftig Miljoen Drie Honderd Eenentwintig Duizend Twaalf",
+    "Negenhonderdzevenentachtig Miljard Zeshonderdvierenvijftig Miljoen Driehonderdeenentwintigduizendtwaalf",
   ],
   [
     9876543210123,
-    "Negen Biljoen Acht Honderd Zesenzeventig Miljard Vijf Honderd Drieënveertig Miljoen Twee Honderd Tien Duizend Een Honderd Drieëntwintig",
+    "Negen Biljoen Achthonderdzesenzeventig Miljard Vijfhonderddrieënveertig Miljoen Tweehonderdtienduizendhonderddrieëntwintig",
   ],
   [
     98765432101234,
-    "Achtennegentig Biljoen Zeven Honderd Vijfenzestig Miljard Vier Honderd Tweeëndertig Miljoen Een Honderd Een Duizend Twee Honderd Vierendertig",
+    "Achtennegentig Biljoen Zevenhonderdvijfenzestig Miljard Vierhonderdtweeëndertig Miljoen Honderdeenduizendtweehonderdvierendertig",
   ],
 ];
 
@@ -88,12 +82,12 @@ const testFloats: [number, string][] = [
   [0.04, "Nul Punt Nul Vier"],
   [0.0468, "Nul Punt Nul Vier Zes Acht"],
   [0.4, "Nul Punt Vier"],
-  [0.973, "Nul Punt Negen Honderd Drieënzeventig"],
-  [0.999, "Nul Punt Negen Honderd Negenennegentig"],
+  [0.973, "Nul Punt Negenhonderddrieënzeventig"],
+  [0.999, "Nul Punt Negenhonderdnegenennegentig"],
   [37.06, "Zevenendertig Punt Nul Zes"],
   [37.068, "Zevenendertig Punt Nul Zes Acht"],
   [37.68, "Zevenendertig Punt Achtenzestig"],
-  [37.683, "Zevenendertig Punt Zes Honderd Drieëntachtig"],
+  [37.683, "Zevenendertig Punt Zeshonderddrieëntachtig"],
 ];
 
 describe("Test Floats with options = {}", () => {
@@ -101,7 +95,6 @@ describe("Test Floats with options = {}", () => {
     expect(toWords.convert(input as number)).toBe(expected);
   });
 });
-
 
 const testOrdinals: [number, string][] = [
   // Numbers 0-10
@@ -127,11 +120,11 @@ const testOrdinals: [number, string][] = [
   [19, "Negentiende"],
   [20, "Twintigste"],
   // Composite numbers (21, 22, etc.)
-  [21, "Eenentwintig"],
-  [22, "Tweeëntwintig"],
-  [23, "Drieëntwintig"],
-  [24, "Vierentwintig"],
-  [25, "Vijfentwintig"],
+  [21, "Eenentwintigste"],
+  [22, "Tweeëntwintigste"],
+  [23, "Drieëntwintigste"],
+  [24, "Vierentwintigste"],
+  [25, "Vijfentwintigste"],
   // Tens
   [30, "Dertigste"],
   [40, "Veertigste"],
@@ -142,23 +135,23 @@ const testOrdinals: [number, string][] = [
   [90, "Negentigste"],
   // Round numbers (100, 200, 1000, etc.)
   [100, "Honderdste"],
-  [200, "Twee Honderdste"],
-  [300, "Drie Honderdste"],
-  [1000, "Een Duizendste"],
-  [2000, "Twee Duizendste"],
-  [1000000, "Een Miljoenste"],
-  [2000000, "Twee Miljoenste"],
+  [200, "Tweehonderdste"],
+  [300, "Driehonderdste"],
+  [1000, "Duizendste"],
+  [2000, "Tweeduizendste"],
+  [1000000, "Eenmiljoenste"],
+  [2000000, "Tweemiljoenste"],
   // Complex numbers
-  [101, "Een Honderd Eerste"],
-  [102, "Een Honderd Tweede"],
-  [111, "Een Honderd Elfde"],
-  [123, "Een Honderd Drieëntwintig"],
-  [150, "Een Honderd Vijftigste"],
-  [1001, "Een Duizend Eerste"],
-  [1234, "Een Duizend Twee Honderd Vierendertig"],
-  [1500, "Een Duizend Vijf Honderdste"],
-  [10000, "Tien Duizendste"],
-  [100000, "Honderd Duizendste"],
+  [101, "Honderdeerste"],
+  [102, "Honderdtweede"],
+  [111, "Honderdelfde"],
+  [123, "Honderddrieëntwintigste"],
+  [150, "Honderdvijftigste"],
+  [1001, "Duizendeerste"],
+  [1234, "Duizendtweehonderdvierendertigste"],
+  [1500, "Duizendvijfhonderdste"],
+  [10000, "Tienduizendste"],
+  [100000, "Honderdduizendste"],
   [1000001, "Een Miljoen Eerste"],
 ];
 
@@ -196,9 +189,9 @@ describe("Test Ordinal Error Cases", () => {
 const testPowersOfTen: [number, string][] = [
   [10, "Tien"],
   [100, "Honderd"],
-  [1000, "Een Duizend"],
-  [10000, "Tien Duizend"],
-  [100000, "Honderd Duizend"],
+  [1000, "Duizend"],
+  [10000, "Tienduizend"],
+  [100000, "Honderdduizend"],
   [1000000, "Een Miljoen"],
   [10000000, "Tien Miljoen"],
   [100000000, "Honderd Miljoen"],
@@ -218,20 +211,20 @@ describe("Test Powers of Ten", () => {
 const testBoundaries: [number, string][] = [
   [99, "Negenennegentig"],
   [100, "Honderd"],
-  [101, "Een Honderd Een"],
-  [999, "Negen Honderd Negenennegentig"],
-  [1000, "Een Duizend"],
-  [1001, "Een Duizend Een"],
-  [9999, "Negen Duizend Negen Honderd Negenennegentig"],
-  [10000, "Tien Duizend"],
-  [10001, "Tien Duizend Een"],
-  [99999, "Negenennegentig Duizend Negen Honderd Negenennegentig"],
-  [100000, "Honderd Duizend"],
-  [100001, "Honderd Duizend Een"],
-  [999999, "Negen Honderd Negenennegentig Duizend Negen Honderd Negenennegentig"],
+  [101, "Honderdeen"],
+  [999, "Negenhonderdnegenennegentig"],
+  [1000, "Duizend"],
+  [1001, "Duizendeen"],
+  [9999, "Negenduizendnegenhonderdnegenennegentig"],
+  [10000, "Tienduizend"],
+  [10001, "Tienduizendeen"],
+  [99999, "Negenennegentigduizendnegenhonderdnegenennegentig"],
+  [100000, "Honderdduizend"],
+  [100001, "Honderdduizendeen"],
+  [999999, "Negenhonderdnegenennegentigduizendnegenhonderdnegenennegentig"],
   [1000000, "Een Miljoen"],
   [1000001, "Een Miljoen Een"],
-  [9999999, "Negen Miljoen Negen Honderd Negenennegentig Duizend Negen Honderd Negenennegentig"],
+  [9999999, "Negen Miljoen Negenhonderdnegenennegentigduizendnegenhonderdnegenennegentig"],
   [10000000, "Tien Miljoen"],
   [10000001, "Tien Miljoen Een"],
 ];
@@ -251,7 +244,7 @@ const testNegativeFloats: [number, string][] = [
   [-3.14, "Negatief Drie Punt Veertien"],
   [-99.99, "Negatief Negenennegentig Punt Negenennegentig"],
   [-100.01, "Negatief Honderd Punt Nul Een"],
-  [-1000.999, "Negatief Een Duizend Punt Negen Honderd Negenennegentig"],
+  [-1000.999, "Negatief Duizend Punt Negenhonderdnegenennegentig"],
 ];
 
 describe("Test Negative Floats", () => {
@@ -260,20 +253,19 @@ describe("Test Negative Floats", () => {
   });
 });
 
-
 // BigInt Tests
 const testBigInts: [bigint, string][] = [
   [0n, "Nul"],
   [1n, "Een"],
   [100n, "Honderd"],
-  [1000n, "Een Duizend"],
+  [1000n, "Duizend"],
   [1000000n, "Een Miljoen"],
   [1000000000n, "Een Miljard"],
   [1000000000000n, "Een Biljoen"],
   [1000000000000000n, "Een Biljard"],
   [
     1234567890123n,
-    "Een Biljoen Twee Honderd Vierendertig Miljard Vijf Honderd Zevenenzestig Miljoen Acht Honderd Negentig Duizend Een Honderd Drieëntwintig",
+    "Een Biljoen Tweehonderdvierendertig Miljard Vijfhonderdzevenenzestig Miljoen Achthonderdnegentigduizendhonderddrieëntwintig",
   ],
 ];
 
@@ -287,7 +279,7 @@ describe("Test BigInt Values", () => {
 const testNegativeBigInts: [bigint, string][] = [
   [-1n, "Negatief Een"],
   [-100n, "Negatief Honderd"],
-  [-1000n, "Negatief Een Duizend"],
+  [-1000n, "Negatief Duizend"],
   [-1000000n, "Negatief Een Miljoen"],
   [-1000000000n, "Negatief Een Miljard"],
 ];
@@ -298,13 +290,12 @@ describe("Test Negative BigInt Values", () => {
   });
 });
 
-
 // String Input Tests
 const testStringInputs: [string, string][] = [
   ["0", "Nul"],
   ["1", "Een"],
   ["100", "Honderd"],
-  ["1000", "Een Duizend"],
+  ["1000", "Duizend"],
   ["-100", "Negatief Honderd"],
   ["3.14", "Drie Punt Veertien"],
   ["-3.14", "Negatief Drie Punt Veertien"],
@@ -318,7 +309,6 @@ describe("Test String Number Inputs", () => {
     expect(toWords.convert(input)).toBe(expected);
   });
 });
-
 
 // Zero Variants
 describe("Test Zero Variants", () => {
@@ -341,13 +331,9 @@ describe("Test Zero Variants", () => {
   test('converts "0" as Nul', () => {
     expect(toWords.convert("0")).toBe("Nul");
   });
-
-
 });
 
-
 // All Options Combinations
-
 
 // Invalid Input Tests
 describe("Test Invalid Inputs for nl-NL", () => {

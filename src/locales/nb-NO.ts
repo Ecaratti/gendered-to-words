@@ -118,6 +118,11 @@ export default class Locale implements LocaleInterface {
       { number: 0, value: "Null" },
     ],
     exactWordsMapping: [{ number: 100, value: "Hundre" }],
+    // Norwegian links the hundreds to the remainder — "sju hundre og åttini",
+    // "hundre og tjuetre" — but not the larger scales: 1234 is
+    // "tusen to hundre og trettifire", with no "og" after "tusen".
+    splitWord: "Og",
+    noSplitWordAfter: ["Tusen", "Million", "Milliard", "Billion", "Billiard"],
     ignoreOneForWords: ["Hundre", "Tusen"],
     ordinalWordsMapping: [
       { number: 1000000000000000, value: "Billiardte" },

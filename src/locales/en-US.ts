@@ -5,6 +5,8 @@ export default class Locale implements LocaleInterface {
   public config: LocaleConfig = {
     localeCode: "en-US",
     ordinalIndicator: { suffixes: { any: { one: "st", two: "nd", few: "rd", other: "th" } } },
+    // English hyphenates compound tens: "twenty-one", "forty-second".
+    join: { hyphenateTensUnits: true },
     texts: {
       minus: "Minus",
       point: "Point",

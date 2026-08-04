@@ -149,11 +149,7 @@ export class ToWords extends ToWordsCore {
     }
     // Constructor-level gender (converterOptions.gender) resolves to a gendered
     // variant class when the locale has one.
-    return resolveGenderVariant(
-      resolved,
-      this.options.converterOptions?.gender,
-      LOCALES[resolved]
-    );
+    return resolveGenderVariant(resolved, this.options.converterOptions?.gender, LOCALES[resolved]);
   }
 
   public convert(number: NumberInput, options: ConverterOptions = {}): string {

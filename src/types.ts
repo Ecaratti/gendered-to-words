@@ -57,6 +57,87 @@ export type OrdinalWordMap = {
   value: string;
 };
 
+/**
+ * A rewrite applied to a cardinal token to produce its ordinal form.
+ * `match` must not carry the /g flag — rules are applied with a single
+ * String.replace and are expected to anchor at the end of the token.
+ */
+export type OrdinalDerivationRule = {
+  match: RegExp;
+  replace: string;
+};
+
+export type OrdinalDerivation = {
+  /**
+   * Where the ordinal inflection lands.
+   *
+   * - `"last"` (default): only the final cardinal token is inflected. Covers
+   *   both languages that split compounds into tokens (English "Forty |
+   *   Second", Turkish "Kırk | İkinci") and those that write the compound as
+   *   one token (Italian "Quarantaduesimo", Dutch "Eenentwintigste") — in the
+   *   latter the single token *is* the last token.
+   * - `"whole"`: the cardinal is first written out in full (applying the
+   *   locale's concatenation and hyphenation rules) and the inflection lands
+   *   on that one word — Italian "Centouno" → "Centounesimo", Catalan
+   *   "Quaranta-Dos" → "Quaranta-Dosè". Distinct from `"last"` because the
+   *   ending being rewritten may belong to a token that is not itself the
+   *   number's final component.
+   * - `"components"`: every additive component is inflected and the cardinal
+   *   tokens are discarded entirely (Spanish "Cuadragésimo Segundo",
+   *   Portuguese "Quadragésimo Segundo"). Components are taken from
+   *   `ordinalWordsMapping`, which therefore defines the atoms.
+   */
+  scope?: "last" | "whole" | "components";
+  /**
+   * Ordered rewrites tried against a cardinal token when
+   * `ordinalWordsMapping` has no entry for it. First match wins.
+   */
+  rules?: OrdinalDerivationRule[];
+  /**
+   * Word placed between inflected components under `scope: "components"` —
+   * Icelandic "tuttugasti og fyrsti", Arabic "الحادي و العشرون".
+   */
+  componentJoin?: string;
+  /**
+   * Component order. Defaults to `"descending"` (hundreds, then tens, then
+   * units). Arabic names the unit first, matching its cardinal order.
+   */
+  componentOrder?: "descending" | "ascending";
+};
+
+export type ConcatenationConfig = {
+  /**
+   * Scale nouns that keep a space on either side. Germanic and Italian
+   * numerals are written as one word up to (but excluding) "million", which
+   * stays a separate noun: "einhunderteins", but "zwei Millionen einhundert".
+   */
+  separateWords?: string[];
+  /**
+   * Locale data stores every token Title Cased. When gluing tokens into one
+   * word, lowercase all but the first so "Hundert" + "Eins" reads
+   * "Hunderteins" rather than "HundertEins".
+   */
+  lowercaseAfterFirst?: boolean;
+  /**
+   * Rewrites applied once to the glued result, for vowel collisions that only
+   * exist after joining: Italian "centoottanta" elides to "centottanta".
+   */
+  elisions?: OrdinalDerivationRule[];
+};
+
+export type JoinConfig = {
+  /**
+   * Hyphenate a tens word directly followed by a units word: English
+   * "Twenty-One", "Forty-Second". Applies to ordinal units words too.
+   */
+  hyphenateTensUnits?: boolean;
+  /**
+   * Word inserted before a trailing sub-hundred group when a larger group
+   * precedes it: en-GB "One Hundred And One", "One Thousand And Thirty Four".
+   */
+  andWord?: string;
+};
+
 export type NumberInput = number | bigint | string;
 
 export type PluralFormsMapping = {
@@ -87,6 +168,15 @@ export type LocaleConfig = {
   ordinalWordsMapping?: OrdinalWordMap[];
   ordinalSuffix?: string;
   ordinalExactWordsMapping?: OrdinalWordMap[];
+  ordinalDerivation?: OrdinalDerivation;
+  /**
+   * Languages that mark ordinals with a particle before the whole numeral
+   * rather than by inflecting it (Chinese/Japanese 第, Korean 제). When set,
+   * the ordinal is this prefix followed by the cardinal, written solid.
+   */
+  ordinalPrefix?: string;
+  concatenation?: ConcatenationConfig;
+  join?: JoinConfig;
   namedLessThan1000?: boolean;
   splitWord?: string;
   ignoreZeroInDecimals?: boolean;

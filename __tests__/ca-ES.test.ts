@@ -49,17 +49,17 @@ const testIntegers: [number, string][] = [
   [25, "Vint-I-Cinc"],
   [29, "Vint-I-Nou"],
   [30, "Trenta"],
-  [31, "Trenta Un"],
-  [35, "Trenta Cinc"],
+  [31, "Trenta-Un"],
+  [35, "Trenta-Cinc"],
   [40, "Quaranta"],
   [50, "Cinquanta"],
   [60, "Seixanta"],
   [70, "Setanta"],
   [80, "Vuitanta"],
   [90, "Noranta"],
-  [99, "Noranta Nou"],
+  [99, "Noranta-Nou"],
   [100, "Cent"],
-  [137, "Cent Trenta Set"],
+  [137, "Cent Trenta-Set"],
   [200, "Dos-Cents"],
   [300, "Tres-Cents"],
   [400, "Quatre-Cents"],
@@ -73,11 +73,11 @@ const testIntegers: [number, string][] = [
   [2000, "Dos Mil"],
   [4680, "Quatre Mil Sis-Cents Vuitanta"],
   [10000, "Deu Mil"],
-  [63892, "Seixanta Tres Mil Vuit-Cents Noranta Dos"],
+  [63892, "Seixanta-Tres Mil Vuit-Cents Noranta-Dos"],
   [100000, "Cent Mil"],
   [1000000, "Un Milió"],
-  [2000000, "Dos Milións"],
-  [2741034, "Dos Milións Set-Cents Quaranta Un Mil Trenta Quatre"],
+  [2000000, "Dos Milions"],
+  [2741034, "Dos Milions Set-Cents Quaranta-Un Mil Trenta-Quatre"],
   [1000000000, "Mil Milions"],
   [2000000000, "Dos Mil Milions"],
 ];
@@ -107,9 +107,9 @@ const testFloats: [number, string][] = [
   [0.0, "Zero"],
   [0.04, "Zero Coma Zero Quatre"],
   [0.4, "Zero Coma Quatre"],
-  [0.63, "Zero Coma Seixanta Tres"],
-  [37.06, "Trenta Set Coma Zero Sis"],
-  [37.68, "Trenta Set Coma Seixanta Vuit"],
+  [0.63, "Zero Coma Seixanta-Tres"],
+  [37.06, "Trenta-Set Coma Zero Sis"],
+  [37.68, "Trenta-Set Coma Seixanta-Vuit"],
 ];
 
 describe("Test Floats with options = {}", () => {
@@ -117,7 +117,6 @@ describe("Test Floats with options = {}", () => {
     expect(toWords.convert(input as number)).toBe(expected);
   });
 });
-
 
 // Ordinal Tests
 const testOrdinals: [number, string][] = [
@@ -136,15 +135,15 @@ const testOrdinals: [number, string][] = [
   [13, "Tretzè"],
   [19, "Dinovè"],
   [20, "Vintè"],
-  [21, "Vint-I-Un"],
+  [21, "Vint-I-Unè"],
   [30, "Trentè"],
   [50, "Cinquantè"],
   [100, "Centèsim"],
-  [101, "Cent Primer"],
+  [101, "Cent Unè"],
   [110, "Cent Desè"],
   [200, "Dos-Centèsim"],
   [1000, "Mil·lèsim"],
-  [1001, "Mil Primer"],
+  [1001, "Mil Unè"],
 ];
 
 describe("Test Ordinals", () => {
@@ -236,7 +235,6 @@ describe("Zero Variants", () => {
   test('convert "0" => Zero', () => {
     expect(toWords.convert("0")).toBe("Zero");
   });
-
 });
 
 describe("Invalid Input Tests", () => {

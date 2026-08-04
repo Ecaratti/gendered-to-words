@@ -44,19 +44,19 @@ const testIntegers: [number, string][] = [
   [18, "Kahdeksantoista"],
   [19, "Yhdeksäntoista"],
   [20, "Kaksikymmentä"],
-  [21, "Kaksikymmentä Yksi"],
-  [22, "Kaksikymmentä Kaksi"],
+  [21, "Kaksikymmentäyksi"],
+  [22, "Kaksikymmentäkaksi"],
   [30, "Kolmekymmentä"],
-  [35, "Kolmekymmentä Viisi"],
+  [35, "Kolmekymmentäviisi"],
   [40, "Neljäkymmentä"],
   [50, "Viisikymmentä"],
   [60, "Kuusikymmentä"],
   [70, "Seitsemänkymmentä"],
   [80, "Kahdeksankymmentä"],
   [90, "Yhdeksänkymmentä"],
-  [99, "Yhdeksänkymmentä Yhdeksän"],
+  [99, "Yhdeksänkymmentäyhdeksän"],
   [100, "Sata"],
-  [137, "Sata Kolmekymmentä Seitsemän"],
+  [137, "Satakolmekymmentäseitsemän"],
   [200, "Kaksisataa"],
   [300, "Kolmesataa"],
   [400, "Neljäsataa"],
@@ -66,16 +66,16 @@ const testIntegers: [number, string][] = [
   [800, "Kahdeksansataa"],
   [900, "Yhdeksänsataa"],
   [1000, "Tuhat"],
-  [1100, "Tuhat Sata"],
-  [2000, "Kaksi Tuhat"],
-  [3000, "Kolme Tuhat"],
-  [4680, "Neljä Tuhat Kuusisataa Kahdeksankymmentä"],
-  [10000, "Kymmenen Tuhat"],
-  [63892, "Kuusikymmentä Kolme Tuhat Kahdeksansataa Yhdeksänkymmentä Kaksi"],
-  [100000, "Sata Tuhat"],
+  [1100, "Tuhatsata"],
+  [2000, "Kaksituhatta"],
+  [3000, "Kolmetuhatta"],
+  [4680, "Neljätuhattakuusisataakahdeksankymmentä"],
+  [10000, "Kymmenentuhatta"],
+  [63892, "Kuusikymmentäkolmetuhattakahdeksansataayhdeksänkymmentäkaksi"],
+  [100000, "Satatuhatta"],
   [1000000, "Yksi Miljoona"],
-  [2000000, "Kaksi Miljoona"],
-  [2741034, "Kaksi Miljoona Seitsemänsataa Neljäkymmentä Yksi Tuhat Kolmekymmentä Neljä"],
+  [2000000, "Kaksi Miljoonaa"],
+  [2741034, "Kaksi Miljoonaa Seitsemänsataaneljäkymmentäyksituhattakolmekymmentäneljä"],
   [1000000000, "Yksi Miljardi"],
   [2000000000, "Kaksi Miljardi"],
 ];
@@ -105,9 +105,9 @@ const testFloats: [number, string][] = [
   [0.0, "Nolla"],
   [0.04, "Nolla Pilkku Nolla Neljä"],
   [0.4, "Nolla Pilkku Neljä"],
-  [0.63, "Nolla Pilkku Kuusikymmentä Kolme"],
-  [37.06, "Kolmekymmentä Seitsemän Pilkku Nolla Kuusi"],
-  [37.68, "Kolmekymmentä Seitsemän Pilkku Kuusikymmentä Kahdeksan"],
+  [0.63, "Nolla Pilkku Kuusikymmentäkolme"],
+  [37.06, "Kolmekymmentäseitsemän Pilkku Nolla Kuusi"],
+  [37.68, "Kolmekymmentäseitsemän Pilkku Kuusikymmentäkahdeksan"],
 ];
 
 describe("Test Floats with options = {}", () => {
@@ -115,7 +115,6 @@ describe("Test Floats with options = {}", () => {
     expect(toWords.convert(input as number)).toBe(expected);
   });
 });
-
 
 // Ordinal Tests
 const testOrdinalNumbers: [number, string][] = [
@@ -140,8 +139,8 @@ const testOrdinalNumbers: [number, string][] = [
   [18, "Kahdeksastoista"],
   [19, "Yhdeksästoista"],
   [20, "Kahdeskymmenes"],
-  [21, "Kaksikymmentä Ensimmäinen"],
-  [22, "Kaksikymmentä Toinen"],
+  [21, "Kaksikymmentäensimmäinen"],
+  [22, "Kaksikymmentätoinen"],
   [30, "Kolmaskymmenes"],
   [40, "Neljäskymmenes"],
   [50, "Viideskymmenes"],
@@ -150,11 +149,11 @@ const testOrdinalNumbers: [number, string][] = [
   [80, "Kahdeksaskymmenes"],
   [90, "Yhdeksäskymmenes"],
   [100, "Sadas"],
-  [101, "Sata Ensimmäinen"],
+  [101, "Sataensimmäinen"],
   [200, "Kahdessadas"],
   [1000, "Tuhannes"],
-  [1001, "Tuhat Ensimmäinen"],
-  [1000000, "Yksi Miljoonas"],
+  [1001, "Tuhatensimmäinen"],
+  [1000000, "Yksimiljoonas"],
 ];
 
 describe("Test Ordinal Numbers", () => {
@@ -201,7 +200,7 @@ describe("Test Finnish-specific numbers", () => {
   test("Large numbers", () => {
     expect(toWords.convert(1000000)).toBe("Yksi Miljoona");
     expect(toWords.convert(1000000000)).toBe("Yksi Miljardi");
-    expect(toWords.convert(2000000)).toBe("Kaksi Miljoona");
+    expect(toWords.convert(2000000)).toBe("Kaksi Miljoonaa");
     expect(toWords.convert(2000000000)).toBe("Kaksi Miljardi");
   });
 });
@@ -211,8 +210,8 @@ describe("Powers of Ten", () => {
     [10, "Kymmenen"],
     [100, "Sata"],
     [1000, "Tuhat"],
-    [10000, "Kymmenen Tuhat"],
-    [100000, "Sata Tuhat"],
+    [10000, "Kymmenentuhatta"],
+    [100000, "Satatuhatta"],
     [1000000, "Yksi Miljoona"],
   ];
 
@@ -279,7 +278,6 @@ describe("Zero Variants", () => {
   test("zero as string", () => {
     expect(toWords.convert("0")).toBe("Nolla");
   });
-
 });
 
 describe("Invalid Input Tests", () => {

@@ -40,7 +40,7 @@ describe("Test BigInt Inputs", () => {
   const toWords = new ToWords();
 
   test("Basic BigInt", () => {
-    expect(toWords.convert(12345n)).toBe("Twelve Thousand Three Hundred Forty Five");
+    expect(toWords.convert(12345n)).toBe("Twelve Thousand Three Hundred Forty-Five");
   });
 
   test("Negative BigInt", () => {
@@ -51,7 +51,7 @@ describe("Test BigInt Inputs", () => {
     // 9007199254740992n is Number.MAX_SAFE_INTEGER + 1
     const result = toWords.convert(9007199254740992n);
     expect(result).toBe(
-      "Nine Quadrillion Seven Trillion One Hundred Ninety Nine Billion Two Hundred Fifty Four Million Seven Hundred Forty Thousand Nine Hundred Ninety Two"
+      "Nine Quadrillion Seven Trillion One Hundred Ninety-Nine Billion Two Hundred Fifty-Four Million Seven Hundred Forty Thousand Nine Hundred Ninety-Two"
     );
   });
 
@@ -65,14 +65,14 @@ describe("Test setLocale method", () => {
     const { default: EnUsLocale } = await import("../src/locales/en-US");
     const toWords = new ToWords();
     toWords.setLocale(EnUsLocale);
-    expect(toWords.convert(1234)).toBe("One Thousand Two Hundred Thirty Four");
+    expect(toWords.convert(1234)).toBe("One Thousand Two Hundred Thirty-Four");
   });
 
   test("setLocale with en-GB locale class", async () => {
     const { default: EnUsLocale } = await import("../src/locales/en-US");
     const toWords = new ToWords();
     toWords.setLocale(EnUsLocale);
-    expect(toWords.convert(1234)).toBe("One Thousand Two Hundred Thirty Four");
+    expect(toWords.convert(1234)).toBe("One Thousand Two Hundred Thirty-Four");
   });
 
   test("setLocale with fr-FR locale class", async () => {
@@ -97,7 +97,6 @@ describe("Test setLocale method", () => {
     expect(toWords.convert(21)).toBe("Vingt Et Un");
   });
 });
-
 
 // ============================================================
 // COMPREHENSIVE TEST ADDITIONS
@@ -224,11 +223,11 @@ describe("Valid String Number Inputs", () => {
 
   describe("Basic String Numbers", () => {
     test("should convert positive string integer", () => {
-      expect(toWords.convert("123")).toBe("One Hundred Twenty Three");
+      expect(toWords.convert("123")).toBe("One Hundred Twenty-Three");
     });
 
     test("should convert negative string integer", () => {
-      expect(toWords.convert("-123")).toBe("Minus One Hundred Twenty Three");
+      expect(toWords.convert("-123")).toBe("Minus One Hundred Twenty-Three");
     });
 
     test("should convert string zero", () => {
@@ -250,15 +249,15 @@ describe("Valid String Number Inputs", () => {
 
   describe("String Numbers with Whitespace", () => {
     test("should handle string with leading whitespace", () => {
-      expect(toWords.convert("  123")).toBe("One Hundred Twenty Three");
+      expect(toWords.convert("  123")).toBe("One Hundred Twenty-Three");
     });
 
     test("should handle string with trailing whitespace", () => {
-      expect(toWords.convert("123  ")).toBe("One Hundred Twenty Three");
+      expect(toWords.convert("123  ")).toBe("One Hundred Twenty-Three");
     });
 
     test("should handle string with surrounding whitespace", () => {
-      expect(toWords.convert("  123  ")).toBe("One Hundred Twenty Three");
+      expect(toWords.convert("  123  ")).toBe("One Hundred Twenty-Three");
     });
   });
 });
@@ -360,7 +359,7 @@ describe("Boundary Values and Edge Cases", () => {
 
   describe("Number Boundaries", () => {
     test("converts 99 correctly", () => {
-      expect(toWords.convert(99)).toBe("Ninety Nine");
+      expect(toWords.convert(99)).toBe("Ninety-Nine");
     });
 
     test("converts 100 correctly", () => {
@@ -372,7 +371,7 @@ describe("Boundary Values and Edge Cases", () => {
     });
 
     test("converts 999 correctly", () => {
-      expect(toWords.convert(999)).toBe("Nine Hundred Ninety Nine");
+      expect(toWords.convert(999)).toBe("Nine Hundred Ninety-Nine");
     });
 
     test("converts 1000 correctly", () => {
@@ -384,7 +383,7 @@ describe("Boundary Values and Edge Cases", () => {
     });
 
     test("converts 9999 correctly", () => {
-      expect(toWords.convert(9999)).toBe("Nine Thousand Nine Hundred Ninety Nine");
+      expect(toWords.convert(9999)).toBe("Nine Thousand Nine Hundred Ninety-Nine");
     });
 
     test("converts 10000 correctly", () => {
@@ -392,7 +391,7 @@ describe("Boundary Values and Edge Cases", () => {
     });
 
     test("converts 99999 correctly", () => {
-      expect(toWords.convert(99999)).toBe("Ninety Nine Thousand Nine Hundred Ninety Nine");
+      expect(toWords.convert(99999)).toBe("Ninety-Nine Thousand Nine Hundred Ninety-Nine");
     });
 
     test("converts 100000 (One Hundred Thousand) correctly", () => {
@@ -421,11 +420,11 @@ describe("Decimal Number Tests", () => {
     });
 
     test("converts 0.25 correctly", () => {
-      expect(toWords.convert(0.25)).toBe("Zero Point Twenty Five");
+      expect(toWords.convert(0.25)).toBe("Zero Point Twenty-Five");
     });
 
     test("converts 0.99 correctly", () => {
-      expect(toWords.convert(0.99)).toBe("Zero Point Ninety Nine");
+      expect(toWords.convert(0.99)).toBe("Zero Point Ninety-Nine");
     });
 
     test("converts 1.5 correctly", () => {
@@ -437,7 +436,7 @@ describe("Decimal Number Tests", () => {
     });
 
     test("converts 99.99 correctly", () => {
-      expect(toWords.convert(99.99)).toBe("Ninety Nine Point Ninety Nine");
+      expect(toWords.convert(99.99)).toBe("Ninety-Nine Point Ninety-Nine");
     });
   });
 
@@ -465,7 +464,7 @@ describe("Decimal Number Tests", () => {
     });
 
     test("converts -99.99 correctly", () => {
-      expect(toWords.convert(-99.99)).toBe("Minus Ninety Nine Point Ninety Nine");
+      expect(toWords.convert(-99.99)).toBe("Minus Ninety-Nine Point Ninety-Nine");
     });
   });
 });
@@ -492,7 +491,7 @@ describe("Negative Number Tests", () => {
 
     test("converts large negative number correctly", () => {
       expect(toWords.convert(-123456)).toBe(
-        "Minus One Hundred Twenty Three Thousand Four Hundred Fifty Six"
+        "Minus One Hundred Twenty-Three Thousand Four Hundred Fifty-Six"
       );
     });
   });
@@ -590,8 +589,8 @@ describe("Ordinal Number Tests", () => {
       expect(toWords.toOrdinal(10)).toBe("Tenth");
     });
 
-    test("converts 21 to Twenty First", () => {
-      expect(toWords.toOrdinal(21)).toBe("Twenty First");
+    test("converts 21 to Twenty-First", () => {
+      expect(toWords.toOrdinal(21)).toBe("Twenty-First");
     });
 
     test("converts 100 to One Hundredth", () => {
@@ -769,7 +768,7 @@ describe("toWords() functional helper", () => {
 
   test("converts number with explicit localeCode", () => {
     expect(toWordsFn(12345, { localeCode: "en-US" })).toBe(
-      "Twelve Thousand Three Hundred Forty Five"
+      "Twelve Thousand Three Hundred Forty-Five"
     );
   });
 
@@ -779,7 +778,7 @@ describe("toWords() functional helper", () => {
   });
 
   test("handles negative numbers", () => {
-    expect(toWordsFn(-42, { localeCode: "en-US" })).toBe("Minus Forty Two");
+    expect(toWordsFn(-42, { localeCode: "en-US" })).toBe("Minus Forty-Two");
   });
 
   test("handles BigInt input", () => {
@@ -787,7 +786,7 @@ describe("toWords() functional helper", () => {
   });
 
   test("handles string input", () => {
-    expect(toWordsFn("999", { localeCode: "en-US" })).toBe("Nine Hundred Ninety Nine");
+    expect(toWordsFn("999", { localeCode: "en-US" })).toBe("Nine Hundred Ninety-Nine");
   });
 
   test("returns same result as class-based convert()", () => {
@@ -815,7 +814,7 @@ describe("toOrdinal() functional helper", () => {
 
   test("converts ordinal with explicit localeCode", () => {
     expect(toOrdinalFn(1, { localeCode: "en-US" })).toBe("First");
-    expect(toOrdinalFn(21, { localeCode: "en-US" })).toBe("Twenty First");
+    expect(toOrdinalFn(21, { localeCode: "en-US" })).toBe("Twenty-First");
     expect(toOrdinalFn(100, { localeCode: "en-US" })).toBe("One Hundredth");
   });
 
@@ -859,9 +858,7 @@ describe("fr-BE feminine variant (GENDER_VARIANTS locale-level entry)", () => {
 
   test("fr-BE keeps Belgian numerals in feminine variant (Septante, Nonante)", () => {
     expect(toWordsFn(71, { localeCode: "fr-BE", gender: "feminine" })).toBe("Septante Et Une");
-    expect(toWordsFn(91, { localeCode: "fr-BE", gender: "feminine" })).toBe(
-      "Nonante Et Une"
-    );
+    expect(toWordsFn(91, { localeCode: "fr-BE", gender: "feminine" })).toBe("Nonante Et Une");
   });
 
   test("ordinal: feminine form via functional API", () => {
@@ -926,8 +923,8 @@ describe("detectLocale()", () => {
     vi.spyOn(Intl, "DateTimeFormat").mockImplementation(
       () =>
         ({
-          resolvedOptions: () => ({ locale: "de-DE" } as Intl.ResolvedDateTimeFormatOptions),
-        } as Intl.DateTimeFormat)
+          resolvedOptions: () => ({ locale: "de-DE" }) as Intl.ResolvedDateTimeFormatOptions,
+        }) as Intl.DateTimeFormat
     );
     expect(detectLocaleFn()).toBe("de-DE");
   });
@@ -953,8 +950,8 @@ describe("setLocaleDetector()", () => {
     vi.spyOn(Intl, "DateTimeFormat").mockImplementation(
       () =>
         ({
-          resolvedOptions: () => ({ locale: "ko-KR" } as Intl.ResolvedDateTimeFormatOptions),
-        } as Intl.DateTimeFormat)
+          resolvedOptions: () => ({ locale: "ko-KR" }) as Intl.ResolvedDateTimeFormatOptions,
+        }) as Intl.DateTimeFormat
     );
     setLocaleDetectorFn(() => "ja-JP");
     expect(detectLocaleFn()).toBe("ja-JP"); // override active
@@ -967,7 +964,6 @@ describe("setLocaleDetector()", () => {
     expect(toWordsFn(1000000)).toBe("One Million"); // en-US uses millions
   });
 });
-
 
 // ---------------------------------------------------------------------------
 // readRawLocale() — line 67: return '' when both navigator and Intl are absent

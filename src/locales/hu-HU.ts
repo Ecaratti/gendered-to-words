@@ -58,11 +58,15 @@ export default class Locale implements LocaleInterface {
       { number: 5, value: "Öt" },
       { number: 4, value: "Négy" },
       { number: 3, value: "Három" },
-      { number: 2, value: "Kettő" },
+      { number: 2, value: ["Két", "Kettő"] },
       { number: 1, value: "Egy" },
       { number: 0, value: "Nulla" },
     ],
     exactWordsMapping: [{ number: 100, value: "Száz" }],
+    // Hungarian numerals are one word: "százhuszonhárom". Above two
+    // thousand the standard inserts a hyphen at the scale boundary,
+    // which this does not yet model — see CHANGELOG.
+    concatenation: { lowercaseAfterFirst: true },
     ignoreOneForWords: [
       "Száz",
       "Kétszáz",

@@ -117,7 +117,6 @@ describe("Test Floats with options = {}", () => {
   });
 });
 
-
 // Ordinal Tests
 const testOrdinals: [number, string][] = [
   [1, "Prvi"],
@@ -235,7 +234,6 @@ describe("Test Zero Variants", () => {
   test('convert "0" => Nič', () => {
     expect(toWords.convert("0")).toBe("Nič");
   });
-
 });
 
 describe("Test Invalid Input", () => {

@@ -31,28 +31,28 @@ const testIntegers: [number, string][] = [
   [63892, "Sextiotre Tusen Åtta Hundra Nittiotvå"],
   [86100, "Åttiosex Tusen Hundra"],
   [792581, "Sju Hundra Nittiotvå Tusen Fem Hundra Åttioett"],
-  [2741034, "Två Miljon Sju Hundra Fyrtioett Tusen Trettiofyra"],
-  [86429753, "Åttiosex Miljon Fyra Hundra Tjugonio Tusen Sju Hundra Femtiotre"],
-  [975310864, "Nio Hundra Sjuttiofem Miljon Tre Hundra Tio Tusen Åtta Hundra Sextiofyra"],
+  [2741034, "Två Miljoner Sju Hundra Fyrtioett Tusen Trettiofyra"],
+  [86429753, "Åttiosex Miljoner Fyra Hundra Tjugonio Tusen Sju Hundra Femtiotre"],
+  [975310864, "Nio Hundra Sjuttiofem Miljoner Tre Hundra Tio Tusen Åtta Hundra Sextiofyra"],
   [
     9876543210,
-    "Nio Miljard Åtta Hundra Sjuttiosex Miljon Fem Hundra Fyrtiotre Tusen Två Hundra Tio",
+    "Nio Miljarder Åtta Hundra Sjuttiosex Miljoner Fem Hundra Fyrtiotre Tusen Två Hundra Tio",
   ],
   [
     98765432101,
-    "Nittioåtta Miljard Sju Hundra Sextiofem Miljon Fyra Hundra Trettiotvå Tusen Hundra Ett",
+    "Nittioåtta Miljarder Sju Hundra Sextiofem Miljoner Fyra Hundra Trettiotvå Tusen Hundra Ett",
   ],
   [
     987654321012,
-    "Nio Hundra Åttiosju Miljard Sex Hundra Femtiofyra Miljon Tre Hundra Tjugoett Tusen Tolv",
+    "Nio Hundra Åttiosju Miljarder Sex Hundra Femtiofyra Miljoner Tre Hundra Tjugoett Tusen Tolv",
   ],
   [
     9876543210123,
-    "Nio Biljon Åtta Hundra Sjuttiosex Miljard Fem Hundra Fyrtiotre Miljon Två Hundra Tio Tusen Hundra Tjugotre",
+    "Nio Biljoner Åtta Hundra Sjuttiosex Miljarder Fem Hundra Fyrtiotre Miljoner Två Hundra Tio Tusen Hundra Tjugotre",
   ],
   [
     98765432101234,
-    "Nittioåtta Biljon Sju Hundra Sextiofem Miljard Fyra Hundra Trettiotvå Miljon Hundra Ett Tusen Två Hundra Trettiofyra",
+    "Nittioåtta Biljoner Sju Hundra Sextiofem Miljarder Fyra Hundra Trettiotvå Miljoner Hundra Ett Tusen Två Hundra Trettiofyra",
   ],
 ];
 
@@ -95,7 +95,6 @@ describe("Test Floats with options = {}", () => {
     expect(toWords.convert(input as number)).toBe(expected);
   });
 });
-
 
 const testOrdinals: [number, string][] = [
   // Numbers 0-10
@@ -140,7 +139,7 @@ const testOrdinals: [number, string][] = [
   [300, "Tre Hundrade"],
   [1000, "Tusende"],
   [2000, "Två Tusende"],
-  [1000000, "Ett Miljonte"],
+  [1000000, "Miljonte"],
   [2000000, "Två Miljonte"],
   // Complex numbers
   [101, "Hundra Första"],
@@ -153,7 +152,7 @@ const testOrdinals: [number, string][] = [
   [1500, "Tusen Fem Hundrade"],
   [10000, "Tio Tusende"],
   [100000, "Hundra Tusende"],
-  [1000001, "Ett Miljon Första"],
+  [1000001, "En Miljon Första"],
 ];
 
 describe("Test Ordinals with toOrdinal()", () => {
@@ -208,10 +207,10 @@ describe("Test Swedish-specific numbers", () => {
   });
 
   test("Large numbers", () => {
-    expect(toWords.convert(1000000)).toBe("Ett Miljon");
-    expect(toWords.convert(1000000000)).toBe("Ett Miljard");
-    expect(toWords.convert(2000000)).toBe("Två Miljon");
-    expect(toWords.convert(2000000000)).toBe("Två Miljard");
+    expect(toWords.convert(1000000)).toBe("En Miljon");
+    expect(toWords.convert(1000000000)).toBe("En Miljard");
+    expect(toWords.convert(2000000)).toBe("Två Miljoner");
+    expect(toWords.convert(2000000000)).toBe("Två Miljarder");
   });
 });
 
@@ -226,13 +225,13 @@ const testPowersOfTen: [number, string][] = [
   [1000, "Tusen"],
   [10000, "Tio Tusen"],
   [100000, "Hundra Tusen"],
-  [1000000, "Ett Miljon"],
-  [10000000, "Tio Miljon"],
-  [100000000, "Hundra Miljon"],
-  [1000000000, "Ett Miljard"],
-  [10000000000, "Tio Miljard"],
-  [100000000000, "Hundra Miljard"],
-  [1000000000000, "Ett Biljon"],
+  [1000000, "En Miljon"],
+  [10000000, "Tio Miljoner"],
+  [100000000, "Hundra Miljoner"],
+  [1000000000, "En Miljard"],
+  [10000000000, "Tio Miljarder"],
+  [100000000000, "Hundra Miljarder"],
+  [1000000000000, "En Biljon"],
 ];
 
 describe("Test Powers of Ten (Swedish System)", () => {
@@ -247,9 +246,9 @@ const testBigInts: [bigint, string][] = [
   [1n, "Ett"],
   [100n, "Hundra"],
   [1000n, "Tusen"],
-  [1000000n, "Ett Miljon"],
-  [1000000000n, "Ett Miljard"],
-  [1000000000000n, "Ett Biljon"],
+  [1000000n, "En Miljon"],
+  [1000000000n, "En Miljard"],
+  [1000000000000n, "En Biljon"],
 ];
 
 describe("Test BigInt Values", () => {
@@ -263,8 +262,8 @@ const testNegativeBigInts: [bigint, string][] = [
   [-1n, "Minus Ett"],
   [-100n, "Minus Hundra"],
   [-1000n, "Minus Tusen"],
-  [-1000000n, "Minus Ett Miljon"],
-  [-1000000000n, "Minus Ett Miljard"],
+  [-1000000n, "Minus En Miljon"],
+  [-1000000000n, "Minus En Miljard"],
 ];
 
 describe("Test Negative BigInt Values", () => {
@@ -281,7 +280,7 @@ const testStringInputs: [string, string][] = [
   ["1000", "Tusen"],
   ["-100", "Minus Hundra"],
   ["  100  ", "Hundra"],
-  ["1000000", "Ett Miljon"],
+  ["1000000", "En Miljon"],
 ];
 
 describe("Test String Number Inputs", () => {
@@ -311,8 +310,6 @@ describe("Test Zero Variants", () => {
   test('converts "0" as Noll', () => {
     expect(toWords.convert("0")).toBe("Noll");
   });
-
-
 });
 
 // Invalid Input Tests

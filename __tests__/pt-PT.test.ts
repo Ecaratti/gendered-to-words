@@ -103,7 +103,6 @@ describe("Test Floats with options = {}", () => {
   });
 });
 
-
 const testOrdinals: [number, string][] = [
   // Numbers 1-20
   [1, "Primeiro"],
@@ -127,8 +126,8 @@ const testOrdinals: [number, string][] = [
   [19, "Décimo Nono"],
   [20, "Vigésimo"],
   // Composite numbers (21, 22, 30, 40, 50, 60, 70, 80, 90)
-  [21, "Vinte E Primeiro"],
-  [22, "Vinte E Segundo"],
+  [21, "Vigésimo Primeiro"],
+  [22, "Vigésimo Segundo"],
   [30, "Trigésimo"],
   [40, "Quadragésimo"],
   [50, "Quinquagésimo"],
@@ -142,9 +141,9 @@ const testOrdinals: [number, string][] = [
   [1000, "Milésimo"],
   [1000000, "Milionésimo"],
   // Complex numbers (101, 123, 1234)
-  [101, "Cento E Primeiro"],
-  [123, "Cento E Vinte E Terceiro"],
-  [1234, "Mil Duzentos E Trinta E Quarto"],
+  [101, "Centésimo Primeiro"],
+  [123, "Centésimo Vigésimo Terceiro"],
+  [1234, "Milésimo Ducentésimo Trigésimo Quarto"],
 ];
 
 describe("Test Ordinal Numbers", () => {
@@ -240,7 +239,6 @@ describe("Test Zero Variants", () => {
   test('convert "0" => Zero', () => {
     expect(toWords.convert("0")).toBe("Zero");
   });
-
 });
 
 describe("Test Invalid Inputs", () => {

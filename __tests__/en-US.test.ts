@@ -24,38 +24,38 @@ describe("Test Locale", () => {
 
 const testIntegers: [number, string][] = [
   [0, "Zero"],
-  [137, "One Hundred Thirty Seven"],
+  [137, "One Hundred Thirty-Seven"],
   [700, "Seven Hundred"],
   [1100, "One Thousand One Hundred"],
   [4680, "Four Thousand Six Hundred Eighty"],
-  [63892, "Sixty Three Thousand Eight Hundred Ninety Two"],
-  [86100, "Eighty Six Thousand One Hundred"],
-  [792581, "Seven Hundred Ninety Two Thousand Five Hundred Eighty One"],
-  [2741034, "Two Million Seven Hundred Forty One Thousand Thirty Four"],
-  [86429753, "Eighty Six Million Four Hundred Twenty Nine Thousand Seven Hundred Fifty Three"],
+  [63892, "Sixty-Three Thousand Eight Hundred Ninety-Two"],
+  [86100, "Eighty-Six Thousand One Hundred"],
+  [792581, "Seven Hundred Ninety-Two Thousand Five Hundred Eighty-One"],
+  [2741034, "Two Million Seven Hundred Forty-One Thousand Thirty-Four"],
+  [86429753, "Eighty-Six Million Four Hundred Twenty-Nine Thousand Seven Hundred Fifty-Three"],
   [
     975310864,
-    "Nine Hundred Seventy Five Million Three Hundred Ten Thousand Eight Hundred Sixty Four",
+    "Nine Hundred Seventy-Five Million Three Hundred Ten Thousand Eight Hundred Sixty-Four",
   ],
   [
     9876543210,
-    "Nine Billion Eight Hundred Seventy Six Million Five Hundred Forty Three Thousand Two Hundred Ten",
+    "Nine Billion Eight Hundred Seventy-Six Million Five Hundred Forty-Three Thousand Two Hundred Ten",
   ],
   [
     98765432101,
-    "Ninety Eight Billion Seven Hundred Sixty Five Million Four Hundred Thirty Two Thousand One Hundred One",
+    "Ninety-Eight Billion Seven Hundred Sixty-Five Million Four Hundred Thirty-Two Thousand One Hundred One",
   ],
   [
     987654321012,
-    "Nine Hundred Eighty Seven Billion Six Hundred Fifty Four Million Three Hundred Twenty One Thousand Twelve",
+    "Nine Hundred Eighty-Seven Billion Six Hundred Fifty-Four Million Three Hundred Twenty-One Thousand Twelve",
   ],
   [
     9876543210123,
-    "Nine Trillion Eight Hundred Seventy Six Billion Five Hundred Forty Three Million Two Hundred Ten Thousand One Hundred Twenty Three",
+    "Nine Trillion Eight Hundred Seventy-Six Billion Five Hundred Forty-Three Million Two Hundred Ten Thousand One Hundred Twenty-Three",
   ],
   [
     98765432101234,
-    "Ninety Eight Trillion Seven Hundred Sixty Five Billion Four Hundred Thirty Two Million One Hundred One Thousand Two Hundred Thirty Four",
+    "Ninety-Eight Trillion Seven Hundred Sixty-Five Billion Four Hundred Thirty-Two Million One Hundred One Thousand Two Hundred Thirty-Four",
   ],
 ];
 
@@ -85,13 +85,13 @@ const testFloats: [number, string][] = [
   [0.04, "Zero Point Zero Four"],
   [0.0468, "Zero Point Zero Four Six Eight"],
   [0.4, "Zero Point Four"],
-  [0.63, "Zero Point Sixty Three"],
-  [0.973, "Zero Point Nine Hundred Seventy Three"],
-  [0.999, "Zero Point Nine Hundred Ninety Nine"],
-  [37.06, "Thirty Seven Point Zero Six"],
-  [37.068, "Thirty Seven Point Zero Six Eight"],
-  [37.68, "Thirty Seven Point Sixty Eight"],
-  [37.683, "Thirty Seven Point Six Hundred Eighty Three"],
+  [0.63, "Zero Point Sixty-Three"],
+  [0.973, "Zero Point Nine Hundred Seventy-Three"],
+  [0.999, "Zero Point Nine Hundred Ninety-Nine"],
+  [37.06, "Thirty-Seven Point Zero Six"],
+  [37.068, "Thirty-Seven Point Zero Six Eight"],
+  [37.68, "Thirty-Seven Point Sixty-Eight"],
+  [37.683, "Thirty-Seven Point Six Hundred Eighty-Three"],
 ];
 
 describe("Test Floats with options = {}", () => {
@@ -99,7 +99,6 @@ describe("Test Floats with options = {}", () => {
     expect(toWords.convert(input as number)).toBe(expected);
   });
 });
-
 
 // Comprehensive Ordinal Tests
 const testOrdinalNumbers: [number, string][] = [
@@ -126,9 +125,9 @@ const testOrdinalNumbers: [number, string][] = [
   [20, "Twentieth"],
 
   // Composite numbers (21-29, 30, 40, 50, etc.)
-  [21, "Twenty First"],
-  [22, "Twenty Second"],
-  [23, "Twenty Third"],
+  [21, "Twenty-First"],
+  [22, "Twenty-Second"],
+  [23, "Twenty-Third"],
   [30, "Thirtieth"],
   [40, "Fortieth"],
   [50, "Fiftieth"],
@@ -138,15 +137,15 @@ const testOrdinalNumbers: [number, string][] = [
   [90, "Ninetieth"],
 
   // Numbers ending in 1, 2, 3 (various decades)
-  [31, "Thirty First"],
-  [32, "Thirty Second"],
-  [33, "Thirty Third"],
-  [41, "Forty First"],
-  [42, "Forty Second"],
-  [43, "Forty Third"],
-  [51, "Fifty First"],
-  [52, "Fifty Second"],
-  [53, "Fifty Third"],
+  [31, "Thirty-First"],
+  [32, "Thirty-Second"],
+  [33, "Thirty-Third"],
+  [41, "Forty-First"],
+  [42, "Forty-Second"],
+  [43, "Forty-Third"],
+  [51, "Fifty-First"],
+  [52, "Fifty-Second"],
+  [53, "Fifty-Third"],
 
   // Round numbers (100, 200, 1000, etc.)
   [100, "One Hundredth"],
@@ -164,13 +163,13 @@ const testOrdinalNumbers: [number, string][] = [
   [111, "One Hundred Eleventh"],
   [112, "One Hundred Twelfth"],
   [113, "One Hundred Thirteenth"],
-  [123, "One Hundred Twenty Third"],
+  [123, "One Hundred Twenty-Third"],
 
   // Complex numbers
   [1001, "One Thousand First"],
   [1111, "One Thousand One Hundred Eleventh"],
-  [1234, "One Thousand Two Hundred Thirty Fourth"],
-  [12345, "Twelve Thousand Three Hundred Forty Fifth"],
+  [1234, "One Thousand Two Hundred Thirty-Fourth"],
+  [12345, "Twelve Thousand Three Hundred Forty-Fifth"],
 ];
 
 describe("Test Ordinal Numbers", () => {
@@ -227,26 +226,26 @@ const testIntegersExtended: [number, string][] = [
   [18, "Eighteen"],
   [19, "Nineteen"],
   [20, "Twenty"],
-  [21, "Twenty One"],
-  [22, "Twenty Two"],
-  [23, "Twenty Three"],
-  [24, "Twenty Four"],
-  [25, "Twenty Five"],
+  [21, "Twenty-One"],
+  [22, "Twenty-Two"],
+  [23, "Twenty-Three"],
+  [24, "Twenty-Four"],
+  [25, "Twenty-Five"],
   [30, "Thirty"],
-  [35, "Thirty Five"],
+  [35, "Thirty-Five"],
   [40, "Forty"],
-  [45, "Forty Five"],
+  [45, "Forty-Five"],
   [50, "Fifty"],
-  [55, "Fifty Five"],
+  [55, "Fifty-Five"],
   [60, "Sixty"],
-  [65, "Sixty Five"],
+  [65, "Sixty-Five"],
   [70, "Seventy"],
-  [75, "Seventy Five"],
+  [75, "Seventy-Five"],
   [80, "Eighty"],
-  [85, "Eighty Five"],
+  [85, "Eighty-Five"],
   [90, "Ninety"],
-  [95, "Ninety Five"],
-  [99, "Ninety Nine"],
+  [95, "Ninety-Five"],
+  [99, "Ninety-Nine"],
   [100, "One Hundred"],
 ];
 
@@ -280,22 +279,22 @@ describe("Test Powers of Ten (International System)", () => {
 
 // Boundary Values
 const testBoundaries: [number, string][] = [
-  [99, "Ninety Nine"],
+  [99, "Ninety-Nine"],
   [100, "One Hundred"],
   [101, "One Hundred One"],
-  [999, "Nine Hundred Ninety Nine"],
+  [999, "Nine Hundred Ninety-Nine"],
   [1000, "One Thousand"],
   [1001, "One Thousand One"],
-  [9999, "Nine Thousand Nine Hundred Ninety Nine"],
+  [9999, "Nine Thousand Nine Hundred Ninety-Nine"],
   [10000, "Ten Thousand"],
   [10001, "Ten Thousand One"],
-  [99999, "Ninety Nine Thousand Nine Hundred Ninety Nine"],
+  [99999, "Ninety-Nine Thousand Nine Hundred Ninety-Nine"],
   [100000, "One Hundred Thousand"],
   [100001, "One Hundred Thousand One"],
-  [999999, "Nine Hundred Ninety Nine Thousand Nine Hundred Ninety Nine"],
+  [999999, "Nine Hundred Ninety-Nine Thousand Nine Hundred Ninety-Nine"],
   [1000000, "One Million"],
   [1000001, "One Million One"],
-  [9999999, "Nine Million Nine Hundred Ninety Nine Thousand Nine Hundred Ninety Nine"],
+  [9999999, "Nine Million Nine Hundred Ninety-Nine Thousand Nine Hundred Ninety-Nine"],
   [10000000, "Ten Million"],
   [10000001, "Ten Million One"],
 ];
@@ -309,13 +308,13 @@ describe("Test Boundary Values", () => {
 // Negative Floats
 const testNegativeFloats: [number, string][] = [
   [-0.5, "Minus Zero Point Five"],
-  [-0.25, "Minus Zero Point Twenty Five"],
-  [-0.99, "Minus Zero Point Ninety Nine"],
+  [-0.25, "Minus Zero Point Twenty-Five"],
+  [-0.99, "Minus Zero Point Ninety-Nine"],
   [-1.5, "Minus One Point Five"],
   [-3.14, "Minus Three Point Fourteen"],
-  [-99.99, "Minus Ninety Nine Point Ninety Nine"],
+  [-99.99, "Minus Ninety-Nine Point Ninety-Nine"],
   [-100.01, "Minus One Hundred Point Zero One"],
-  [-1000.999, "Minus One Thousand Point Nine Hundred Ninety Nine"],
+  [-1000.999, "Minus One Thousand Point Nine Hundred Ninety-Nine"],
 ];
 
 describe("Test Negative Floats", () => {
@@ -323,7 +322,6 @@ describe("Test Negative Floats", () => {
     expect(toWords.convert(input)).toBe(expected);
   });
 });
-
 
 // BigInt Tests
 const testBigInts: [bigint, string][] = [
@@ -337,7 +335,7 @@ const testBigInts: [bigint, string][] = [
   [1000000000000000n, "One Quadrillion"],
   [
     1234567890123n,
-    "One Trillion Two Hundred Thirty Four Billion Five Hundred Sixty Seven Million Eight Hundred Ninety Thousand One Hundred Twenty Three",
+    "One Trillion Two Hundred Thirty-Four Billion Five Hundred Sixty-Seven Million Eight Hundred Ninety Thousand One Hundred Twenty-Three",
   ],
 ];
 
@@ -362,7 +360,6 @@ describe("Test Negative BigInt Values", () => {
   });
 });
 
-
 // String Input Tests
 const testStringInputs: [string, string][] = [
   ["0", "Zero"],
@@ -382,7 +379,6 @@ describe("Test String Number Inputs", () => {
     expect(toWords.convert(input)).toBe(expected);
   });
 });
-
 
 // Zero Variants
 describe("Test Zero Variants", () => {
@@ -405,13 +401,9 @@ describe("Test Zero Variants", () => {
   test('converts "0" as Zero', () => {
     expect(toWords.convert("0")).toBe("Zero");
   });
-
-
 });
 
-
 // All Options Combinations
-
 
 // Invalid Input Tests
 describe("Test Invalid Inputs for en-US", () => {

@@ -49,11 +49,15 @@ export default class Locale implements LocaleInterface {
       { number: 1, value: "一" },
       { number: 0, value: "零" },
     ],
+    // Standalone 100 resolves through the small-number map, which never
+    // reaches the ignoreOneForWords logic, so it needs its own entry to
+    // agree with 一百二十三.
+    exactWordsMapping: [{ number: 100, value: "一百" }],
+    // Chinese numerals are written solid, with no spaces.
+    trim: true,
+    // 百/千/萬/億 keep their 一 ("一百二十三"), unlike 十 ("十一").
     ignoreOneForWords: [
       "十",
-      "百",
-      "千",
-      "萬",
       "十萬",
       "百萬",
       "千萬",
@@ -66,6 +70,10 @@ export default class Locale implements LocaleInterface {
       "百兆",
       "千兆",
     ],
+    // Chinese marks ordinals with the particle 第 before the whole
+    // numeral rather than by inflecting any part of it, so compounds
+    // like 11 (第十一) need no table entry.
+    ordinalPrefix: "第",
     ordinalWordsMapping: [
       { number: 100, value: "第百" },
       { number: 90, value: "第九十" },

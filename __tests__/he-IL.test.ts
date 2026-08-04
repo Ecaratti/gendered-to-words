@@ -111,7 +111,6 @@ describe("Test Floats with options = {}", () => {
   });
 });
 
-
 const testOrdinals: [number, string][] = [
   [0, "האפס"],
   [1, "הראשון"],
@@ -209,7 +208,6 @@ describe("Test Zero Variants", () => {
   test.concurrent.each(testZeroVariants)("convert %s => %s", (input, expected) => {
     expect(toWords.convert(input)).toBe(expected);
   });
-
 });
 
 describe("Test Invalid Inputs", () => {

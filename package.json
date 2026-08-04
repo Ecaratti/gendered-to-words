@@ -1,6 +1,6 @@
 {
   "name": "gendered-to-words",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Convert numbers to cardinal and ordinal words, with gender support, across 40+ locales. Zero dependencies, tree-shakeable.",
   "keywords": [
     "number-to-words",
@@ -99,8 +99,8 @@
     "prepublishOnly": "npm run build",
     "lint": "oxlint --type-aware .",
     "lint:fix": "npm run lint -- --fix",
-    "format": "oxfmt --check --config ./node_modules/@mastermunj/oxc-config/.oxfmtrc.json .",
-    "format:fix": "oxfmt --write --config ./node_modules/@mastermunj/oxc-config/.oxfmtrc.json .",
+    "format": "prettier --check .",
+    "format:fix": "prettier --write .",
     "test": "vitest",
     "test:watch": "npm run test -- --watch",
     "checktypes": "tsc --noEmit"
@@ -111,9 +111,9 @@
     "@types/node": "^25.3.3",
     "@vitest/coverage-v8": "^4.0.18",
     "lodash": "^4.17.23",
-    "oxfmt": "^0.36.0",
     "oxlint": "^1.51.0",
     "oxlint-tsgolint": "^0.16.0",
+    "prettier": "3.9.6",
     "rimraf": "^6.1.3",
     "typescript": "^5.9.3",
     "vitest": "^4.0.18"

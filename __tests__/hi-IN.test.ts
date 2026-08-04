@@ -80,7 +80,6 @@ describe("Test Floats with options = {}", () => {
   });
 });
 
-
 const testOrdinals: [number, string][] = [
   [0, "शून्यवां"],
   [1, "पहला"],
@@ -245,8 +244,6 @@ describe("Test Zero Variants", () => {
   test('converts "0" as शून्य', () => {
     expect(toWords.convert("0")).toBe("शून्य");
   });
-
-
 });
 
 // Invalid Input Tests

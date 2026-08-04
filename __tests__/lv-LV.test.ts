@@ -102,7 +102,6 @@ describe("Test Floats with options = {}", () => {
   });
 });
 
-
 const testOrdinals: [number, string][] = [
   [0, "nulltais"],
   [1, "pirmais"],
@@ -164,10 +163,10 @@ describe("Test Ordinal Error Cases", () => {
 
 const testPowersOfTen: [number, string][] = [
   [10, "desmit"],
-  [100, "Simtu"],
+  [100, "simtu"],
   [1000, "viens tūkstotis"],
   [10000, "desmit tūkstoši"],
-  [100000, "Simtu tūkstoši"],
+  [100000, "simtu tūkstoši"],
   [1000000, "viens miljons"],
 ];
 
@@ -180,7 +179,7 @@ describe("Test Powers of Ten", () => {
 const testBigInt: [bigint, string][] = [
   [0n, "nulle"],
   [1n, "viens"],
-  [100n, "Simtu"],
+  [100n, "simtu"],
   [1000n, "viens tūkstotis"],
 ];
 
@@ -192,7 +191,7 @@ describe("Test BigInt", () => {
 
 const testNegativeBigInt: [bigint, string][] = [
   [-1n, "mīnus viens"],
-  [-100n, "mīnus Simtu"],
+  [-100n, "mīnus simtu"],
   [-1000n, "mīnus viens tūkstotis"],
 ];
 
@@ -205,8 +204,8 @@ describe("Test Negative BigInt", () => {
 const testStringInput: [string, string][] = [
   ["0", "nulle"],
   ["1", "viens"],
-  ["100", "Simtu"],
-  ["-100", "mīnus Simtu"],
+  ["100", "simtu"],
+  ["-100", "mīnus simtu"],
 ];
 
 describe("Test String Input", () => {
@@ -235,7 +234,6 @@ describe("Test Zero Variants", () => {
   test('convert "0" => nulle', () => {
     expect(toWords.convert("0")).toBe("nulle");
   });
-
 });
 
 describe("Test Invalid Input", () => {

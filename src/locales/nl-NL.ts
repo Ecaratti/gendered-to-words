@@ -118,6 +118,16 @@ export default class Locale implements LocaleInterface {
       { number: 0, value: "Nul" },
     ],
     exactWordsMapping: [{ number: 100, value: "Honderd" }],
+    // Dutch says "honderd"/"duizend", never "een honderd".
+    ignoreOneForWords: ["Honderd", "Duizend"],
+    // Dutch numerals are written solid below a million; "miljoen" and above
+    // are nouns and stay separate: "honderdeenentwintig", "twee miljoen".
+    concatenation: {
+      separateWords: ["Miljoen", "Miljard", "Biljoen", "Biljard"],
+      lowercaseAfterFirst: true,
+    },
+    // Everything from 20 up takes -ste; 1-19 are irregular and tabled below.
+    ordinalSuffix: "ste",
     ordinalWordsMapping: [
       { number: 1000000000000, value: "Biljoenste" },
       { number: 1000000000, value: "Miljardste" },

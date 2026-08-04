@@ -44,19 +44,19 @@ const testIntegers: [number, string][] = [
   [18, "Tetëmbëdhjetë"],
   [19, "Nëntëmbëdhjetë"],
   [20, "Njëzet"],
-  [21, "Njëzet Një"],
-  [22, "Njëzet Dy"],
+  [21, "Njëzet E Një"],
+  [22, "Njëzet E Dy"],
   [30, "Tridhjetë"],
-  [35, "Tridhjetë Pesë"],
+  [35, "Tridhjetë E Pesë"],
   [40, "Dyzet"],
   [50, "Pesëdhjetë"],
   [60, "Gjashtëdhjetë"],
   [70, "Shtatëdhjetë"],
   [80, "Tetëdhjetë"],
   [90, "Nëntëdhjetë"],
-  [99, "Nëntëdhjetë Nëntë"],
+  [99, "Nëntëdhjetë E Nëntë"],
   [100, "Njëqind"],
-  [137, "Njëqind Tridhjetë Shtatë"],
+  [137, "Njëqind E Tridhjetë E Shtatë"],
   [200, "Dyqind"],
   [300, "Treqind"],
   [400, "Katërqind"],
@@ -66,19 +66,19 @@ const testIntegers: [number, string][] = [
   [800, "Tetëqind"],
   [900, "Nëntëqind"],
   [1000, "Një Mijë"],
-  [1100, "Një Mijë Njëqind"],
+  [1100, "Një Mijë E Njëqind"],
   [2000, "Dy Mijë"],
   [3000, "Tre Mijë"],
   [4000, "Katër Mijë"],
   [5000, "Pesë Mijë"],
-  [4680, "Katër Mijë Gjashtëqind Tetëdhjetë"],
+  [4680, "Katër Mijë E Gjashtëqind E Tetëdhjetë"],
   [10000, "Dhjetë Mijë"],
-  [63892, "Gjashtëdhjetë Tre Mijë Tetëqind Nëntëdhjetë Dy"],
+  [63892, "Gjashtëdhjetë E Tre Mijë E Tetëqind E Nëntëdhjetë E Dy"],
   [100000, "Njëqind Mijë"],
   [1000000, "Një Milion"],
   [2000000, "Dy Milion"],
   [5000000, "Pesë Milion"],
-  [2741034, "Dy Milion Shtatëqind Dyzet Një Mijë Tridhjetë Katër"],
+  [2741034, "Dy Milion E Shtatëqind E Dyzet E Një Mijë E Tridhjetë E Katër"],
   [1000000000, "Një Miliard"],
   [2000000000, "Dy Miliard"],
   [5000000000, "Pesë Miliard"],
@@ -109,9 +109,9 @@ const testFloats: [number, string][] = [
   [0.0, "Zero"],
   [0.04, "Zero Presje Zero Katër"],
   [0.4, "Zero Presje Katër"],
-  [0.63, "Zero Presje Gjashtëdhjetë Tre"],
-  [37.06, "Tridhjetë Shtatë Presje Zero Gjashtë"],
-  [37.68, "Tridhjetë Shtatë Presje Gjashtëdhjetë Tetë"],
+  [0.63, "Zero Presje Gjashtëdhjetë E Tre"],
+  [37.06, "Tridhjetë E Shtatë Presje Zero Gjashtë"],
+  [37.68, "Tridhjetë E Shtatë Presje Gjashtëdhjetë E Tetë"],
 ];
 
 describe("Test Floats with options = {}", () => {
@@ -119,7 +119,6 @@ describe("Test Floats with options = {}", () => {
     expect(toWords.convert(input as number)).toBe(expected);
   });
 });
-
 
 // Ordinal Tests
 const testOrdinalNumbers: [number, string][] = [
@@ -143,8 +142,8 @@ const testOrdinalNumbers: [number, string][] = [
   [18, "I Tetëmbëdhjetëti"],
   [19, "I Nëntëmbëdhjetëti"],
   [20, "I Njëzetti"],
-  [21, "Njëzet I Parë"],
-  [22, "Njëzet I Dytë"],
+  [21, "Njëzet E I Parë"],
+  [22, "Njëzet E I Dytë"],
   [30, "I Tridhjetëti"],
   [40, "I Dyzetti"],
   [50, "I Pesëdhjetëti"],
@@ -153,11 +152,11 @@ const testOrdinalNumbers: [number, string][] = [
   [80, "I Tetëdhjetëti"],
   [90, "I Nëntëdhjetëti"],
   [100, "I Njëqindti"],
-  [101, "Njëqind I Parë"],
+  [101, "Njëqind E I Parë"],
   [200, "I Dyqindti"],
   [300, "I Treqindti"],
   [1000, "I Mijëti"],
-  [1001, "Një Mijë I Parë"],
+  [1001, "Një Mijë E I Parë"],
   [1000000, "I Milionti"],
 ];
 
@@ -267,7 +266,6 @@ describe("Test Zero Variants", () => {
   test('convert "0" => Zero', () => {
     expect(toWords.convert("0")).toBe("Zero");
   });
-
 });
 
 // Invalid Input Tests

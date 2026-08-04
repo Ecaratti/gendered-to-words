@@ -21,6 +21,7 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run lint
+      - run: npm run format
       - run: npm run checktypes
       - run: npx vitest run
       - run: npm run build
@@ -31,5 +32,5 @@ jobs:
           npx --yes @arethetypeswrong/cli --pack .
       - name: Smoke-test built output (ESM + CJS)
         run: |
-          node --input-type=module -e "import('./dist/esm/ToWords.js').then(m => { const r = m.toWords(42, { localeCode: 'en-US' }); if (r !== 'Forty Two') throw new Error(r); console.log('ESM ok:', r); })"
-          node -e "const m = require('./dist/cjs/ToWords.js'); const r = m.toWords(42, { localeCode: 'en-US' }); if (r !== 'Forty Two') throw new Error(r); console.log('CJS ok:', r)"
+          node --input-type=module -e "import('./dist/esm/ToWords.js').then(m => { const r = m.toWords(42, { localeCode: 'en-US' }); if (r !== 'Forty-Two') throw new Error(r); console.log('ESM ok:', r); })"
+          node -e "const m = require('./dist/cjs/ToWords.js'); const r = m.toWords(42, { localeCode: 'en-US' }); if (r !== 'Forty-Two') throw new Error(r); console.log('CJS ok:', r)"

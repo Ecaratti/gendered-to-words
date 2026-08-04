@@ -77,47 +77,47 @@ const testIntegers: [number, string][] = [
   [98, "Novantotto"],
   [99, "Novantanove"],
   [100, "Cento"],
-  [101, "Cento Uno"],
-  [108, "Cento Otto"],
-  [111, "Cento Undici"],
-  [121, "Cento Ventuno"],
-  [128, "Cento Ventotto"],
-  [137, "Cento Trentasette"],
-  [200, "Due Cento"],
-  [300, "Tre Cento"],
-  [400, "Quattro Cento"],
-  [500, "Cinque Cento"],
-  [600, "Sei Cento"],
-  [700, "Sette Cento"],
-  [800, "Otto Cento"],
-  [900, "Nove Cento"],
-  [999, "Nove Cento Novantanove"],
+  [101, "Centouno"],
+  [108, "Centotto"],
+  [111, "Centoundici"],
+  [121, "Centoventuno"],
+  [128, "Centoventotto"],
+  [137, "Centotrentasette"],
+  [200, "Duecento"],
+  [300, "Trecento"],
+  [400, "Quattrocento"],
+  [500, "Cinquecento"],
+  [600, "Seicento"],
+  [700, "Settecento"],
+  [800, "Ottocento"],
+  [900, "Novecento"],
+  [999, "Novecentonovantanove"],
   [1000, "Mille"],
-  [1001, "Mila Uno"],
-  [1100, "Mila Cento"],
-  [2000, "Due Mila"],
-  [2001, "Due Mila Uno"],
-  [3000, "Tre Mila"],
-  [4680, "Quattro Mila Sei Cento Ottanta"],
-  [10000, "Dieci Mila"],
-  [21000, "Ventuno Mila"],
-  [63892, "Sessantatré Mila Otto Cento Novantadue"],
-  [86100, "Ottantasei Mila Cento"],
-  [100000, "Cento Mila"],
-  [500000, "Cinque Cento Mila"],
-  [792581, "Sette Cento Novantadue Mila Cinque Cento Ottantuno"],
+  [1001, "Milleuno"],
+  [1100, "Millecento"],
+  [2000, "Duemila"],
+  [2001, "Duemilauno"],
+  [3000, "Tremila"],
+  [4680, "Quattromilaseicentottanta"],
+  [10000, "Diecimila"],
+  [21000, "Ventunomila"],
+  [63892, "Sessantatrémilaottocentonovantadue"],
+  [86100, "Ottantaseimilacento"],
+  [100000, "Centomila"],
+  [500000, "Cinquecentomila"],
+  [792581, "Settecentonovantaduemilacinquecentottantuno"],
   [1000000, "Un Milione"],
-  [2000000, "Milioni"],
-  [2741034, "Milioni Sette Cento Quarantuno Mila Trentaquattro"],
+  [2000000, "Due Milioni"],
+  [2741034, "Due Milioni Settecentoquarantunomilatrentaquattro"],
   [10000000, "Dieci Milioni"],
-  [86429753, "Ottantasei Milioni Quattro Cento Ventinove Mila Sette Cento Cinquantatré"],
+  [86429753, "Ottantasei Milioni Quattrocentoventinovemilasettecentocinquantatré"],
   [100000000, "Cento Milioni"],
-  [975310864, "Nove Cento Settantacinque Milioni Tre Cento Dieci Mila Otto Cento Sessantaquattro"],
+  [975310864, "Novecentosettantacinque Milioni Trecentodiecimilaottocentosessantaquattro"],
   [1000000000, "Un Miliardo"],
-  [2000000000, "Miliardi"],
+  [2000000000, "Due Miliardi"],
   [
     9876543210,
-    "Nove Miliardi Otto Cento Settantasei Milioni Cinque Cento Quarantatré Mila Due Cento Dieci",
+    "Nove Miliardi Ottocentosettantasei Milioni Cinquecentoquarantatrémiladuecentodieci",
   ],
 ];
 
@@ -142,19 +142,18 @@ describe("Test Negative Integers with options = {}", () => {
   });
 });
 
-
 const testFloats: [number, string][] = [
   [0.0, "Zero"],
   [0.04, "Zero Virgola Zero Quattro"],
   [0.0468, "Zero Virgola Zero Quattro Sei Otto"],
   [0.4, "Zero Virgola Quattro"],
   [0.63, "Zero Virgola Sessantatré"],
-  [0.973, "Zero Virgola Nove Cento Settantatré"],
-  [0.999, "Zero Virgola Nove Cento Novantanove"],
+  [0.973, "Zero Virgola Novecentosettantatré"],
+  [0.999, "Zero Virgola Novecentonovantanove"],
   [37.06, "Trentasette Virgola Zero Sei"],
   [37.068, "Trentasette Virgola Zero Sei Otto"],
   [37.68, "Trentasette Virgola Sessantotto"],
-  [37.683, "Trentasette Virgola Sei Cento Ottantatré"],
+  [37.683, "Trentasette Virgola Seicentottantatré"],
 ];
 
 describe("Test Floats with options = {}", () => {
@@ -162,7 +161,6 @@ describe("Test Floats with options = {}", () => {
     expect(toWords.convert(input as number)).toBe(expected);
   });
 });
-
 
 // Ordinal Tests
 const testOrdinals: [number, string][] = [
@@ -188,9 +186,9 @@ const testOrdinals: [number, string][] = [
   [19, "Diciannovesimo"],
   [20, "Ventesimo"],
   // Composite numbers
-  [21, "Ventuno"],
-  [22, "Ventidue"],
-  [23, "Ventitré"],
+  [21, "Ventunesimo"],
+  [22, "Ventiduesimo"],
+  [23, "Ventitreesimo"],
   // Tens
   [30, "Trentesimo"],
   [40, "Quarantesimo"],
@@ -202,12 +200,12 @@ const testOrdinals: [number, string][] = [
   // Round numbers
   [100, "Centesimo"],
   [1000, "Millesimo"],
-  [1000000, "Un Milionesimo"],
+  [1000000, "Milionesimo"],
   // Complex numbers
-  [101, "Cento Primo"],
-  [110, "Cento Decimo"],
-  [111, "Cento Undicesimo"],
-  [150, "Cento Cinquantesimo"],
+  [101, "Centounesimo"],
+  [110, "Centodiecesimo"],
+  [111, "Centoundicesimo"],
+  [150, "Centocinquantesimo"],
 ];
 
 describe("Test Ordinals", () => {
@@ -258,11 +256,11 @@ describe("Test Powers of Ten", () => {
 const testBoundaryValues: [number, string][] = [
   [99, "Novantanove"],
   [100, "Cento"],
-  [999, "Nove Cento Novantanove"],
+  [999, "Novecentonovantanove"],
   [1000, "Mille"],
-  [999999, "Nove Cento Novantanove Mila Nove Cento Novantanove"],
+  [999999, "Novecentonovantanovemilanovecentonovantanove"],
   [1000000, "Un Milione"],
-  [999999999, "Nove Cento Novantanove Milioni Nove Cento Novantanove Mila Nove Cento Novantanove"],
+  [999999999, "Novecentonovantanove Milioni Novecentonovantanovemilanovecentonovantanove"],
   [1000000000, "Un Miliardo"],
 ];
 
@@ -289,7 +287,6 @@ describe("Test Negative Floats", () => {
   });
 });
 
-
 // BigInt Tests
 const testBigInts: [bigint, string][] = [
   [0n, "Zero"],
@@ -302,7 +299,7 @@ const testBigInts: [bigint, string][] = [
   [1000000000000000n, "Un Biliardo"],
   [
     1234567890123n,
-    "Un Bilione Due Cento Trentaquattro Miliardi Cinque Cento Sessantasette Milioni Otto Cento Novanta Mila Cento Ventitré",
+    "Un Bilione Duecentotrentaquattro Miliardi Cinquecentosessantasette Milioni Ottocentonovantamilacentoventitré",
   ],
 ];
 
@@ -327,7 +324,6 @@ describe("Test Negative BigInt Values", () => {
   });
 });
 
-
 // String Input Tests
 const testStringInputs: [string, string][] = [
   ["0", "Zero"],
@@ -347,7 +343,6 @@ describe("Test String Number Inputs", () => {
     expect(toWords.convert(input)).toBe(expected);
   });
 });
-
 
 // Zero Variants
 describe("Test Zero Variants", () => {
@@ -370,10 +365,7 @@ describe("Test Zero Variants", () => {
   test('converts "0" as Zero', () => {
     expect(toWords.convert("0")).toBe("Zero");
   });
-
-
 });
-
 
 // Invalid Input Tests
 describe("Test Invalid Inputs", () => {

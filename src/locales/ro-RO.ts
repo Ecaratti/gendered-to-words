@@ -58,6 +58,23 @@ export default class Locale implements LocaleInterface {
       { number: 1000000, value: "Un Milion" },
       { number: 1000000000, value: "Un Miliard" },
     ],
+    // Romanian links only the tens and units: "douăzeci și unu", but
+    // "o sută douăzeci și trei" with no conjunction after the hundreds.
+    splitWord: "Și",
+    noSplitWordAfter: [
+      "Sută",
+      "Nouă Sute",
+      "Opt Sute",
+      "Șapte Sute",
+      "Șase Sute",
+      "Cinci Sute",
+      "Patru Sute",
+      "Trei Sute",
+      "Două Sute",
+      "Mii",
+      "Milioane",
+      "Miliarde",
+    ],
     ignoreOneForWords: [
       "Sută",
       "Mii",

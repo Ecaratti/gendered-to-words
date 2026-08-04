@@ -81,7 +81,6 @@ describe("Test Negative Integers with options = {}", () => {
   });
 });
 
-
 const testFloats: [number, string][] = [
   [0.0, "Cero"],
   [0.04, "Cero Punto Cero Cuatro"],
@@ -101,7 +100,6 @@ describe("Test Floats with options = {}", () => {
     expect(toWords.convert(input as number)).toBe(expected);
   });
 });
-
 
 // Ordinal Tests
 const testOrdinals: [number, string][] = [
@@ -127,11 +125,11 @@ const testOrdinals: [number, string][] = [
   [19, "Decimonoveno"],
   [20, "Vigésimo"],
   // Composite numbers (21-29)
-  [21, "Veintiuno"],
-  [22, "Veintidós"],
-  [23, "Veintitrés"],
-  [24, "Veinticuatro"],
-  [25, "Veinticinco"],
+  [21, "Vigésimo Primero"],
+  [22, "Vigésimo Segundo"],
+  [23, "Vigésimo Tercero"],
+  [24, "Vigésimo Cuarto"],
+  [25, "Vigésimo Quinto"],
   // Tens
   [30, "Trigésimo"],
   [40, "Cuadragésimo"],
@@ -151,23 +149,23 @@ const testOrdinals: [number, string][] = [
   [800, "Octingentésimo"],
   [900, "Noningentésimo"],
   [1000, "Milésimo"],
-  [1000000, "Un Millonésimo"],
+  [1000000, "Millonésimo"],
   // Complex numbers
-  [101, "Ciento Primero"],
-  [110, "Ciento Décimo"],
-  [111, "Ciento Decimoprimero"],
-  [123, "Ciento Veintitrés"],
-  [150, "Ciento Quincuagésimo"],
-  [199, "Ciento Noventa Y Noveno"],
-  [256, "Doscientos Cincuenta Y Sexto"],
-  [1001, "Mil Primero"],
-  [1010, "Mil Décimo"],
-  [1100, "Mil Centésimo"],
-  [1234, "Mil Doscientos Treinta Y Cuarto"],
+  [101, "Centésimo Primero"],
+  [110, "Centésimo Décimo"],
+  [111, "Centésimo Decimoprimero"],
+  [123, "Centésimo Vigésimo Tercero"],
+  [150, "Centésimo Quincuagésimo"],
+  [199, "Centésimo Nonagésimo Noveno"],
+  [256, "Ducentésimo Quincuagésimo Sexto"],
+  [1001, "Milésimo Primero"],
+  [1010, "Milésimo Décimo"],
+  [1100, "Milésimo Centésimo"],
+  [1234, "Milésimo Ducentésimo Trigésimo Cuarto"],
   [2000, "Dos Milésimo"],
   [10000, "Diez Milésimo"],
   [100000, "Cien Milésimo"],
-  [1000001, "Un Millon Primero"],
+  [1000001, "Millonésimo Primero"],
 ];
 
 describe("Test Ordinals", () => {
@@ -312,7 +310,6 @@ describe("Test Negative Floats", () => {
   });
 });
 
-
 // BigInt Tests
 const testBigInts: [bigint, string][] = [
   [0n, "Cero"],
@@ -344,7 +341,6 @@ describe("Test Negative BigInt Values", () => {
     expect(toWords.convert(input)).toBe(expected);
   });
 });
-
 
 // String Input Tests
 const testStringInputs: [string, string][] = [
@@ -386,13 +382,9 @@ describe("Test Zero Variants", () => {
   test('converts "0" as Cero', () => {
     expect(toWords.convert("0")).toBe("Cero");
   });
-
-
 });
 
-
 // All Options Combinations
-
 
 // Invalid Input Tests
 describe("Test Invalid Inputs for es-ES", () => {

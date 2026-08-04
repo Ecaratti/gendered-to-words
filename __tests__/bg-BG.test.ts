@@ -120,7 +120,6 @@ describe("Test Floats with options = {}", () => {
   });
 });
 
-
 // Comprehensive Ordinal Tests
 const testOrdinalNumbers: [number, string][] = [
   // Numbers 1-10 (special ordinal forms)
@@ -287,7 +286,6 @@ describe("Test Zero Variants", () => {
   test('convert "0" => Нула', () => {
     expect(toWords.convert("0")).toBe("Нула");
   });
-
 });
 
 // Invalid Input Tests

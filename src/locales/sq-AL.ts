@@ -58,6 +58,8 @@ export default class Locale implements LocaleInterface {
       { number: 1000000, value: "Një Milion" },
       { number: 1000000000, value: "Një Miliard" },
     ],
+    // Albanian links every part: "njëzet e një", "njëqind e njëzet e tre".
+    splitWord: "E",
     ignoreOneForWords: [
       "Njëqind",
       "Dyqind",

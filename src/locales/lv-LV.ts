@@ -57,6 +57,16 @@ export default class Locale implements LocaleInterface {
       { number: 1000000000, value: "miljardais" },
       { number: 1000000, value: "miljonais" },
       { number: 1000, value: "tūkstošais" },
+      // The hundreds are atomic cardinals ("divi simti"), so without their own
+      // ordinals 200th silently rendered as 100th.
+      { number: 900, value: "deviņsimtais" },
+      { number: 800, value: "astoņsimtais" },
+      { number: 700, value: "septiņsimtais" },
+      { number: 600, value: "sešsimtais" },
+      { number: 500, value: "piecsimtais" },
+      { number: 400, value: "četrsimtais" },
+      { number: 300, value: "trīssimtais" },
+      { number: 200, value: "divsimtais" },
       { number: 100, value: "simtais" },
       { number: 90, value: "deviņdesmitais" },
       { number: 80, value: "astoņdesmitais" },
@@ -98,7 +108,9 @@ export default class Locale implements LocaleInterface {
       "astoņi simti",
       "deviņi simti",
     ],
-    exactWordsMapping: [{ number: 100, value: "Simtu" }],
+    // Lowercase, matching the rest of this locale's data — otherwise 1100
+    // reads "viens tūkstotis Simtu".
+    exactWordsMapping: [{ number: 100, value: "simtu" }],
     pluralMark: "i",
     pluralWords: ["kvadriljon", "triljon", "miljard"],
   };

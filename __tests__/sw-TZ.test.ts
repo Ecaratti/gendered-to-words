@@ -24,35 +24,41 @@ describe("Test Locale", () => {
 
 const testIntegers: [number, string][] = [
   [0, "Sifuri"],
-  [137, "Moja Mia Thelathini Saba"],
-  [700, "Saba Mia"],
-  [1100, "Moja Elfu Mia Moja"],
-  [4680, "Nne Elfu Sita Mia Themanini"],
-  [63892, "Sitini Tatu Elfu Nane Mia Tisini Mbili"],
-  [86100, "Themanini Sita Elfu Mia Moja"],
-  [792581, "Saba Mia Tisini Mbili Elfu Tano Mia Themanini Moja"],
-  [2741034, "Mbili Milioni Saba Mia Arobaini Moja Elfu Thelathini Nne"],
-  [86429753, "Themanini Sita Milioni Nne Mia Ishirini Tisa Elfu Saba Mia Hamsini Tatu"],
-  [975310864, "Tisa Mia Sabini Tano Milioni Tatu Mia Kumi Elfu Nane Mia Sitini Nne"],
+  [137, "Mia Moja Na Thelathini Na Saba"],
+  [700, "Mia Saba"],
+  [1100, "Elfu Moja Na Mia Moja"],
+  [4680, "Nne Elfu Na Mia Sita Na Themanini"],
+  [63892, "Sitini Na Tatu Elfu Na Mia Nane Na Tisini Na Mbili"],
+  [86100, "Themanini Na Sita Elfu Na Mia Moja"],
+  [792581, "Mia Saba Na Tisini Na Mbili Elfu Na Mia Tano Na Themanini Na Moja"],
+  [2741034, "Mbili Milioni Na Mia Saba Na Arobaini Na Moja Elfu Na Thelathini Na Nne"],
+  [
+    86429753,
+    "Themanini Na Sita Milioni Na Mia Nne Na Ishirini Na Tisa Elfu Na Mia Saba Na Hamsini Na Tatu",
+  ],
+  [
+    975310864,
+    "Mia Tisa Na Sabini Na Tano Milioni Na Mia Tatu Na Kumi Elfu Na Mia Nane Na Sitini Na Nne",
+  ],
   [
     9876543210,
-    "Tisa Bilioni Nane Mia Sabini Sita Milioni Tano Mia Arobaini Tatu Elfu Mbili Mia Kumi",
+    "Tisa Bilioni Na Mia Nane Na Sabini Na Sita Milioni Na Mia Tano Na Arobaini Na Tatu Elfu Na Mia Mbili Na Kumi",
   ],
   [
     98765432101,
-    "Tisini Nane Bilioni Saba Mia Sitini Tano Milioni Nne Mia Thelathini Mbili Elfu Moja Mia Moja",
+    "Tisini Na Nane Bilioni Na Mia Saba Na Sitini Na Tano Milioni Na Mia Nne Na Thelathini Na Mbili Elfu Na Mia Moja Na Moja",
   ],
   [
     987654321012,
-    "Tisa Mia Themanini Saba Bilioni Sita Mia Hamsini Nne Milioni Tatu Mia Ishirini Moja Elfu Kumi Na Mbili",
+    "Mia Tisa Na Themanini Na Saba Bilioni Na Mia Sita Na Hamsini Na Nne Milioni Na Mia Tatu Na Ishirini Na Moja Elfu Na Kumi Na Mbili",
   ],
   [
     9876543210123,
-    "Tisa Trilioni Nane Mia Sabini Sita Bilioni Tano Mia Arobaini Tatu Milioni Mbili Mia Kumi Elfu Moja Mia Ishirini Tatu",
+    "Tisa Trilioni Na Mia Nane Na Sabini Na Sita Bilioni Na Mia Tano Na Arobaini Na Tatu Milioni Na Mia Mbili Na Kumi Elfu Na Mia Moja Na Ishirini Na Tatu",
   ],
   [
     98765432101234,
-    "Tisini Nane Trilioni Saba Mia Sitini Tano Bilioni Nne Mia Thelathini Mbili Milioni Moja Mia Moja Elfu Mbili Mia Thelathini Nne",
+    "Tisini Na Nane Trilioni Na Mia Saba Na Sitini Na Tano Bilioni Na Mia Nne Na Thelathini Na Mbili Milioni Na Mia Moja Na Moja Elfu Na Mia Mbili Na Thelathini Na Nne",
   ],
 ];
 
@@ -82,13 +88,13 @@ const testFloats: [number, string][] = [
   [0.04, "Sifuri Nukta Sifuri Nne"],
   [0.0468, "Sifuri Nukta Sifuri Nne Sita Nane"],
   [0.4, "Sifuri Nukta Nne"],
-  [0.63, "Sifuri Nukta Sitini Tatu"],
-  [0.973, "Sifuri Nukta Tisa Mia Sabini Tatu"],
-  [0.999, "Sifuri Nukta Tisa Mia Tisini Tisa"],
-  [37.06, "Thelathini Saba Nukta Sifuri Sita"],
-  [37.068, "Thelathini Saba Nukta Sifuri Sita Nane"],
-  [37.68, "Thelathini Saba Nukta Sitini Nane"],
-  [37.683, "Thelathini Saba Nukta Sita Mia Themanini Tatu"],
+  [0.63, "Sifuri Nukta Sitini Na Tatu"],
+  [0.973, "Sifuri Nukta Mia Tisa Na Sabini Na Tatu"],
+  [0.999, "Sifuri Nukta Mia Tisa Na Tisini Na Tisa"],
+  [37.06, "Thelathini Na Saba Nukta Sifuri Sita"],
+  [37.068, "Thelathini Na Saba Nukta Sifuri Sita Nane"],
+  [37.68, "Thelathini Na Saba Nukta Sitini Na Nane"],
+  [37.683, "Thelathini Na Saba Nukta Mia Sita Na Themanini Na Tatu"],
 ];
 
 describe("Test Floats with options = {}", () => {
@@ -96,7 +102,6 @@ describe("Test Floats with options = {}", () => {
     expect(toWords.convert(input as number)).toBe(expected);
   });
 });
-
 
 // Comprehensive Ordinal Tests
 const testOrdinalNumbers: [number, string][] = [
@@ -123,9 +128,9 @@ const testOrdinalNumbers: [number, string][] = [
   [20, "Wa Ishirini"],
 
   // Composite numbers (21-29, 30, 40, 50, etc.)
-  [21, "Ishirini Wa Kwanza"],
-  [22, "Ishirini Wa Pili"],
-  [23, "Ishirini Wa Tatu"],
+  [21, "Ishirini Na Wa Kwanza"],
+  [22, "Ishirini Na Wa Pili"],
+  [23, "Ishirini Na Wa Tatu"],
   [30, "Wa Thelathini"],
   [40, "Wa Arobaini"],
   [50, "Wa Hamsini"],
@@ -135,19 +140,19 @@ const testOrdinalNumbers: [number, string][] = [
   [90, "Wa Tisini"],
 
   // Numbers ending in 1, 2, 3 (various decades)
-  [31, "Thelathini Wa Kwanza"],
-  [32, "Thelathini Wa Pili"],
-  [33, "Thelathini Wa Tatu"],
-  [41, "Arobaini Wa Kwanza"],
-  [42, "Arobaini Wa Pili"],
-  [43, "Arobaini Wa Tatu"],
-  [51, "Hamsini Wa Kwanza"],
-  [52, "Hamsini Wa Pili"],
-  [53, "Hamsini Wa Tatu"],
+  [31, "Thelathini Na Wa Kwanza"],
+  [32, "Thelathini Na Wa Pili"],
+  [33, "Thelathini Na Wa Tatu"],
+  [41, "Arobaini Na Wa Kwanza"],
+  [42, "Arobaini Na Wa Pili"],
+  [43, "Arobaini Na Wa Tatu"],
+  [51, "Hamsini Na Wa Kwanza"],
+  [52, "Hamsini Na Wa Pili"],
+  [53, "Hamsini Na Wa Tatu"],
 
   // Round numbers (100, 200, 1000, etc.)
   [100, "Wa Mia Moja"],
-  [200, "Mbili Wa Mia"],
+  [200, "Wa Mia Mbili"],
   [1000, "Wa Elfu Moja"],
   [10000, "Kumi Wa Elfu"],
   [100000, "Mia Moja Wa Elfu"],
@@ -155,19 +160,19 @@ const testOrdinalNumbers: [number, string][] = [
   [10000000, "Kumi Wa Milioni"],
 
   // Numbers in the hundreds with endings
-  [101, "Moja Mia Wa Kwanza"],
-  [102, "Moja Mia Wa Pili"],
-  [103, "Moja Mia Wa Tatu"],
-  [111, "Moja Mia Wa Kumi Na Moja"],
-  [112, "Moja Mia Wa Kumi Na Mbili"],
-  [113, "Moja Mia Wa Kumi Na Tatu"],
-  [123, "Moja Mia Ishirini Wa Tatu"],
+  [101, "Mia Moja Na Wa Kwanza"],
+  [102, "Mia Moja Na Wa Pili"],
+  [103, "Mia Moja Na Wa Tatu"],
+  [111, "Mia Moja Na Wa Kumi Na Moja"],
+  [112, "Mia Moja Na Wa Kumi Na Mbili"],
+  [113, "Mia Moja Na Wa Kumi Na Tatu"],
+  [123, "Mia Moja Na Ishirini Na Wa Tatu"],
 
   // Complex numbers
-  [1001, "Moja Elfu Wa Kwanza"],
-  [1111, "Moja Elfu Moja Mia Wa Kumi Na Moja"],
-  [1234, "Moja Elfu Mbili Mia Thelathini Wa Nne"],
-  [12345, "Kumi Na Mbili Elfu Tatu Mia Arobaini Wa Tano"],
+  [1001, "Elfu Moja Na Wa Kwanza"],
+  [1111, "Elfu Moja Na Mia Moja Na Wa Kumi Na Moja"],
+  [1234, "Elfu Moja Na Mia Mbili Na Thelathini Na Wa Nne"],
+  [12345, "Kumi Na Mbili Elfu Na Mia Tatu Na Arobaini Na Wa Tano"],
 ];
 
 describe("Test Ordinal Numbers", () => {
@@ -276,7 +281,6 @@ describe("Test Zero Variants", () => {
   test('convert "0" => Sifuri', () => {
     expect(toWords.convert("0")).toBe("Sifuri");
   });
-
 });
 
 // Invalid Input Tests

@@ -131,7 +131,6 @@ describe("Test Floats with options = {}", () => {
   });
 });
 
-
 describe("Ordinal Tests", () => {
   const toWordsOrdinal = new ToWords({
     localeCode: "ar-SA",
@@ -161,19 +160,19 @@ describe("Ordinal Tests", () => {
     [19, "التاسع عشر"],
     [20, "العشرون"],
     // Composite numbers
-    [21, "واحد و عشرون"],
-    [25, "خمسة و عشرون"],
+    [21, "الحادي و العشرون"],
+    [25, "الخامس و العشرون"],
     [30, "الثلاثون"],
-    [42, "اثنان و أربعون"],
+    [42, "الثاني و الأربعون"],
     [50, "الخمسون"],
-    [99, "تسعة و تسعون"],
+    [99, "التاسع و التسعون"],
     // Round numbers
     [100, "المائة"],
     [1000, "الألف"],
     [1000000, "المليون"],
     // Complex numbers
-    [123, "مائة و ثلاثة و عشرون"],
-    [1001, "ألف و الأول"],
+    [123, "الثالث و العشرون و المائة"],
+    [1001, "الحادي و الألف"],
   ];
 
   test.each(testOrdinals)("Number: %d => %s", (input, expected) => {
@@ -303,7 +302,6 @@ describe("Test Negative BigInt Values", () => {
   });
 });
 
-
 // String Input Tests
 const testStringInputs: [string, string][] = [
   ["0", "صفر"],
@@ -344,13 +342,9 @@ describe("Test Zero Variants", () => {
   test('converts "0" as صفر', () => {
     expect(toWords.convert("0")).toBe("صفر");
   });
-
-
 });
 
-
 // All Options Combinations
-
 
 // Invalid Input Tests
 describe("Test Invalid Inputs for ar-SA", () => {

@@ -24,32 +24,35 @@ describe("Test Locale", () => {
 
 const testIntegers: [number, string][] = [
   [0, "Null"],
-  [137, "Hundre Trettisju"],
+  [137, "Hundre Og Trettisju"],
   [700, "Sju Hundre"],
   [1100, "Tusen Hundre"],
-  [4680, "Fire Tusen Seks Hundre Åtti"],
-  [63892, "Sekstitre Tusen Åtte Hundre Nittito"],
+  [4680, "Fire Tusen Seks Hundre Og Åtti"],
+  [63892, "Sekstitre Tusen Åtte Hundre Og Nittito"],
   [86100, "Åttiseks Tusen Hundre"],
-  [792581, "Sju Hundre Nittito Tusen Fem Hundre Åttien"],
-  [2741034, "To Million Sju Hundre Førtien Tusen Trettifire"],
-  [86429753, "Åttiseks Million Fire Hundre Tjueni Tusen Sju Hundre Femtitre"],
-  [975310864, "Ni Hundre Syttifem Million Tre Hundre Ti Tusen Åtte Hundre Sekstifire"],
-  [9876543210, "Ni Milliard Åtte Hundre Syttiseks Million Fem Hundre Førtitre Tusen To Hundre Ti"],
+  [792581, "Sju Hundre Og Nittito Tusen Fem Hundre Og Åttien"],
+  [2741034, "To Million Sju Hundre Og Førtien Tusen Trettifire"],
+  [86429753, "Åttiseks Million Fire Hundre Og Tjueni Tusen Sju Hundre Og Femtitre"],
+  [975310864, "Ni Hundre Og Syttifem Million Tre Hundre Og Ti Tusen Åtte Hundre Og Sekstifire"],
+  [
+    9876543210,
+    "Ni Milliard Åtte Hundre Og Syttiseks Million Fem Hundre Og Førtitre Tusen To Hundre Og Ti",
+  ],
   [
     98765432101,
-    "Nittiåtte Milliard Sju Hundre Sekstifem Million Fire Hundre Trettito Tusen Hundre En",
+    "Nittiåtte Milliard Sju Hundre Og Sekstifem Million Fire Hundre Og Trettito Tusen Hundre Og En",
   ],
   [
     987654321012,
-    "Ni Hundre Åttisju Milliard Seks Hundre Femtifire Million Tre Hundre Tjueen Tusen Tolv",
+    "Ni Hundre Og Åttisju Milliard Seks Hundre Og Femtifire Million Tre Hundre Og Tjueen Tusen Tolv",
   ],
   [
     9876543210123,
-    "Ni Billion Åtte Hundre Syttiseks Milliard Fem Hundre Førtitre Million To Hundre Ti Tusen Hundre Tjuetre",
+    "Ni Billion Åtte Hundre Og Syttiseks Milliard Fem Hundre Og Førtitre Million To Hundre Og Ti Tusen Hundre Og Tjuetre",
   ],
   [
     98765432101234,
-    "Nittiåtte Billion Sju Hundre Sekstifem Milliard Fire Hundre Trettito Million Hundre En Tusen To Hundre Trettifire",
+    "Nittiåtte Billion Sju Hundre Og Sekstifem Milliard Fire Hundre Og Trettito Million Hundre Og En Tusen To Hundre Og Trettifire",
   ],
 ];
 
@@ -79,12 +82,12 @@ const testFloats: [number, string][] = [
   [0.04, "Null Komma Null Fire"],
   [0.0468, "Null Komma Null Fire Seks Åtte"],
   [0.4, "Null Komma Fire"],
-  [0.973, "Null Komma Ni Hundre Syttitre"],
-  [0.999, "Null Komma Ni Hundre Nittini"],
+  [0.973, "Null Komma Ni Hundre Og Syttitre"],
+  [0.999, "Null Komma Ni Hundre Og Nittini"],
   [37.06, "Trettisju Komma Null Seks"],
   [37.068, "Trettisju Komma Null Seks Åtte"],
   [37.68, "Trettisju Komma Sekstiåtte"],
-  [37.683, "Trettisju Komma Seks Hundre Åttitre"],
+  [37.683, "Trettisju Komma Seks Hundre Og Åttitre"],
 ];
 
 describe("Test Floats with options = {}", () => {
@@ -92,7 +95,6 @@ describe("Test Floats with options = {}", () => {
     expect(toWords.convert(input as number)).toBe(expected);
   });
 });
-
 
 const testOrdinals: [number, string][] = [
   // Numbers 0-10
@@ -140,13 +142,13 @@ const testOrdinals: [number, string][] = [
   [1000000, "En Millionte"],
   [2000000, "To Millionte"],
   // Complex numbers
-  [101, "Hundre Første"],
-  [102, "Hundre Andre"],
-  [111, "Hundre Ellevte"],
-  [123, "Hundre Tjuetredje"],
-  [150, "Hundre Femtiende"],
+  [101, "Hundre Og Første"],
+  [102, "Hundre Og Andre"],
+  [111, "Hundre Og Ellevte"],
+  [123, "Hundre Og Tjuetredje"],
+  [150, "Hundre Og Femtiende"],
   [1001, "Tusen Første"],
-  [1234, "Tusen To Hundre Trettifjerde"],
+  [1234, "Tusen To Hundre Og Trettifjerde"],
   [1500, "Tusen Fem Hundrede"],
   [10000, "Ti Tusende"],
   [100000, "Hundre Tusende"],
@@ -285,7 +287,6 @@ describe("Test Zero Variants", () => {
   test("Zero as string", () => {
     expect(toWords.convert("0")).toBe("Null");
   });
-
 });
 
 const testInvalidInputs: [unknown, string][] = [

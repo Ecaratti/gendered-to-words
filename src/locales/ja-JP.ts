@@ -49,6 +49,8 @@ export default class Locale implements LocaleInterface {
       { number: 1, value: "一" },
       { number: 0, value: "零" },
     ],
+    // Japanese numerals are written solid, with no spaces.
+    trim: true,
     ignoreOneForWords: [
       "十",
       "百",

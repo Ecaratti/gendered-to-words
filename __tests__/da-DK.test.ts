@@ -99,7 +99,6 @@ describe("Test Floats with options = {}", () => {
   });
 });
 
-
 const testOrdinals: [number, string][] = [
   // Numbers 0-10
   [0, "Nulte"],
@@ -307,7 +306,6 @@ describe("Test Zero Variants", () => {
   test("Zero as string", () => {
     expect(toWords.convert("0")).toBe("Nul");
   });
-
 });
 
 describe("Test Invalid Inputs", () => {

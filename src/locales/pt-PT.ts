@@ -74,6 +74,9 @@ export default class Locale implements LocaleInterface {
     ],
     splitWord: "E",
     noSplitWordAfter: ["Mil", "Milhões", "Mil Milhões", "Trilhões", "Quatrilhões"],
+    // Portuguese inflects every element: 42º is "quadragésimo segundo", not
+    // the cardinal "quarenta e dois" with one word swapped.
+    ordinalDerivation: { scope: "components" },
     ordinalWordsMapping: [
       { number: 1000000000000, value: "Trilionésimo" },
       { number: 1000000000, value: "Milésimo Milionésimo" },

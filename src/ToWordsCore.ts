@@ -61,6 +61,18 @@ interface LocaleCache {
   pluralWordsOnlyWhenTrailingSet: Set<string>;
   ignoreOneForWordsSet: Set<string>;
   noSplitWordAfterSet: Set<string>;
+  // Word classes used by the join step (hyphenation, "and" insertion). Built
+  // from the locale's own data so no language list is hard-coded here.
+  tensWordsSet: Set<string>; // cardinal words for 20, 30, … 90
+  unitsWordsSet: Set<string>; // cardinal + ordinal words for 1–9
+  subHundredWordsSet: Set<string>; // cardinal + ordinal words for 1–99
+  largeWordsSet: Set<string>; // cardinal + ordinal words for 100 and above
+  scaleWordsSet: Set<string>; // words for 1000 and above, which end a group
+  separateWordsSet: Set<string>; // scale nouns exempt from concatenation
+  // Ordinal lookup, mirroring exactWordsMap/smallNumbersMap for cardinals
+  ordinalWordsMap: Map<number, string>;
+  ordinalExactWordsMap: Map<number, string>;
+  ordinalComponentNumbers: number[]; // ordinalWordsMapping numbers, descending
 }
 
 // Global cache for all locales (computed once per locale)
@@ -186,6 +198,83 @@ export class ToWordsCore {
     const ignoreOneForWordsSet = new Set<string>(config.ignoreOneForWords ?? []);
     const noSplitWordAfterSet = new Set<string>(config.noSplitWordAfter ?? []);
 
+    // Ordinal lookups, keyed by Number. Ordinals are capped at Number range by
+    // toOrdinal(), so a number key is safe and avoids BigInt churn here.
+    const ordinalWordsMap = new Map<number, string>();
+    const ordinalComponentNumbers: number[] = [];
+    for (const elem of config.ordinalWordsMapping ?? []) {
+      const key = Number(elem.number);
+      if (Number.isSafeInteger(key)) {
+        ordinalWordsMap.set(key, elem.value);
+        ordinalComponentNumbers.push(key);
+      }
+    }
+    ordinalComponentNumbers.sort((a, b) => b - a);
+
+    const ordinalExactWordsMap = new Map<number, string>();
+    for (const elem of config.ordinalExactWordsMapping ?? []) {
+      ordinalExactWordsMap.set(Number(elem.number), elem.value);
+    }
+
+    // Word classes for the join step. A cardinal `value` may be a
+    // [nonTrailing, trailing] pair; both spellings must be recognised.
+    const tensWordsSet = new Set<string>();
+    const unitsWordsSet = new Set<string>();
+    const subHundredWordsSet = new Set<string>();
+    const addWord = (target: Set<string>, value: string | [string, string]): void => {
+      if (Array.isArray(value)) {
+        target.add(value[0]);
+        target.add(value[1]);
+      } else {
+        target.add(value);
+      }
+    };
+    const largeWordsSet = new Set<string>();
+    const scaleWordsSet = new Set<string>();
+    for (const elem of config.numberWordsMapping) {
+      const key = Number(elem.number);
+      if (key >= 1000 || elem.number >= BIGINT_1000) {
+        addWord(scaleWordsSet, elem.value);
+        if (elem.singularValue) {
+          scaleWordsSet.add(elem.singularValue);
+        }
+      }
+      if (key >= 1 && key <= 99) {
+        addWord(subHundredWordsSet, elem.value);
+        if (key <= 9) {
+          addWord(unitsWordsSet, elem.value);
+        } else if (key >= 20 && key % 10 === 0) {
+          addWord(tensWordsSet, elem.value);
+        }
+      } else if (key >= 100 || elem.number > BIGINT_100) {
+        addWord(largeWordsSet, elem.value);
+        if (elem.singularValue) {
+          largeWordsSet.add(elem.singularValue);
+        }
+      }
+    }
+    // Plural/scale spellings ("Millionen", "Milliarden") are large words too.
+    for (const [scale, forms] of Object.entries(config.pluralForms ?? {})) {
+      for (const form of [forms.dual, forms.paucal, forms.plural]) {
+        if (form) {
+          largeWordsSet.add(form);
+          if (Number(scale) >= 1000) {
+            scaleWordsSet.add(form);
+          }
+        }
+      }
+    }
+    for (const [key, value] of ordinalWordsMap) {
+      if (key >= 1 && key <= 99) {
+        subHundredWordsSet.add(value);
+        if (key <= 9) {
+          unitsWordsSet.add(value);
+        }
+      } else if (key >= 100) {
+        largeWordsSet.add(value);
+      }
+    }
+
     localeCache.set(locale, {
       numberWordsMappingBigInt,
       exactWordsMap,
@@ -196,6 +285,15 @@ export class ToWordsCore {
       pluralWordsOnlyWhenTrailingSet,
       ignoreOneForWordsSet,
       noSplitWordAfterSet,
+      tensWordsSet,
+      unitsWordsSet,
+      subHundredWordsSet,
+      largeWordsSet,
+      scaleWordsSet,
+      separateWordsSet: new Set<string>(config.concatenation?.separateWords ?? []),
+      ordinalWordsMap,
+      ordinalExactWordsMap,
+      ordinalComponentNumbers,
     });
   }
 
@@ -213,7 +311,7 @@ export class ToWordsCore {
     const baseOptions = this.options.converterOptions;
     const mergedOptions: ConverterOptions =
       Object.keys(options).length === 0
-        ? baseOptions ?? {}
+        ? (baseOptions ?? {})
         : {
             ignoreDecimal: options.ignoreDecimal ?? baseOptions?.ignoreDecimal ?? false,
             gender: options.gender ?? baseOptions?.gender,
@@ -231,19 +329,144 @@ export class ToWordsCore {
       numericValue = Math.trunc(numericValue as number);
     }
 
-    const words = this.convertNumber(numericValue);
+    const segments = this.convertNumberSegments(numericValue);
 
-    let result: string;
-    if (this.locale?.config.trim) {
-      result = words.join("");
-    } else {
-      result = words.join(" ");
-    }
+    let result = this.formatSegments(segments, this.getLocale());
 
     if (mergedOptions.lowercase) {
       result = this.toLocaleLowercase(result);
     }
 
+    return result;
+  }
+
+  /**
+   * Assemble converted tokens into the locale's written form.
+   *
+   * Three joining conventions are supported, all driven by locale data:
+   *  - concatenation (German/Dutch/Italian: "Einhunderteins"), where scale
+   *    nouns listed in `concatenation.separateWords` still take spaces;
+   *  - `trim` (CJK), a plain zero-separator join;
+   *  - spaced, optionally hyphenating tens+units (English "Twenty-One").
+   */
+  /**
+   * Format independently-written segments and space-join them.
+   *
+   * The split matters only for concatenating locales: "null Komma null vier"
+   * is four written words, while the numeral inside each segment glues into
+   * one ("neunhundertdreiundsiebzig"). A flat token list cannot tell the two
+   * apart — both arrive as several tokens.
+   */
+  protected formatSegments(
+    segments: string[][],
+    localeInstance: InstanceType<ConstructorOf<LocaleInterface>>
+  ): string {
+    return segments
+      .filter((segment) => segment.length > 0)
+      .map((segment) => this.formatWords(segment, localeInstance))
+      .join(localeInstance.config.trim ? "" : " ");
+  }
+
+  protected formatWords(
+    words: string[],
+    localeInstance: InstanceType<ConstructorOf<LocaleInterface>>
+  ): string {
+    const config = localeInstance.config;
+
+    if (config.concatenation) {
+      return this.concatenateWords(words, localeInstance);
+    }
+    if (config.trim) {
+      return words.join("");
+    }
+    if (config.join?.hyphenateTensUnits) {
+      const cache = this.getLocaleCache(localeInstance);
+      let result = words[0] ?? "";
+      for (let i = 1; i < words.length; i++) {
+        const hyphenate = cache.tensWordsSet.has(words[i - 1]) && cache.unitsWordsSet.has(words[i]);
+        result += (hyphenate ? "-" : " ") + words[i];
+      }
+      return result;
+    }
+    return words.join(" ");
+  }
+
+  /**
+   * Glue tokens into a single orthographic word. Locale data is Title Cased,
+   * so every token after the one that opens a glued run is lowercased —
+   * otherwise "Hundert" + "Eins" would read "HundertEins".
+   */
+  private concatenateWords(
+    words: string[],
+    localeInstance: InstanceType<ConstructorOf<LocaleInterface>>
+  ): string {
+    const { lowercaseAfterFirst, elisions } = localeInstance.config.concatenation!;
+    const cache = this.getLocaleCache(localeInstance);
+
+    let result = "";
+    // True when the next token opens a new orthographic word and must keep
+    // the casing the locale data supplies.
+    let startsWord = true;
+
+    for (let i = 0; i < words.length; i++) {
+      const word = words[i];
+      const isSeparate = cache.separateWordsSet.has(word);
+
+      if (i === 0) {
+        result = word;
+      } else if (isSeparate || startsWord) {
+        result += ` ${word}`;
+      } else {
+        result += lowercaseAfterFirst ? this.toLocaleLowercase(word) : word;
+      }
+      // A separate word stands alone, so whatever follows opens a new word.
+      startsWord = isSeparate;
+    }
+
+    for (const elision of elisions ?? []) {
+      result = result.replace(elision.match, elision.replace);
+    }
+    return result;
+  }
+
+  /**
+   * Insert the locale's "and" word before a trailing sub-hundred group, as in
+   * en-GB "One Hundred And One". Requires a word for 100-or-more immediately
+   * before the group, which keeps it off bare tens ("Twenty One") and off the
+   * minus prefix ("Minus Twenty One").
+   */
+  protected applyAndWord(
+    words: string[],
+    localeInstance: InstanceType<ConstructorOf<LocaleInterface>>
+  ): string[] {
+    const andWord = localeInstance.config.join?.andWord;
+    if (!andWord || words.length < 2) {
+      return words;
+    }
+    const cache = this.getLocaleCache(localeInstance);
+    const result: string[] = [];
+
+    for (let i = 0; i < words.length; i++) {
+      // A maximal run of sub-hundred words takes "and" when it is the tail of
+      // its scale group: something 100-or-more precedes it, and it is followed
+      // by a scale word or nothing. The trailing test is what separates the
+      // remainder in "one thousand and one" from the multiplier in "one
+      // thousand one hundred", which reads the same at token level.
+      if (
+        cache.subHundredWordsSet.has(words[i]) &&
+        i > 0 &&
+        cache.largeWordsSet.has(words[i - 1])
+      ) {
+        let end = i;
+        while (end < words.length && cache.subHundredWordsSet.has(words[end])) {
+          end++;
+        }
+        if (end === words.length || cache.scaleWordsSet.has(words[end])) {
+          result.push(andWord);
+        }
+      }
+      result.push(words[i]);
+    }
     return result;
   }
 
@@ -343,13 +566,17 @@ export class ToWordsCore {
     }
 
     // Check if locale supports ordinals
-    if (!localeConfig.ordinalWordsMapping && !localeConfig.ordinalSuffix) {
+    if (
+      !localeConfig.ordinalWordsMapping &&
+      !localeConfig.ordinalSuffix &&
+      !localeConfig.ordinalPrefix
+    ) {
       throw new Error(`Ordinal conversion not supported for locale "${this.options.localeCode}"`);
     }
 
-    const words = this.convertOrdinal(numValue, options, locale);
+    const words = this.applyAndWord(this.convertOrdinal(numValue, options, locale), locale);
 
-    let result = localeConfig.trim ? words.join("") : words.join(" ");
+    let result = this.formatWords(words, locale);
 
     if (options.lowercase) {
       result = this.toLocaleLowercase(result);
@@ -364,53 +591,163 @@ export class ToWordsCore {
     localeInstance: InstanceType<ConstructorOf<LocaleInterface>>
   ): string[] {
     const localeConfig = localeInstance.config;
+    const cache = this.getLocaleCache(localeInstance);
 
-    // Check exact ordinal mapping first (for special cases like 100 that need special wording)
-    if (localeConfig.ordinalExactWordsMapping) {
-      const exactMatch = localeConfig.ordinalExactWordsMapping.find((m) => m.number === number);
-      if (exactMatch) {
-        return [exactMatch.value];
+    // Exact mapping wins outright: it carries forms that are only correct
+    // standalone (French "Premier" for 1, where compounds want "Unième").
+    const exact = cache.ordinalExactWordsMap.get(number);
+    if (exact !== undefined) {
+      return [exact];
+    }
+
+    // Particle languages mark the whole numeral, not a component of it.
+    if (localeConfig.ordinalPrefix) {
+      const cardinal = this.convertInternal(BigInt(number), true, undefined, localeInstance);
+      return [localeConfig.ordinalPrefix + cardinal.join("")];
+    }
+
+    // Languages that inflect every additive component ignore the cardinal
+    // spelling entirely — Spanish "Cuadragésimo Segundo" shares no token with
+    // the cardinal "Cuarenta Y Dos".
+    if (localeConfig.ordinalDerivation?.scope === "components") {
+      const components = this.decomposeOrdinalComponents(number, localeInstance);
+      if (components) {
+        return components;
       }
     }
 
-    // For simple numbers (0-20), use direct ordinal mapping
-    if (number <= 20 && localeConfig.ordinalWordsMapping) {
-      const ordinalMatch = localeConfig.ordinalWordsMapping.find((m) => m.number === number);
-      if (ordinalMatch) {
-        return [ordinalMatch.value];
-      }
-    }
-
-    // For composite numbers (like 21, 1000, 1234), convert to cardinal then modify last component
-    // Strategy: Convert the number to cardinal, then find the last component and replace it with ordinal
     const cardinalWords = this.convertInternal(BigInt(number), true, undefined, localeInstance);
 
-    // Convert the last word to its ordinal form.
-    // For composite numbers like 21 (Twenty One), only "One" should become "First".
-    // For 1000 (One Thousand), "Thousand" becomes "Thousandth".
+    // Languages that inflect the fully written-out numeral need it assembled
+    // first: Italian 101 is "Centouno" → "Centounesimo", which no per-token
+    // rewrite can reach because "Cento" and "Uno" are still separate here.
+    if (localeConfig.ordinalDerivation?.scope === "whole") {
+      const written = this.formatWords(cardinalWords, localeInstance);
+      return [this.ordinalizeToken(number, written, localeInstance)];
+    }
+
+    // A single token means the whole number is written as one word, so the
+    // inflection applies to it directly: German "Zweiundvierzigste" from the
+    // table, Italian "Quarantaduesimo" derived from "Quarantadue".
+    if (cardinalWords.length === 1) {
+      return [this.ordinalizeToken(number, cardinalWords[0], localeInstance)];
+    }
+
+    // Otherwise only the final token carries the ordinal: "Forty | Second",
+    // "One | Thousandth".
     const lastWordIndex = cardinalWords.length - 1;
-    const lastWord = cardinalWords[lastWordIndex];
-
-    // Find what number the last word represents
     const lastNumberComponent = this.getLastNumberComponent(number, localeConfig, localeInstance);
+    cardinalWords[lastWordIndex] = this.ordinalizeToken(
+      lastNumberComponent,
+      cardinalWords[lastWordIndex],
+      localeInstance
+    );
+    return cardinalWords;
+  }
 
-    // Try to find ordinal mapping for the last component
-    if (localeConfig.ordinalWordsMapping) {
-      const ordinalMatch = localeConfig.ordinalWordsMapping.find(
-        (m) => m.number === lastNumberComponent
-      );
-      if (ordinalMatch) {
-        cardinalWords[lastWordIndex] = ordinalMatch.value;
-        return cardinalWords;
+  /**
+   * Ordinal form of a single component.
+   *
+   * Tries the locale's table, then its derivation rules, then a blanket
+   * `ordinalSuffix`. Throws when none apply: returning the cardinal unchanged
+   * (the previous behaviour) produced silently wrong output — "Ventuno" for
+   * Italian 21st — with no way for a caller to detect it.
+   */
+  protected ordinalizeToken(
+    componentNumber: number,
+    cardinalToken: string,
+    localeInstance: InstanceType<ConstructorOf<LocaleInterface>>
+  ): string {
+    const localeConfig = localeInstance.config;
+    const tableMatch = this.getLocaleCache(localeInstance).ordinalWordsMap.get(componentNumber);
+    if (tableMatch !== undefined) {
+      return tableMatch;
+    }
+
+    for (const rule of localeConfig.ordinalDerivation?.rules ?? []) {
+      if (rule.match.test(cardinalToken)) {
+        return cardinalToken.replace(rule.match, rule.replace);
       }
     }
 
-    // If ordinalSuffix is available, use it
     if (localeConfig.ordinalSuffix) {
-      cardinalWords[lastWordIndex] = lastWord + localeConfig.ordinalSuffix;
+      return cardinalToken + localeConfig.ordinalSuffix;
     }
 
-    return cardinalWords;
+    throw new Error(
+      `Ordinal conversion not supported for "${componentNumber}" in locale "${
+        localeConfig.localeCode ?? this.options.localeCode
+      }": no ordinalWordsMapping entry, derivation rule, or ordinalSuffix applies`
+    );
+  }
+
+  /**
+   * Split a number into the additive components an "every component" language
+   * inflects, and return each already in ordinal form.
+   *
+   * Atoms come from `ordinalWordsMapping`, which is what makes Spanish 21
+   * decompose as 20 + 1 ("Vigésimo Primero") even though its cardinal 21 is
+   * the single word "Veintiuno". Scale entries (1000 and up) take a cardinal
+   * multiplier when the quotient exceeds one: 2001 → "Dos Milésimo Primero".
+   *
+   * Returns undefined when the number cannot be decomposed, letting the
+   * caller fall back to the last-token strategy.
+   */
+  private decomposeOrdinalComponents(
+    number: number,
+    localeInstance: InstanceType<ConstructorOf<LocaleInterface>>
+  ): string[] | undefined {
+    const cache = this.getLocaleCache(localeInstance);
+    const derivation = localeInstance.config.ordinalDerivation!;
+    const atoms = cache.ordinalComponentNumbers;
+    if (atoms.length === 0) {
+      return undefined;
+    }
+
+    // Each entry is one component's words, kept grouped so the whole component
+    // can be reordered and joined without splitting multi-word scale forms.
+    const components: string[][] = [];
+    let remainder = number;
+
+    while (remainder > 0) {
+      const atom = atoms.find((candidate) => candidate > 0 && candidate <= remainder);
+      if (atom === undefined) {
+        return undefined;
+      }
+      const ordinalWord = cache.ordinalWordsMap.get(atom)!;
+
+      // Multipliable units (hundreds and up) take a cardinal quotient rather
+      // than being subtracted repeatedly, which would turn 200 into
+      // "hundredth and hundredth" wherever the table lacks its own 200 entry.
+      if (atom >= 100) {
+        const quotient = Math.floor(remainder / atom);
+        const words =
+          quotient > 1
+            ? this.convertInternal(BigInt(quotient), false, undefined, localeInstance)
+            : [];
+        components.push([...words, ordinalWord]);
+        remainder -= quotient * atom;
+      } else {
+        components.push([ordinalWord]);
+        remainder -= atom;
+      }
+    }
+
+    if (components.length === 0) {
+      return undefined;
+    }
+    if (derivation.componentOrder === "ascending") {
+      components.reverse();
+    }
+
+    const result: string[] = [];
+    for (const component of components) {
+      if (result.length > 0 && derivation.componentJoin) {
+        result.push(derivation.componentJoin);
+      }
+      result.push(...component);
+    }
+    return result;
   }
 
   protected getLastNumberComponent(
@@ -470,7 +807,12 @@ export class ToWordsCore {
     return number % 10;
   }
 
-  protected convertNumber(number: number | bigint): string[] {
+  /**
+   * Convert a number into independently-written segments: the sign word, the
+   * integer numeral, the decimal-point word, and the fractional part (whose
+   * leading-zero form reads digit by digit, each its own written word).
+   */
+  protected convertNumberSegments(number: number | bigint): string[][] {
     const locale = this.getLocale();
     const localeConfig = locale.config;
 
@@ -500,36 +842,37 @@ export class ToWordsCore {
       words = [];
     }
 
-    const wordsWithDecimal: string[] = [];
+    const decimalSegments: string[][] = [];
     if (isFloat) {
       if (!ignoreZero) {
-        wordsWithDecimal.push(localeConfig.texts.point);
+        decimalSegments.push([localeConfig.texts.point]);
       }
       if (fractionalPart.startsWith("0") && !localeConfig?.decimalLengthWordMapping) {
-        const zeroWords: string[] = [];
+        // Read digit by digit; each digit is its own written word.
         for (const num of fractionalPart) {
-          zeroWords.push(...this.convertInternal(BigInt(num), true, undefined, locale));
+          decimalSegments.push(this.convertInternal(BigInt(num), true, undefined, locale));
         }
-        wordsWithDecimal.push(...zeroWords);
       } else {
-        wordsWithDecimal.push(
-          ...this.convertInternal(BigInt(fractionalPart), true, undefined, locale)
-        );
+        decimalSegments.push(this.convertInternal(BigInt(fractionalPart), true, undefined, locale));
         const decimalLengthWord = localeConfig?.decimalLengthWordMapping?.[fractionalPart.length];
         if (decimalLengthWord) {
-          wordsWithDecimal.push(decimalLengthWord);
+          decimalSegments.push([decimalLengthWord]);
         }
       }
     }
+    // Applied to the integer part only: "one hundred and one point five",
+    // never "point sixty and three".
+    words = this.applyAndWord(words, locale);
+
+    const segments: string[][] = [];
     const isEmpty = words.length <= 0;
     if (!isEmpty && isNegativeNumber) {
-      words.unshift(localeConfig.texts.minus);
+      segments.push([localeConfig.texts.minus]);
     }
-    words.push(...wordsWithDecimal);
-    return words;
+    segments.push(words);
+    segments.push(...decimalSegments);
+    return segments;
   }
-
-
 
   protected convertInternal(
     number: bigint,
@@ -647,9 +990,14 @@ export class ToWordsCore {
     }
 
     if ((quotient === BIGINT_1 && usesIgnoreOne) || usedPluralForm) {
+      // A [multiplier, final] pair still distinguishes position here: Spanish
+      // 200 is "doscientas" standing alone but "doscientos millones" in front
+      // of a scale noun. Skipped when a plural form already replaced the word.
+      const positional =
+        trailing && !usedPluralForm && Array.isArray(match.value) ? match.value[1] : matchValue;
       // When ignoring "one" and quotient is exactly 1, use singularValue if available
       const valueToUse =
-        quotient === BIGINT_1 && match.singularValue ? match.singularValue : matchValue;
+        quotient === BIGINT_1 && match.singularValue ? match.singularValue : positional;
       words.push(valueToUse);
     } else {
       const quotientWords = this.convertInternal(quotient, false, overrides, locale);

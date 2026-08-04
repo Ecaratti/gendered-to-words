@@ -1,0 +1,6 @@
+# Normalize line endings to LF in the repository *and* in every working tree.
+#
+# Without this, git's core.autocrlf checks these files out as CRLF on Windows
+# while Prettier writes LF, so `npm run format` fails for every Windows
+# contributor no matter how the code is actually formatted.
+* text=auto eol=lf

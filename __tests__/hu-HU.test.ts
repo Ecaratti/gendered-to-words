@@ -54,16 +54,16 @@ const testIntegers: [number, string][] = [
   [28, "Huszonnyolc"],
   [29, "Huszonkilenc"],
   [30, "Harminc"],
-  [35, "Harminc Öt"],
+  [35, "Harmincöt"],
   [40, "Negyven"],
   [50, "Ötven"],
   [60, "Hatvan"],
   [70, "Hetven"],
   [80, "Nyolcvan"],
   [90, "Kilencven"],
-  [99, "Kilencven Kilenc"],
+  [99, "Kilencvenkilenc"],
   [100, "Száz"],
-  [137, "Száz Harminc Hét"],
+  [137, "Százharminchét"],
   [200, "Kétszáz"],
   [300, "Háromszáz"],
   [400, "Négyszáz"],
@@ -73,18 +73,18 @@ const testIntegers: [number, string][] = [
   [800, "Nyolcszáz"],
   [900, "Kilencszáz"],
   [1000, "Ezer"],
-  [1100, "Ezer Száz"],
-  [2000, "Kettő Ezer"],
-  [3000, "Három Ezer"],
-  [4680, "Négy Ezer Hatszáz Nyolcvan"],
-  [10000, "Tíz Ezer"],
-  [63892, "Hatvan Három Ezer Nyolcszáz Kilencven Kettő"],
-  [100000, "Száz Ezer"],
-  [1000000, "Egy Millió"],
-  [2000000, "Kettő Millió"],
-  [2741034, "Kettő Millió Hétszáz Negyven Egy Ezer Harminc Négy"],
-  [1000000000, "Egy Milliárd"],
-  [2000000000, "Kettő Milliárd"],
+  [1100, "Ezerszáz"],
+  [2000, "Kétezer"],
+  [3000, "Háromezer"],
+  [4680, "Négyezerhatszáznyolcvan"],
+  [10000, "Tízezer"],
+  [63892, "Hatvanháromezernyolcszázkilencvenkettő"],
+  [100000, "Százezer"],
+  [1000000, "Egymillió"],
+  [2000000, "Kétmillió"],
+  [2741034, "Kétmillióhétszáznegyvenegyezerharmincnégy"],
+  [1000000000, "Egymilliárd"],
+  [2000000000, "Kétmilliárd"],
 ];
 
 describe("Test Integers with options = {}", () => {
@@ -112,9 +112,9 @@ const testFloats: [number, string][] = [
   [0.0, "Nulla"],
   [0.04, "Nulla Egész Nulla Négy"],
   [0.4, "Nulla Egész Négy"],
-  [0.63, "Nulla Egész Hatvan Három"],
-  [37.06, "Harminc Hét Egész Nulla Hat"],
-  [37.68, "Harminc Hét Egész Hatvan Nyolc"],
+  [0.63, "Nulla Egész Hatvanhárom"],
+  [37.06, "Harminchét Egész Nulla Hat"],
+  [37.68, "Harminchét Egész Hatvannyolc"],
 ];
 
 describe("Test Floats with options = {}", () => {
@@ -122,7 +122,6 @@ describe("Test Floats with options = {}", () => {
     expect(toWords.convert(input as number)).toBe(expected);
   });
 });
-
 
 // Ordinal Tests
 const testOrdinalNumbers: [number, string][] = [
@@ -157,11 +156,11 @@ const testOrdinalNumbers: [number, string][] = [
   [80, "Nyolcvanadik"],
   [90, "Kilencvenedik"],
   [100, "Századik"],
-  [101, "Száz Első"],
+  [101, "Százelső"],
   [200, "Kétszázadik"],
   [1000, "Ezredik"],
-  [1001, "Ezer Első"],
-  [1000000, "Egy Milliomodik"],
+  [1001, "Ezerelső"],
+  [1000000, "Egymilliomodik"],
 ];
 
 describe("Test Ordinal Numbers", () => {
@@ -206,8 +205,8 @@ describe("Test Hungarian-specific numbers", () => {
   });
 
   test("Large numbers", () => {
-    expect(toWords.convert(1000000)).toBe("Egy Millió");
-    expect(toWords.convert(1000000000)).toBe("Egy Milliárd");
+    expect(toWords.convert(1000000)).toBe("Egymillió");
+    expect(toWords.convert(1000000000)).toBe("Egymilliárd");
   });
 });
 
@@ -216,9 +215,9 @@ const testPowersOfTen: [number, string][] = [
   [10, "Tíz"],
   [100, "Száz"],
   [1000, "Ezer"],
-  [10000, "Tíz Ezer"],
-  [100000, "Száz Ezer"],
-  [1000000, "Egy Millió"],
+  [10000, "Tízezer"],
+  [100000, "Százezer"],
+  [1000000, "Egymillió"],
 ];
 
 describe("Test Powers of Ten", () => {
@@ -289,7 +288,6 @@ describe("Test Zero Variants", () => {
   test('convert "0" => Nulla', () => {
     expect(toWords.convert("0")).toBe("Nulla");
   });
-
 });
 
 // Invalid Input Tests

@@ -56,47 +56,47 @@ const testIntegers: [number, string][] = [
   [80, "Achtzig"],
   [90, "Neunzig"],
   [99, "Neunundneunzig"],
-  [100, "Hundert"],
-  [137, "Hundert Siebenunddreißig"],
-  [200, "Zwei Hundert"],
-  [700, "Sieben Hundert"],
-  [1000, "Tausend"],
-  [1100, "Tausend Hundert"],
-  [4680, "Vier Tausend Sechs Hundert Achtzig"],
-  [63892, "Dreiundsechzig Tausend Acht Hundert Zweiundneunzig"],
-  [86100, "Sechsundachtzig Tausend Hundert"],
-  [792581, "Sieben Hundert Zweiundneunzig Tausend Fünf Hundert Einundachtzig"],
-  [1000000, "Eins Million"],
-  [2000000, "Zwei Million"],
-  [2741034, "Zwei Million Sieben Hundert Einundvierzig Tausend Vierunddreißig"],
+  [100, "Einhundert"],
+  [137, "Einhundertsiebenunddreißig"],
+  [200, "Zweihundert"],
+  [700, "Siebenhundert"],
+  [1000, "Eintausend"],
+  [1100, "Eintausendeinhundert"],
+  [4680, "Viertausendsechshundertachtzig"],
+  [63892, "Dreiundsechzigtausendachthundertzweiundneunzig"],
+  [86100, "Sechsundachtzigtausendeinhundert"],
+  [792581, "Siebenhundertzweiundneunzigtausendfünfhunderteinundachtzig"],
+  [1000000, "Eine Million"],
+  [2000000, "Zwei Millionen"],
+  [2741034, "Zwei Millionen Siebenhunderteinundvierzigtausendvierunddreißig"],
   [
     86429753,
-    "Sechsundachtzig Million Vier Hundert Neunundzwanzig Tausend Sieben Hundert Dreiundfünfzig",
+    "Sechsundachtzig Millionen Vierhundertneunundzwanzigtausendsiebenhundertdreiundfünfzig",
   ],
   [
     975310864,
-    "Neun Hundert Fünfundsiebzig Million Drei Hundert Zehn Tausend Acht Hundert Vierundsechzig",
+    "Neunhundertfünfundsiebzig Millionen Dreihundertzehntausendachthundertvierundsechzig",
   ],
-  [1000000000, "Eins Milliarde"],
+  [1000000000, "Eine Milliarde"],
   [
     9876543210,
-    "Neun Milliarde Acht Hundert Sechsundsiebzig Million Fünf Hundert Dreiundvierzig Tausend Zwei Hundert Zehn",
+    "Neun Milliarden Achthundertsechsundsiebzig Millionen Fünfhundertdreiundvierzigtausendzweihundertzehn",
   ],
   [
     98765432101,
-    "Achtundneunzig Milliarde Sieben Hundert Fünfundsechzig Million Vier Hundert Zweiunddreißig Tausend Hundert Eins",
+    "Achtundneunzig Milliarden Siebenhundertfünfundsechzig Millionen Vierhundertzweiunddreißigtausendeinhunderteins",
   ],
   [
     987654321012,
-    "Neun Hundert Siebenundachtzig Milliarde Sechs Hundert Vierundfünfzig Million Drei Hundert Einundzwanzig Tausend Zwölf",
+    "Neunhundertsiebenundachtzig Milliarden Sechshundertvierundfünfzig Millionen Dreihunderteinundzwanzigtausendzwölf",
   ],
   [
     9876543210123,
-    "Neun Billion Acht Hundert Sechsundsiebzig Milliarde Fünf Hundert Dreiundvierzig Million Zwei Hundert Zehn Tausend Hundert Dreiundzwanzig",
+    "Neun Billionen Achthundertsechsundsiebzig Milliarden Fünfhundertdreiundvierzig Millionen Zweihundertzehntausendeinhundertdreiundzwanzig",
   ],
   [
     98765432101234,
-    "Achtundneunzig Billion Sieben Hundert Fünfundsechzig Milliarde Vier Hundert Zweiunddreißig Million Hundert Eins Tausend Zwei Hundert Vierunddreißig",
+    "Achtundneunzig Billionen Siebenhundertfünfundsechzig Milliarden Vierhundertzweiunddreißig Millionen Einhunderteintausendzweihundertvierunddreißig",
   ],
 ];
 
@@ -126,12 +126,12 @@ const testFloats: [number, string][] = [
   [0.04, "Null Komma Null Vier"],
   [0.0468, "Null Komma Null Vier Sechs Acht"],
   [0.4, "Null Komma Vier"],
-  [0.973, "Null Komma Neun Hundert Dreiundsiebzig"],
-  [0.999, "Null Komma Neun Hundert Neunundneunzig"],
+  [0.973, "Null Komma Neunhundertdreiundsiebzig"],
+  [0.999, "Null Komma Neunhundertneunundneunzig"],
   [37.06, "Siebenunddreißig Komma Null Sechs"],
   [37.068, "Siebenunddreißig Komma Null Sechs Acht"],
   [37.68, "Siebenunddreißig Komma Achtundsechzig"],
-  [37.683, "Siebenunddreißig Komma Sechs Hundert Dreiundachtzig"],
+  [37.683, "Siebenunddreißig Komma Sechshundertdreiundachtzig"],
 ];
 
 describe("Test Floats with options = {}", () => {
@@ -139,7 +139,6 @@ describe("Test Floats with options = {}", () => {
     expect(toWords.convert(input as number)).toBe(expected);
   });
 });
-
 
 const testOrdinals: [number, string][] = [
   // Numbers 0-10
@@ -179,25 +178,25 @@ const testOrdinals: [number, string][] = [
   [80, "Achtzigste"],
   [90, "Neunzigste"],
   // Round numbers (100, 200, 1000, etc.)
-  [100, "Hundertste"],
-  [200, "Zwei Hundertste"],
-  [300, "Drei Hundertste"],
-  [1000, "Tausendste"],
-  [2000, "Zwei Tausendste"],
-  [1000000, "Eins Millionste"],
-  [2000000, "Zwei Millionste"],
+  [100, "Einhundertste"],
+  [200, "Zweihundertste"],
+  [300, "Dreihundertste"],
+  [1000, "Eintausendste"],
+  [2000, "Zweitausendste"],
+  [1000000, "Millionste"],
+  [2000000, "Zweimillionste"],
   // Complex numbers
-  [101, "Hundert Erste"],
-  [102, "Hundert Zweite"],
-  [111, "Hundert Elfte"],
-  [123, "Hundert Dreiundzwanzigste"],
-  [150, "Hundert Fünfzigste"],
-  [1001, "Tausend Erste"],
-  [1234, "Tausend Zwei Hundert Vierunddreißigste"],
-  [1500, "Tausend Fünf Hundertste"],
-  [10000, "Zehn Tausendste"],
-  [100000, "Hundert Tausendste"],
-  [1000001, "Eins Million Erste"],
+  [101, "Einhunderterste"],
+  [102, "Einhundertzweite"],
+  [111, "Einhundertelfte"],
+  [123, "Einhundertdreiundzwanzigste"],
+  [150, "Einhundertfünfzigste"],
+  [1001, "Eintausenderste"],
+  [1234, "Eintausendzweihundertvierunddreißigste"],
+  [1500, "Eintausendfünfhundertste"],
+  [10000, "Zehntausendste"],
+  [100000, "Einhunderttausendste"],
+  [1000001, "Eine Million Erste"],
 ];
 
 describe("Test Ordinals with toOrdinal()", () => {
@@ -237,17 +236,17 @@ describe("Test Ordinal Error Cases", () => {
 // Powers of Ten (German International System)
 const testPowersOfTen: [number, string][] = [
   [10, "Zehn"],
-  [100, "Hundert"],
-  [1000, "Tausend"],
-  [10000, "Zehn Tausend"],
-  [100000, "Hundert Tausend"],
-  [1000000, "Eins Million"],
-  [10000000, "Zehn Million"],
-  [100000000, "Hundert Million"],
-  [1000000000, "Eins Milliarde"],
-  [10000000000, "Zehn Milliarde"],
-  [100000000000, "Hundert Milliarde"],
-  [1000000000000, "Eins Billion"],
+  [100, "Einhundert"],
+  [1000, "Eintausend"],
+  [10000, "Zehntausend"],
+  [100000, "Einhunderttausend"],
+  [1000000, "Eine Million"],
+  [10000000, "Zehn Millionen"],
+  [100000000, "Einhundert Millionen"],
+  [1000000000, "Eine Milliarde"],
+  [10000000000, "Zehn Milliarden"],
+  [100000000000, "Einhundert Milliarden"],
+  [1000000000000, "Eine Billion"],
 ];
 
 describe("Test Powers of Ten (German System)", () => {
@@ -259,18 +258,18 @@ describe("Test Powers of Ten (German System)", () => {
 // Boundary Values
 const testBoundaries: [number, string][] = [
   [99, "Neunundneunzig"],
-  [100, "Hundert"],
-  [101, "Hundert Eins"],
-  [999, "Neun Hundert Neunundneunzig"],
-  [1000, "Tausend"],
-  [1001, "Tausend Eins"],
-  [9999, "Neun Tausend Neun Hundert Neunundneunzig"],
-  [10000, "Zehn Tausend"],
-  [99999, "Neunundneunzig Tausend Neun Hundert Neunundneunzig"],
-  [100000, "Hundert Tausend"],
-  [999999, "Neun Hundert Neunundneunzig Tausend Neun Hundert Neunundneunzig"],
-  [1000000, "Eins Million"],
-  [1000001, "Eins Million Eins"],
+  [100, "Einhundert"],
+  [101, "Einhunderteins"],
+  [999, "Neunhundertneunundneunzig"],
+  [1000, "Eintausend"],
+  [1001, "Eintausendeins"],
+  [9999, "Neuntausendneunhundertneunundneunzig"],
+  [10000, "Zehntausend"],
+  [99999, "Neunundneunzigtausendneunhundertneunundneunzig"],
+  [100000, "Einhunderttausend"],
+  [999999, "Neunhundertneunundneunzigtausendneunhundertneunundneunzig"],
+  [1000000, "Eine Million"],
+  [1000001, "Eine Million Eins"],
 ];
 
 describe("Test Boundary Values", () => {
@@ -287,7 +286,7 @@ const testNegativeFloats: [number, string][] = [
   [-1.5, "Minus Eins Komma Fünf"],
   [-3.14, "Minus Drei Komma Vierzehn"],
   [-99.99, "Minus Neunundneunzig Komma Neunundneunzig"],
-  [-100.01, "Minus Hundert Komma Null Eins"],
+  [-100.01, "Minus Einhundert Komma Null Eins"],
 ];
 
 describe("Test Negative Floats", () => {
@@ -296,16 +295,15 @@ describe("Test Negative Floats", () => {
   });
 });
 
-
 // BigInt Tests
 const testBigInts: [bigint, string][] = [
   [0n, "Null"],
   [1n, "Eins"],
-  [100n, "Hundert"],
-  [1000n, "Tausend"],
-  [1000000n, "Eins Million"],
-  [1000000000n, "Eins Milliarde"],
-  [1000000000000n, "Eins Billion"],
+  [100n, "Einhundert"],
+  [1000n, "Eintausend"],
+  [1000000n, "Eine Million"],
+  [1000000000n, "Eine Milliarde"],
+  [1000000000000n, "Eine Billion"],
 ];
 
 describe("Test BigInt Values", () => {
@@ -317,10 +315,10 @@ describe("Test BigInt Values", () => {
 // Negative BigInt Tests
 const testNegativeBigInts: [bigint, string][] = [
   [-1n, "Minus Eins"],
-  [-100n, "Minus Hundert"],
-  [-1000n, "Minus Tausend"],
-  [-1000000n, "Minus Eins Million"],
-  [-1000000000n, "Minus Eins Milliarde"],
+  [-100n, "Minus Einhundert"],
+  [-1000n, "Minus Eintausend"],
+  [-1000000n, "Minus Eine Million"],
+  [-1000000000n, "Minus Eine Milliarde"],
 ];
 
 describe("Test Negative BigInt Values", () => {
@@ -329,18 +327,17 @@ describe("Test Negative BigInt Values", () => {
   });
 });
 
-
 // String Input Tests
 const testStringInputs: [string, string][] = [
   ["0", "Null"],
   ["1", "Eins"],
-  ["100", "Hundert"],
-  ["1000", "Tausend"],
-  ["-100", "Minus Hundert"],
+  ["100", "Einhundert"],
+  ["1000", "Eintausend"],
+  ["-100", "Minus Einhundert"],
   ["3.14", "Drei Komma Vierzehn"],
   ["-3.14", "Minus Drei Komma Vierzehn"],
-  ["  100  ", "Hundert"],
-  ["1000000", "Eins Million"],
+  ["  100  ", "Einhundert"],
+  ["1000000", "Eine Million"],
 ];
 
 describe("Test String Number Inputs", () => {
@@ -370,12 +367,9 @@ describe("Test Zero Variants", () => {
   test('converts "0" as Null', () => {
     expect(toWords.convert("0")).toBe("Null");
   });
-
-
 });
 
 // All Options Combinations
-
 
 // Invalid Input Tests
 describe("Test Invalid Inputs for de-DE", () => {

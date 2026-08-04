@@ -10,14 +10,25 @@ export default class Locale implements LocaleInterface {
       point: "Komma",
     },
     numberWordsMapping: [
-      { number: 1000000000000000000000000000n, value: "Quadrilliarde" },
-      { number: 1000000000000000000000000n, value: "Quadrillion" },
-      { number: 1000000000000000000000n, value: "Trilliarde" },
-      { number: 1000000000000000000n, value: "Trillion" },
-      { number: 1000000000000000, value: "Billiarde" },
-      { number: 1000000000000, value: "Billion" },
-      { number: 1000000000, value: "Milliarde" },
-      { number: 1000000, value: "Million" },
+      // Scale nouns are feminine: "eine Million", "zwei Millionen". The
+      // singularValue carries the article because the generic multiplier form
+      // is "ein", which would give the wrong "ein Million".
+      {
+        number: 1000000000000000000000000000n,
+        value: "Quadrilliarde",
+        singularValue: "Eine Quadrilliarde",
+      },
+      {
+        number: 1000000000000000000000000n,
+        value: "Quadrillion",
+        singularValue: "Eine Quadrillion",
+      },
+      { number: 1000000000000000000000n, value: "Trilliarde", singularValue: "Eine Trilliarde" },
+      { number: 1000000000000000000n, value: "Trillion", singularValue: "Eine Trillion" },
+      { number: 1000000000000000, value: "Billiarde", singularValue: "Eine Billiarde" },
+      { number: 1000000000000, value: "Billion", singularValue: "Eine Billion" },
+      { number: 1000000000, value: "Milliarde", singularValue: "Eine Milliarde" },
+      { number: 1000000, value: "Million", singularValue: "Eine Million" },
       { number: 1000, value: "Tausend" },
       { number: 100, value: "Hundert" },
       { number: 99, value: "Neunundneunzig" },
@@ -118,11 +129,64 @@ export default class Locale implements LocaleInterface {
       { number: 4, value: "Vier" },
       { number: 3, value: "Drei" },
       { number: 2, value: "Zwei" },
-      { number: 1, value: "Eins" },
+      // "Eins" standing alone, "Ein" as a multiplier: "einhundert", not
+      // "einshundert".
+      { number: 1, value: ["Ein", "Eins"] },
       { number: 0, value: "Null" },
     ],
-    exactWordsMapping: [{ number: 100, value: "Hundert" }],
-    ignoreOneForWords: ["Hundert", "Tausend"],
+    exactWordsMapping: [{ number: 100, value: "Einhundert" }],
+    // Standard German writes the multiplier out ("einhunderteins",
+    // "eintausend"), so 100 and 1000 are no longer in ignoreOneForWords. The
+    // scale nouns are listed so their singularValue ("Eine Million") replaces
+    // the multiplier entirely rather than prefixing it.
+    ignoreOneForWords: [
+      "Million",
+      "Milliarde",
+      "Billion",
+      "Billiarde",
+      "Trillion",
+      "Trilliarde",
+      "Quadrillion",
+      "Quadrilliarde",
+    ],
+    paucalConfig: { min: 2, max: 10 },
+    pluralForms: {
+      1000000: { paucal: "Millionen", plural: "Millionen" },
+      1000000000: { paucal: "Milliarden", plural: "Milliarden" },
+      1000000000000: { paucal: "Billionen", plural: "Billionen" },
+      1000000000000000: { paucal: "Billiarden", plural: "Billiarden" },
+    },
+    // German numerals below a million are one word; the scale nouns from
+    // "Million" up are capitalised and stand apart.
+    concatenation: {
+      separateWords: [
+        "Million",
+        "Millionen",
+        "Eine Million",
+        "Milliarde",
+        "Milliarden",
+        "Eine Milliarde",
+        "Billion",
+        "Billionen",
+        "Eine Billion",
+        "Billiarde",
+        "Billiarden",
+        "Eine Billiarde",
+        "Trillion",
+        "Trillionen",
+        "Eine Trillion",
+        "Trilliarde",
+        "Trilliarden",
+        "Eine Trilliarde",
+        "Quadrillion",
+        "Quadrillionen",
+        "Eine Quadrillion",
+        "Quadrilliarde",
+        "Quadrilliarden",
+        "Eine Quadrilliarde",
+      ],
+      lowercaseAfterFirst: true,
+    },
     ordinalWordsMapping: [
       { number: 1000000000000000, value: "Billiardste" },
       { number: 1000000000000, value: "Billionste" },
@@ -231,5 +295,8 @@ export default class Locale implements LocaleInterface {
       { number: 1, value: "Erste" },
       { number: 0, value: "Nullte" },
     ],
+    // Standalone 100 is "einhundertste", matching the cardinal "einhundert";
+    // the tabled "Hundertste" is the form compounds need ("zweihundertste").
+    ordinalExactWordsMapping: [{ number: 100, value: "Einhundertste" }],
   };
 }

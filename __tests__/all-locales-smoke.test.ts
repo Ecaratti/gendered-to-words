@@ -10,15 +10,33 @@ const codes = Object.keys(LOCALES);
 
 const cardinalInputs: (number | bigint | string)[] = [
   ...Array.from({ length: 131 }, (_, i) => i), // 0-130
-  200, 999, 1000, 1001, 2345, 9999, 100000, 123456, 1000001,
-  -1, -42, -100000,
-  0.5, 3.14, "12345", "0.001",
-  12345678901n, -98765432109n,
+  200,
+  999,
+  1000,
+  1001,
+  2345,
+  9999,
+  100000,
+  123456,
+  1000001,
+  -1,
+  -42,
+  -100000,
+  0.5,
+  3.14,
+  "12345",
+  "0.001",
+  12345678901n,
+  -98765432109n,
 ];
 
 const ordinalInputs: number[] = [
   ...Array.from({ length: 130 }, (_, i) => i + 1), // 1-130
-  200, 1000, 2000, 100000, 1000000,
+  200,
+  1000,
+  2000,
+  100000,
+  1000000,
 ];
 
 describe.each(codes)("locale %s produces sane output", (code) => {
@@ -73,7 +91,7 @@ describe("locale-aware lowercasing", () => {
   });
 
   test("ordinal lowercase option works (en-US)", () => {
-    expect(toOrdinal(21, { localeCode: "en-US", lowercase: true })).toBe("twenty first");
+    expect(toOrdinal(21, { localeCode: "en-US", lowercase: true })).toBe("twenty-first");
   });
 
   test("ordinal lowercase composes with gender (fr-FR feminine)", () => {

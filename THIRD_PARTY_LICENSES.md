@@ -1,8 +1,6 @@
-
-
 ## mastermunj / to-words
-https://github.com/mastermunj/to-words/
 
+https://github.com/mastermunj/to-words/
 
 MIT License
 

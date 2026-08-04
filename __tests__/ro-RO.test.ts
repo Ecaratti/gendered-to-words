@@ -24,35 +24,38 @@ describe("Test Locale", () => {
 
 const testIntegers: [number, string][] = [
   [0, "Zero"],
-  [137, "O Sută Treizeci Șapte"],
+  [137, "O Sută Treizeci Și Șapte"],
   [700, "Șapte Sute"],
   [1100, "O Mie O Sută"],
   [4680, "Patru Mii Șase Sute Optzeci"],
-  [63892, "Șaizeci Trei Mii Opt Sute Nouăzeci Două"],
-  [86100, "Optzeci Șase Mii O Sută"],
-  [792581, "Șapte Sute Nouăzeci Două Mii Cinci Sute Optzeci Unu"],
-  [2741034, "Două Milioane Șapte Sute Patruzeci Unu Mii Treizeci Patru"],
-  [86429753, "Optzeci Șase Milioane Patru Sute Douăzeci Nouă Mii Șapte Sute Cincizeci Trei"],
-  [975310864, "Nouă Sute Șaptezeci Cinci Milioane Trei Sute Zece Mii Opt Sute Șaizeci Patru"],
+  [63892, "Șaizeci Și Trei Mii Opt Sute Nouăzeci Și Două"],
+  [86100, "Optzeci Și Șase Mii O Sută"],
+  [792581, "Șapte Sute Nouăzeci Și Două Mii Cinci Sute Optzeci Și Unu"],
+  [2741034, "Două Milioane Șapte Sute Patruzeci Și Unu Mii Treizeci Și Patru"],
+  [
+    86429753,
+    "Optzeci Și Șase Milioane Patru Sute Douăzeci Și Nouă Mii Șapte Sute Cincizeci Și Trei",
+  ],
+  [975310864, "Nouă Sute Șaptezeci Și Cinci Milioane Trei Sute Zece Mii Opt Sute Șaizeci Și Patru"],
   [
     9876543210,
-    "Nouă Miliarde Opt Sute Șaptezeci Șase Milioane Cinci Sute Patruzeci Trei Mii Două Sute Zece",
+    "Nouă Miliarde Opt Sute Șaptezeci Și Șase Milioane Cinci Sute Patruzeci Și Trei Mii Două Sute Zece",
   ],
   [
     98765432101,
-    "Nouăzeci Opt Miliarde Șapte Sute Șaizeci Cinci Milioane Patru Sute Treizeci Două Mii O Sută Unu",
+    "Nouăzeci Și Opt Miliarde Șapte Sute Șaizeci Și Cinci Milioane Patru Sute Treizeci Și Două Mii O Sută Unu",
   ],
   [
     987654321012,
-    "Nouă Sute Optzeci Șapte Miliarde Șase Sute Cincizeci Patru Milioane Trei Sute Douăzeci Unu Mii Doisprezece",
+    "Nouă Sute Optzeci Și Șapte Miliarde Șase Sute Cincizeci Și Patru Milioane Trei Sute Douăzeci Și Unu Mii Doisprezece",
   ],
   [
     9876543210123,
-    "Nouă Trilion Opt Sute Șaptezeci Șase Miliarde Cinci Sute Patruzeci Trei Milioane Două Sute Zece Mii O Sută Douăzeci Trei",
+    "Nouă Trilion Și Opt Sute Șaptezeci Și Șase Miliarde Cinci Sute Patruzeci Și Trei Milioane Două Sute Zece Mii O Sută Douăzeci Și Trei",
   ],
   [
     98765432101234,
-    "Nouăzeci Opt Trilion Șapte Sute Șaizeci Cinci Miliarde Patru Sute Treizeci Două Milioane O Sută Unu Mii Două Sute Treizeci Patru",
+    "Nouăzeci Și Opt Trilion Și Șapte Sute Șaizeci Și Cinci Miliarde Patru Sute Treizeci Și Două Milioane O Sută Unu Mii Două Sute Treizeci Și Patru",
   ],
 ];
 
@@ -82,13 +85,13 @@ const testFloats: [number, string][] = [
   [0.04, "Zero Virgulă Zero Patru"],
   [0.0468, "Zero Virgulă Zero Patru Șase Opt"],
   [0.4, "Zero Virgulă Patru"],
-  [0.63, "Zero Virgulă Șaizeci Trei"],
-  [0.973, "Zero Virgulă Nouă Sute Șaptezeci Trei"],
-  [0.999, "Zero Virgulă Nouă Sute Nouăzeci Nouă"],
-  [37.06, "Treizeci Șapte Virgulă Zero Șase"],
-  [37.068, "Treizeci Șapte Virgulă Zero Șase Opt"],
-  [37.68, "Treizeci Șapte Virgulă Șaizeci Opt"],
-  [37.683, "Treizeci Șapte Virgulă Șase Sute Optzeci Trei"],
+  [0.63, "Zero Virgulă Șaizeci Și Trei"],
+  [0.973, "Zero Virgulă Nouă Sute Șaptezeci Și Trei"],
+  [0.999, "Zero Virgulă Nouă Sute Nouăzeci Și Nouă"],
+  [37.06, "Treizeci Și Șapte Virgulă Zero Șase"],
+  [37.068, "Treizeci Și Șapte Virgulă Zero Șase Opt"],
+  [37.68, "Treizeci Și Șapte Virgulă Șaizeci Și Opt"],
+  [37.683, "Treizeci Și Șapte Virgulă Șase Sute Optzeci Și Trei"],
 ];
 
 describe("Test Floats with options = {}", () => {
@@ -96,7 +99,6 @@ describe("Test Floats with options = {}", () => {
     expect(toWords.convert(input as number)).toBe(expected);
   });
 });
-
 
 // Comprehensive Ordinal Tests
 const testOrdinalNumbers: [number, string][] = [
@@ -123,9 +125,9 @@ const testOrdinalNumbers: [number, string][] = [
   [20, "Al Douăzecilea"],
 
   // Composite numbers (21-29, 30, 40, 50, etc.)
-  [21, "Douăzeci Primul"],
-  [22, "Douăzeci Al Doilea"],
-  [23, "Douăzeci Al Treilea"],
+  [21, "Douăzeci Și Primul"],
+  [22, "Douăzeci Și Al Doilea"],
+  [23, "Douăzeci Și Al Treilea"],
   [30, "Al Treizecilea"],
   [40, "Al Patruzecilea"],
   [50, "Al Cincizecilea"],
@@ -135,15 +137,15 @@ const testOrdinalNumbers: [number, string][] = [
   [90, "Al Nouăzecilea"],
 
   // Numbers ending in 1, 2, 3 (various decades)
-  [31, "Treizeci Primul"],
-  [32, "Treizeci Al Doilea"],
-  [33, "Treizeci Al Treilea"],
-  [41, "Patruzeci Primul"],
-  [42, "Patruzeci Al Doilea"],
-  [43, "Patruzeci Al Treilea"],
-  [51, "Cincizeci Primul"],
-  [52, "Cincizeci Al Doilea"],
-  [53, "Cincizeci Al Treilea"],
+  [31, "Treizeci Și Primul"],
+  [32, "Treizeci Și Al Doilea"],
+  [33, "Treizeci Și Al Treilea"],
+  [41, "Patruzeci Și Primul"],
+  [42, "Patruzeci Și Al Doilea"],
+  [43, "Patruzeci Și Al Treilea"],
+  [51, "Cincizeci Și Primul"],
+  [52, "Cincizeci Și Al Doilea"],
+  [53, "Cincizeci Și Al Treilea"],
 
   // Round numbers (100, 200, 1000, etc.)
   [100, "Al O Sutălea"],
@@ -161,13 +163,13 @@ const testOrdinalNumbers: [number, string][] = [
   [111, "O Sută Al Unsprezecelea"],
   [112, "O Sută Al Doisprezecelea"],
   [113, "O Sută Al Treisprezecelea"],
-  [123, "O Sută Douăzeci Al Treilea"],
+  [123, "O Sută Douăzeci Și Al Treilea"],
 
   // Complex numbers
   [1001, "O Mie Primul"],
   [1111, "O Mie O Sută Al Unsprezecelea"],
-  [1234, "O Mie Două Sute Treizeci Al Patrulea"],
-  [12345, "Doisprezece Mii Trei Sute Patruzeci Al Cincilea"],
+  [1234, "O Mie Două Sute Treizeci Și Al Patrulea"],
+  [12345, "Doisprezece Mii Trei Sute Patruzeci Și Al Cincilea"],
 ];
 
 describe("Test Ordinal Numbers", () => {
@@ -276,7 +278,6 @@ describe("Test Zero Variants", () => {
   test('convert "0" => Zero', () => {
     expect(toWords.convert("0")).toBe("Zero");
   });
-
 });
 
 // Invalid Input Tests

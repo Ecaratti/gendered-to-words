@@ -3,7 +3,7 @@ import { createLocaleVariant } from "../createLocaleVariant.js";
 import BaseLocale from "./fr-BE.js";
 
 const Locale = createLocaleVariant(BaseLocale, {
-  numberWordsMapping: [
+  agreementOverrides: [
     { number: 91, value: "Nonante Et Une" },
     { number: 81, value: "Quatre-Vingt-Une" },
     { number: 71, value: "Septante Et Une" },
@@ -14,7 +14,8 @@ const Locale = createLocaleVariant(BaseLocale, {
     { number: 21, value: "Vingt Et Une" },
     { number: 1, value: "Une" },
   ],
-  ordinalWordsMapping: [{ number: 1, value: "Première" }],
+  // "Unième" is invariable, so only the standalone form is gendered.
+  ordinalExactWordsMapping: [{ number: 1, value: "Première" }],
 });
 
 export default Locale;

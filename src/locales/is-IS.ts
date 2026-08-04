@@ -118,6 +118,9 @@ export default class Locale implements LocaleInterface {
       { number: 0, value: "Núll" },
     ],
     exactWordsMapping: [{ number: 100, value: "Hundrað" }],
+    // Icelandic inflects both halves and links them with "og":
+    // 21 → "tuttugasti og fyrsti".
+    ordinalDerivation: { scope: "components", componentJoin: "Og" },
     ignoreOneForWords: ["Hundrað", "Þúsund"],
     ordinalWordsMapping: [
       { number: 1000000000000, value: "Billjónasti" },

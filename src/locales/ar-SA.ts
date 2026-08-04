@@ -186,8 +186,18 @@ export default class Locale implements LocaleInterface {
       { number: 4, value: "الرابع" },
       { number: 3, value: "الثالث" },
       { number: 2, value: "الثاني" },
-      { number: 1, value: "الأول" },
+      // Compounds use الحادي, as in الحادي عشر (11th); الأول is the standalone
+      // form and is supplied by the exact mapping below.
+      { number: 1, value: "الحادي" },
       { number: 0, value: "الصفر" },
     ],
+    ordinalExactWordsMapping: [{ number: 1, value: "الأول" }],
+    // Arabic names the unit before the ten ("واحد و عشرون"), and its ordinal
+    // follows the same order, linked by و.
+    ordinalDerivation: {
+      scope: "components",
+      componentJoin: "و",
+      componentOrder: "ascending",
+    },
   };
 }

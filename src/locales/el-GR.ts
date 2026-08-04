@@ -65,6 +65,14 @@ export default class Locale implements LocaleInterface {
       { number: 1000000, value: "Ένα Εκατομμύριο" },
       { number: 1000000000, value: "Ένα Δισεκατομμύριο" },
     ],
+    // "ένα εκατομμύριο" but "δύο εκατομμύρια" — the scale nouns take a
+    // neuter plural from two up. (1000 already carries its own plural.)
+    paucalConfig: { min: 2, max: 10 },
+    pluralForms: {
+      1000000: { paucal: "Εκατομμύρια", plural: "Εκατομμύρια" },
+      1000000000: { paucal: "Δισεκατομμύρια", plural: "Δισεκατομμύρια" },
+      1000000000000: { paucal: "Τρισεκατομμύρια", plural: "Τρισεκατομμύρια" },
+    },
     ignoreOneForWords: [
       "Εκατό",
       "Χιλιάδες",
@@ -83,6 +91,16 @@ export default class Locale implements LocaleInterface {
       { number: 1000000000, value: "Δισεκατομμυριοστό" },
       { number: 1000000, value: "Εκατομμυριοστό" },
       { number: 1000, value: "Χιλιοστό" },
+      // The hundreds are single atomic cardinals ("Διακόσια"), so without
+      // their own ordinals 200th silently rendered as 100th.
+      { number: 900, value: "Εννιακοσιοστό" },
+      { number: 800, value: "Οκτακοσιοστό" },
+      { number: 700, value: "Επτακοσιοστό" },
+      { number: 600, value: "Εξακοσιοστό" },
+      { number: 500, value: "Πεντακοσιοστό" },
+      { number: 400, value: "Τετρακοσιοστό" },
+      { number: 300, value: "Τριακοσιοστό" },
+      { number: 200, value: "Διακοσιοστό" },
       { number: 100, value: "Εκατοστό" },
       { number: 90, value: "Ενενηκοστό" },
       { number: 80, value: "Ογδοηκοστό" },

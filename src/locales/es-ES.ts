@@ -78,6 +78,10 @@ export default class Locale implements LocaleInterface {
     ],
     pluralMark: "es",
     pluralWords: ["Millon", "Billon", "Trillon"],
+    // Spanish inflects every element of a compound ordinal — 42º is
+    // "cuadragésimo segundo", which shares no word with the cardinal
+    // "cuarenta y dos" and drops the conjunction entirely.
+    ordinalDerivation: { scope: "components" },
     exactWordsMapping: [
       { number: 100, value: "Cien" },
       { number: 90, value: "Noventa" },

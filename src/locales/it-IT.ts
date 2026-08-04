@@ -14,7 +14,9 @@ export default class Locale implements LocaleInterface {
       { number: 1000000000000, value: "Bilione" },
       { number: 1000000000, value: "Miliardo" },
       { number: 1000000, value: "Milione" },
-      { number: 1000, value: "Mila" },
+      // "Mille" standalone and in 1000-1999 ("Milleuno"), "Mila" as a
+      // multiplied unit ("Duemila").
+      { number: 1000, value: "Mila", singularValue: "Mille" },
       { number: 100, value: "Cento" },
       { number: 99, value: "Novantanove" },
       { number: 98, value: "Novantotto" },
@@ -123,27 +125,59 @@ export default class Locale implements LocaleInterface {
       { number: 1, value: ["Un", "Uno"] },
     ],
     ignoreOneForWords: ["Cento", "Mila"],
+    // Italian is written solid up to a million; "milione" and above are nouns
+    // that keep their spaces: "duemilatrentaquattro", "due milioni".
+    concatenation: {
+      separateWords: [
+        "Milione",
+        "Milioni",
+        "Miliardo",
+        "Miliardi",
+        "Bilione",
+        "Bilioni",
+        "Biliardo",
+        "Biliardi",
+      ],
+      lowercaseAfterFirst: true,
+      // "cento"/"…cento" lose their final o before otto/ottanta:
+      // centootto → centotto, seicentoottanta → seicentottanta.
+      elisions: [{ match: /o(ott)/g, replace: "$1" }],
+    },
+    // No `dual`: Italian has no dual number, and the core reads a dual form as
+    // already encoding "two" and drops the multiplier — which turned 2000000
+    // into a bare "Milioni". Paucal from 2 covers "Due Milioni" instead.
+    paucalConfig: { min: 2, max: 10 },
     pluralForms: {
       1000000: {
-        dual: "Milioni",
         paucal: "Milioni",
         plural: "Milioni",
       },
       1000000000: {
-        dual: "Miliardi",
         paucal: "Miliardi",
         plural: "Miliardi",
       },
       1000000000000: {
-        dual: "Bilioni",
         paucal: "Bilioni",
         plural: "Bilioni",
       },
       1000000000000000: {
-        dual: "Biliardi",
         paucal: "Biliardi",
         plural: "Biliardi",
       },
+    },
+    // Ordinals above ten are derived from the written-out cardinal: drop the
+    // final vowel and add -esimo. Two endings resist that: -tré keeps a plain
+    // e ("ventitreesimo") and -sei keeps its i ("ventiseiesimo").
+    ordinalDerivation: {
+      scope: "whole",
+      rules: [
+        // "mila" reverts to the "mille" stem: duemila → duemillesimo.
+        { match: /mila$/, replace: "millesimo" },
+        { match: /tré$/, replace: "treesimo" },
+        { match: /sei$/, replace: "seiesimo" },
+        { match: /[aeiouàèéìòù]$/, replace: "esimo" },
+        { match: /$/, replace: "esimo" },
+      ],
     },
     ordinalWordsMapping: [
       { number: 1000000000000, value: "Bilionesimo" },

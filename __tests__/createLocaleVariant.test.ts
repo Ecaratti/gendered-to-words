@@ -103,7 +103,7 @@ describe("createLocaleVariant", () => {
     });
     const tw = new ToWordsCore().setLocale(Variant);
     expect(tw.convert(1)).toBe("Une");
-    expect(tw.convert(21)).toBe("Twenty Une");
+    expect(tw.convert(21)).toBe("Twenty-Une");
     // base class remains unmodified
     const twBase = new ToWordsCore().setLocale(EnUsLocale);
     expect(twBase.convert(1)).toBe("One");
