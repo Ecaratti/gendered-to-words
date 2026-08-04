@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.1.0 (unreleased)
+## 0.1.0 (2026-08-04)
 
 Initial release, forked from [to-words](https://github.com/mastermunj/to-words) v5.3.0.
 
