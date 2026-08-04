@@ -99,6 +99,18 @@ wrong across almost the whole practical range, not just at large values:
 - **hu-HU**: `Százhuszonhárom` (was `Száz Huszonhárom`). Hungarian also distinguishes
   `kettő` standing alone from `két` before a noun, so 2000 is `Kétezer`, not `Kettőezer`.
 
+### Build
+
+Replaces `oxfmt` with `prettier` (the inherited shared config specified a style this fork
+does not use, so `npm run format` had never passed) and pins line endings to LF via
+`.gitattributes`, without which the check cannot pass on a Windows clone. `format` now
+runs in CI.
+
+`@mastermunj/oxc-config` is dropped and its oxlint rules inlined into `.oxlintrc.json` —
+identical rule set, verified by rule count. The package listed `oxfmt` as a peer
+dependency, so removing oxfmt as a direct dependency left the lockfile inconsistent with
+the tree npm builds, and `npm ci` failed in CI while every local check passed.
+
 ### Fixed: reported by a downstream consumer
 
 - **`ToWordsCore` ignored per-call gender.** Variant resolution lived only in the

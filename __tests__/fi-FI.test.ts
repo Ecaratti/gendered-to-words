@@ -1,5 +1,4 @@
 import { describe, expect, test } from "vitest";
-import { cloneDeep } from "lodash";
 import { ToWords } from "../src/ToWords";
 import fiFi from "../src/locales/fi-FI.js";
 
@@ -87,7 +86,7 @@ describe("Test Integers with options = {}", () => {
 });
 
 describe("Test Negative Integers with options = {}", () => {
-  const testNegativeIntegers = cloneDeep(testIntegers);
+  const testNegativeIntegers = structuredClone(testIntegers);
   testNegativeIntegers.map((row, i) => {
     if (i === 0) {
       return;
