@@ -57,14 +57,16 @@ const LOCALES: { [key: string]: ConstructorOf<LocaleInterface> } = {
   "da-DK": daDk,
   "de-DE": deDe,
   "el-GR": elGr,
-  // en-US is listed before en-GB so the bare language code "en" keeps
-  // resolving to en-US (language-prefix fallback takes the first match).
+  // Where a language has several regions, the one meant to answer the bare
+  // language code is listed FIRST — the prefix fallback takes the first match,
+  // so alphabetical order would otherwise pick the wrong default (it made "fr"
+  // resolve to Belgian French, which uses the minority septante/nonante forms).
   "en-US": enUs,
   "en-GB": enGb,
   "es-ES": esEs,
   "fi-FI": fiFi,
-  "fr-BE": frBe,
   "fr-FR": frFr,
+  "fr-BE": frBe,
   "he-IL": heIl,
   "hi-IN": hiIn,
   "hr-HR": hrHr,

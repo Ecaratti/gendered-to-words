@@ -115,7 +115,18 @@ Formats a non-negative integer as digits plus the locale's ordinal indicator: `2
 
 ### Locale resolution
 
-`localeCode` is resolved in order: exact match (`fr-FR`) → script tag stripped (`zh-Hant-TW` → `zh-TW`) → language-prefix fallback (`en-GB` → `en-US`, `fr` → `fr-FR`). When omitted, the environment locale is detected via `navigator.language`, then `Intl`. Override detection with `setLocaleDetector(() => 'fr-FR')`.
+`localeCode` is resolved in order: exact match (`fr-FR`) → script tag stripped (`zh-Hant-TW` → `zh-TW`) → language-prefix fallback (`en-AU` → `en-US`). A bare language code resolves to the region that language defaults to: `en` → `en-US`, `fr` → `fr-FR`, `pt` → `pt-BR`, `zh` → `zh-CN`.
+
+When omitted, the environment locale is detected via `navigator.language`, then `Intl`. Override detection with `setLocaleDetector(() => 'fr-FR')`.
+
+**An unknown code throws.** If your input is free-form (a document's proofing language, a user preference), test it first rather than wrapping every call in a try/catch:
+
+```ts
+import { resolveLocaleCode } from "gendered-to-words";
+
+resolveLocaleCode("en-AU"); // 'en-US'
+resolveLocaleCode("klingon"); // undefined
+```
 
 ### Other exports
 
@@ -123,14 +134,17 @@ Formats a non-negative integer as digits plus the locale's ordinal indicator: `2
 - `ToWordsCore` (from `gendered-to-words/core`) — locale-free core for tree-shaking
 - `detectLocale(fallback?)` / `setLocaleDetector(fn)` — environment locale detection
 - `LOCALES` — map of all bundled locale classes
+- `GENDER_VARIANTS` — map of languages that have spelled-out gendered variants
+- `resolveLocaleCode(input)` — normalise a locale code, or `undefined` if unsupported
 
 ### Written-form conventions
 
 Assembly is locale-driven, not a bare space-join:
 
 - **Hyphenation** — English compound tens: `Twenty-One`, `Forty-Second`, `Sixty-Three Thousand Eight Hundred Ninety-Two`.
-- **"And"** — `en-GB` introduces a trailing sub-hundred group with "and": `One Hundred And One`, `One Thousand Two Hundred And Thirty-Four`. `en-US` omits it, and the bare code `en` resolves to `en-US`.
-- **Concatenation** — German, Dutch and Italian write the numeral solid (`Einhunderteins`, `Honderdzevenendertig`, `Duecentoquarantadue`), with scale nouns from "million" up kept separate and capitalised (`Zwei Millionen Siebenhunderttausend`). The sign and decimal-point words always stand apart.
+- **"And"** — `en-GB` introduces a sub-hundred remainder with "and", in every group that has one: `One Hundred And One`, `One Hundred And Twenty-Three Million Four Hundred And Fifty-Six Thousand Seven Hundred And Eighty-Nine`. `en-US` omits it, and the bare code `en` resolves to `en-US`.
+- **Conjunctions** — where a language links its parts, it does so in its own place: Romanian joins tens to units only (`O Sută Douăzeci Și Trei`), Albanian joins every part (`Njëqind E Njëzet E Tre`), Norwegian joins after the hundreds but not after "tusen" (`Tusen To Hundre Og Trettifire`).
+- **Concatenation** — several languages write the numeral as one word: German, Dutch, Italian and Finnish keep the scale nouns from "million" up separate and capitalised (`Zwei Millionen Siebenhunderttausend`, `Kaksi Miljoonaa`), while Hungarian, Chinese and Japanese are solid throughout (`Százhuszonhárom`, `一百二十三`). The sign and decimal-point words always stand apart.
 
 ## Supported locales
 
@@ -139,7 +153,19 @@ ar-SA, bg-BG, ca-ES, cs-CZ, da-DK, de-DE, el-GR, en-GB, en-US, es-ES, fi-FI, fr-
 ### Gender semantics
 
 - Spelled-out feminine variants exist for French (`fr-FR`, `fr-BE`), Italian, Spanish, Portuguese (`pt-PT`, `pt-BR`) and Catalan — covering ordinals throughout and cardinal agreement where the language has it (`Doscientas`, `Duas`, `Dues`, `Veintiuna`). Ordinal indicators are gendered for fr, es, it, pt, ca, el, ru. Query `GENDER_VARIANTS` to know which locales have spelled-out variants.
-- `gender` works everywhere in the API: functional helpers, the class constructor (`new ToWords({ localeCode, converterOptions: { gender } })`), and per-call (`tw.convert(n, { gender })`).
+- `gender` works on the functional helpers, the `ToWords` constructor (`new ToWords({ localeCode, converterOptions: { gender } })`), and per-call (`tw.convert(n, { gender })`).
+- On the tree-shaken `ToWordsCore`, hand `setLocale` a **map of variants** — it cannot resolve them itself, because `GENDER_VARIANTS` is part of the registry that entry point exists to avoid:
+
+  ```ts
+  import ItIt from "gendered-to-words/it-IT";
+  import ItItF from "gendered-to-words/it-IT-f";
+
+  const tw = new ToWordsCore().setLocale({ masculine: ItIt, feminine: ItItF });
+  tw.toOrdinal(42, { gender: "feminine" }); // 'Quarantaduesima'
+  ```
+
+  Passing a single class still works and simply ignores `gender`.
+
 - Unsupported combinations **fall back silently to the base (masculine) form** — never an error. `neutral` is accepted for forward compatibility but no locale implements it yet.
 
 ## Development
@@ -150,7 +176,10 @@ npm test            # vitest
 npm run checktypes  # tsc --noEmit
 npm run lint        # oxlint
 npm run build       # ESM + CJS + types into dist/
+npm run format      # prettier --check
 ```
+
+Known locale-data defects that are deliberately unfixed are tracked in [TODO.md](./TODO.md).
 
 ## License
 

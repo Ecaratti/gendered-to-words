@@ -48,6 +48,7 @@
     }
   },
   "exports": {
+    "./package.json": "./package.json",
     ".": {
       "import": {
         "types": "./dist/types/ToWords.d.ts",

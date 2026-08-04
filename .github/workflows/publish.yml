@@ -40,7 +40,9 @@ jobs:
       - name: Validate packaging
         run: |
           npx --yes publint
-          npx --yes @arethetypeswrong/cli --pack .
+          # See ci.yml: package.json is exported on purpose and attw's node10
+          # lane cannot type a JSON file.
+          npx --yes @arethetypeswrong/cli --pack . --exclude-entrypoints package.json
 
       - name: Publish to npm
         run: npm publish --provenance --access public

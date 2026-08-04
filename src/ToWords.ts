@@ -22,7 +22,11 @@ const instanceCache = new Map<string, ToWords>();
 // ---------------------------------------------------------------------------
 
 /**
- * Resolve a locale code to a key that exists in LOCALES.
+ * Resolve a locale code to a key that exists in LOCALES, or undefined.
+ *
+ * Exported so callers holding free-form input (a document's proofing language,
+ * a user preference) can test a code without a try/catch around convert(), and
+ * without reimplementing the normalisation below.
  *
  * Resolution chain:
  *  1. Exact match (e.g. "fr-FR")
@@ -31,7 +35,7 @@ const instanceCache = new Map<string, ToWords>();
  *
  * Returns undefined if nothing matches.
  */
-function resolveLocaleCode(input: string): string | undefined {
+export function resolveLocaleCode(input: string): string | undefined {
   // 1. Exact match
   if (input in LOCALES) {
     return input;

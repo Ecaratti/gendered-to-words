@@ -99,6 +99,22 @@ wrong across almost the whole practical range, not just at large values:
 - **hu-HU**: `Százhuszonhárom` (was `Száz Huszonhárom`). Hungarian also distinguishes
   `kettő` standing alone from `két` before a noun, so 2000 is `Kétezer`, not `Kettőezer`.
 
+### Fixed: reported by a downstream consumer
+
+- **`ToWordsCore` ignored per-call gender.** Variant resolution lived only in the
+  `ToWords` subclass, so the tree-shaken path — the one where gender matters most,
+  since it is the path that avoids the 40-locale registry — could not reach it.
+  `setLocale` now also accepts a map: `setLocale({ masculine: ItIt, feminine: ItItF })`.
+  A single class still works and ignores gender.
+- **`./package.json` was not exported.** The `./*` wildcard swallowed it into the locale
+  subpath, so `require("gendered-to-words/package.json")` 404'd for tooling that reads it.
+  (`publint` does not check this.)
+- **`resolveLocaleCode` is now exported**, so callers holding free-form input can test a
+  code instead of wrapping every call in a try/catch.
+- **A bare `fr` resolved to `fr-BE`**, whose septante/nonante forms are a minority
+  variant — the prefix fallback took the first alphabetical match. Regional defaults are
+  now ordered deliberately: `en`→`en-US`, `fr`→`fr-FR`, `pt`→`pt-BR`, `zh`→`zh-CN`.
+
 ### Fixed: gender leaking into scale multipliers
 
 `fr-FR`/`fr-BE` feminine rendered 1,000,000 as `Une Million` since 0.1.0; the same class

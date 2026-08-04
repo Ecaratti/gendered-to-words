@@ -23,6 +23,7 @@
 import {
   type ConstructorOf,
   type ConverterOptions,
+  type Gender,
   type LocaleInterface,
   type NumberInput,
   type NumberWordMap,
@@ -112,17 +113,45 @@ export class ToWordsCore {
 
   protected localeClass: ConstructorOf<LocaleInterface> | undefined = undefined;
 
+  // Per-gender locale classes, populated when setLocale() is handed a map.
+  // This is what lets the tree-shaken path answer a per-call gender: the full
+  // ToWords class resolves variants through GENDER_VARIANTS, which the core
+  // deliberately does not import.
+  protected genderedLocaleClasses: Partial<Record<Gender, ConstructorOf<LocaleInterface>>> = {};
+
+  private genderedLocaleInstances = new Map<Gender, InstanceType<ConstructorOf<LocaleInterface>>>();
+
   constructor(options: ToWordsOptions = {}) {
     this.options = Object.assign({}, DefaultToWordsOptions, options);
   }
 
   /**
-   * Set a locale class directly.
-   * @internal Used by per-locale entry points
+   * Set the locale directly, either as a single class or as a map of gendered
+   * variants.
+   *
+   * @example
+   * import ItIt from "gendered-to-words/it-IT";
+   * import ItItF from "gendered-to-words/it-IT-f";
+   *
+   * new ToWordsCore().setLocale({ masculine: ItIt, feminine: ItItF })
+   *   .toOrdinal(42, { gender: "feminine" }); // "Quarantaduesima"
+   *
+   * A gender with no entry falls back to the masculine one, matching the
+   * library-wide rule that an unsupported combination degrades rather than
+   * throws.
    */
-  public setLocale(localeClass: ConstructorOf<LocaleInterface>): this {
-    this.localeClass = localeClass;
+  public setLocale(
+    locale: ConstructorOf<LocaleInterface> | Partial<Record<Gender, ConstructorOf<LocaleInterface>>>
+  ): this {
+    if (typeof locale === "function") {
+      this.localeClass = locale;
+      this.genderedLocaleClasses = {};
+    } else {
+      this.genderedLocaleClasses = locale;
+      this.localeClass = locale.masculine ?? Object.values(locale)[0];
+    }
     this.locale = undefined; // Reset cached locale instance
+    this.genderedLocaleInstances.clear();
     return this;
   }
 
@@ -146,6 +175,24 @@ export class ToWordsCore {
       this.initLocaleCache(this.locale);
     }
     return this.locale;
+  }
+
+  /**
+   * Locale instance for a requested gender, falling back to the default when
+   * setLocale() was given a single class or the gender has no variant.
+   */
+  protected getLocaleFor(gender?: Gender): InstanceType<ConstructorOf<LocaleInterface>> {
+    const LocaleClass = gender ? this.genderedLocaleClasses[gender] : undefined;
+    if (!LocaleClass) {
+      return this.getLocale();
+    }
+    let instance = this.genderedLocaleInstances.get(gender!);
+    if (!instance) {
+      instance = new LocaleClass();
+      this.initLocaleCache(instance);
+      this.genderedLocaleInstances.set(gender!, instance);
+    }
+    return instance;
   }
 
   private initLocaleCache(locale: InstanceType<ConstructorOf<LocaleInterface>>): void {
@@ -329,12 +376,13 @@ export class ToWordsCore {
       numericValue = Math.trunc(numericValue as number);
     }
 
-    const segments = this.convertNumberSegments(numericValue);
+    const locale = this.getLocaleFor(mergedOptions.gender);
+    const segments = this.convertNumberSegments(numericValue, locale);
 
-    let result = this.formatSegments(segments, this.getLocale());
+    let result = this.formatSegments(segments, locale);
 
     if (mergedOptions.lowercase) {
-      result = this.toLocaleLowercase(result);
+      result = this.toLocaleLowercase(result, locale);
     }
 
     return result;
@@ -417,7 +465,7 @@ export class ToWordsCore {
       } else if (isSeparate || startsWord) {
         result += ` ${word}`;
       } else {
-        result += lowercaseAfterFirst ? this.toLocaleLowercase(word) : word;
+        result += lowercaseAfterFirst ? this.toLocaleLowercase(word, localeInstance) : word;
       }
       // A separate word stands alone, so whatever follows opens a new word.
       startsWord = isSeparate;
@@ -477,8 +525,12 @@ export class ToWordsCore {
    * options.localeCode, which defaults to "en-US" even when a different
    * locale class was set via setLocale().
    */
-  protected toLocaleLowercase(text: string): string {
-    const localeCode = this.locale?.config.localeCode ?? this.options.localeCode;
+  protected toLocaleLowercase(
+    text: string,
+    localeInstance?: InstanceType<ConstructorOf<LocaleInterface>>
+  ): string {
+    const localeCode =
+      (localeInstance ?? this.locale)?.config.localeCode ?? this.options.localeCode;
     return localeCode ? text.toLocaleLowerCase(localeCode) : text.toLowerCase();
   }
 
@@ -505,7 +557,7 @@ export class ToWordsCore {
       throw new Error(`Ordinal numbers must be non-negative integers, got "${number}"`);
     }
 
-    const localeConfig = this.getLocale().config;
+    const localeConfig = this.getLocaleFor(options.gender).config;
     const digits = String(numValue);
     const indicator = localeConfig.ordinalIndicator;
 
@@ -555,7 +607,7 @@ export class ToWordsCore {
       throw new Error(`Invalid Number "${number}"`);
     }
 
-    const locale = this.getLocale();
+    const locale = this.getLocaleFor(options.gender ?? this.options.converterOptions?.gender);
     const localeConfig = locale.config;
 
     // Convert to number (ordinals typically don't need BigInt support for practical use)
@@ -579,7 +631,7 @@ export class ToWordsCore {
     let result = this.formatWords(words, locale);
 
     if (options.lowercase) {
-      result = this.toLocaleLowercase(result);
+      result = this.toLocaleLowercase(result, locale);
     }
 
     return result;
@@ -812,8 +864,11 @@ export class ToWordsCore {
    * integer numeral, the decimal-point word, and the fractional part (whose
    * leading-zero form reads digit by digit, each its own written word).
    */
-  protected convertNumberSegments(number: number | bigint): string[][] {
-    const locale = this.getLocale();
+  protected convertNumberSegments(
+    number: number | bigint,
+    localeInstance?: InstanceType<ConstructorOf<LocaleInterface>>
+  ): string[][] {
+    const locale = localeInstance ?? this.getLocale();
     const localeConfig = locale.config;
 
     const isNegativeNumber = number < 0 || (typeof number === "bigint" && number < 0n);

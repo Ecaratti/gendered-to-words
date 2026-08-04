@@ -29,7 +29,10 @@ jobs:
         if: matrix.os == 'ubuntu-latest' && matrix.node == 22
         run: |
           npx --yes publint
-          npx --yes @arethetypeswrong/cli --pack .
+          # package.json is exported deliberately (tooling reads it), but it is
+          # JSON, so attw's node10 lane reports it as resolving to neither types
+          # nor JavaScript. Exclude that entrypoint rather than drop the export.
+          npx --yes @arethetypeswrong/cli --pack . --exclude-entrypoints package.json
       - name: Smoke-test built output (ESM + CJS)
         run: |
           node --input-type=module -e "import('./dist/esm/ToWords.js').then(m => { const r = m.toWords(42, { localeCode: 'en-US' }); if (r !== 'Forty-Two') throw new Error(r); console.log('ESM ok:', r); })"
